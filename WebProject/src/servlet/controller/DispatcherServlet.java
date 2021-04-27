@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/", loadOnStartup = 1)
+@WebServlet(urlPatterns = "", loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -24,7 +24,7 @@ public class DispatcherServlet extends HttpServlet {
 		String contextPath = request.getContextPath();
 		String command = requestURI.substring(contextPath.length()+1);
 
-		String path = "index.jsp";
+		String path = "blog.jsp";
 		
 		Controller controller = ControllerFactory.getInstance().createController(command);
 		
@@ -34,8 +34,10 @@ public class DispatcherServlet extends HttpServlet {
 			
 		}
 		
-		if(path!=null)
+		if(path!=null) {
 			request.getRequestDispatcher(path).forward(request, response);
+			
+		}
 	}
 
 }
