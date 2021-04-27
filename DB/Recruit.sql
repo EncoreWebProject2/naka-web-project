@@ -1,3 +1,18 @@
+-- 테이블 생성문
+CREATE TABLE `recruit` (
+  `r_id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(120) NOT NULL,
+  `position` varchar(45) DEFAULT NULL,
+  `tech` varchar(500) DEFAULT NULL,
+  `job_type` varchar(45) DEFAULT NULL,
+  `education` varchar(45) DEFAULT NULL,
+  `img` varchar(100) DEFAULT NULL,
+  `link` varchar(200) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `exp_date` date DEFAULT NULL,
+  PRIMARY KEY (`r_id`),
+  UNIQUE KEY `r_id_UNIQUE` (`r_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=321 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 /*
 -- Query: select * from recruit
 LIMIT 0, 1000
