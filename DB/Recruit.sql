@@ -12,7 +12,7 @@ CREATE TABLE `recruit` (
   `exp_date` date DEFAULT NULL,
   PRIMARY KEY (`r_id`),
   UNIQUE KEY `r_id_UNIQUE` (`r_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=321 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB AUTO_INCREMENT=321 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*
 -- Query: select * from recruit
 LIMIT 0, 1000
