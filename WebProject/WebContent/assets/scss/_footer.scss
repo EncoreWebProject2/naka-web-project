@@ -1,0 +1,129 @@
+
+//copy Right 
+.footer-bottom-area {
+    .footer-wrapper {
+        @media #{$xs}{
+            padding-top: 0;
+        }
+    }
+    .footer-border{
+        // border-top: 1px solid #2d3544;
+        padding: 33px 0px 20px;
+        padding-bottom: 6px;
+        @media #{$xs}{
+            padding-top: 0;
+        }
+    }
+    .footer-copy-right{
+        p{
+            color: #888888;
+            font-weight: 300;
+            font-size: 16px;
+            line-height: 2;
+            margin-bottom: 12px;
+            @media #{$xs}{
+               margin-bottom: 20px;
+            }
+            @media #{$md}{
+                margin-bottom: 20px;
+            }
+             i{
+                color:$theme-color;
+            }
+             a{
+                color: $theme-color;
+                
+                &:hover{
+                    color: $theme-color;
+                }
+                 
+            }
+        }
+    }
+}
+
+// footer social
+.footer-social{
+    & > a{
+        color: $theme-color;
+        width: 50px;
+        height: 50px;
+        font-size: 17px;
+        line-height: 50px;
+        display: inline-block;
+        text-align: center;
+        margin-right: 8px;
+        background: #F5F1FF;
+        @media #{$lg}{
+            margin-right: 2px;
+        }
+        @media #{$md}{
+            margin-bottom: 20px;
+        }
+        @media #{$sm}{
+            margin-bottom: 20px;
+        }
+        @media #{$xs}{
+            margin-right: 1px;
+            margin-bottom: 20px;
+        }
+        @media #{$xs}{
+            margin-right: 1px;
+            margin-bottom: 20px;
+        }
+
+        & > i {
+                @include transition(.4s);
+                transform: rotateY(0deg);
+                -webkit-transform: rotateY(0deg);
+                -moz-transform: rotateY(0deg);
+                -ms-transform: rotateY(0deg);
+                -o-transform: rotateY(0deg);
+            }
+            // Hover
+        &:hover{
+            i {
+                transform: rotateY(180deg);
+                -webkit-transform: rotateY(180deg);
+                -moz-transform: rotateY(180deg);
+                -ms-transform: rotateY(180deg);
+                -o-transform: rotateY(180deg);
+            }
+        }
+    }
+}
+
+// Footer menu
+.main-menu2{
+    ul{
+        li{
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            a{
+                color: #000;
+                font-weight: 400;
+                padding: 9px 19px;
+                display: block;
+                font-size: 16px;
+                font-family: $font_1;
+                @include transition(.3s);
+                text-transform: capitalize;
+                @media #{$lg}{
+                    padding: 39px 9px;
+                }
+            }
+            // Hover Effect
+            &:hover{
+                & > a{
+                    color:$theme-color;
+                }
+            }
+            &:hover > ul.submenu {
+                visibility: visible;
+                opacity: 1;
+                top: 100%;
+            }
+        }
+    }
+}
