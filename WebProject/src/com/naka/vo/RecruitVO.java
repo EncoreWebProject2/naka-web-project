@@ -5,8 +5,7 @@ import java.util.Date;
 public class RecruitVO {
 	private int r_id;
 	private String position;
-	private String language;
-	private int salary;
+	private String tech;
 	private String job_type;
 	private String education;
 	private String img;
@@ -14,14 +13,13 @@ public class RecruitVO {
 	private int c_id;
 	private Date exp_date;
 	private Date start_date;
+	private String title;
 	
-	public RecruitVO(int r_id, String position, String language, int salary, String job_type, String education,
-			String img, String link, int c_id, Date exp_date, Date start_date) {
-		super();
+	public RecruitVO(int r_id, String position, String tech, String job_type, String education,
+			String img, String link, int c_id, Date exp_date, Date start_date,String title) {
 		this.r_id = r_id;
 		this.position = position;
-		this.language = language;
-		this.salary = salary;
+		this.tech = tech;
 		this.job_type = job_type;
 		this.education = education;
 		this.img = img;
@@ -29,6 +27,7 @@ public class RecruitVO {
 		this.c_id = c_id;
 		this.exp_date = exp_date;
 		this.start_date = start_date;
+		this.title = title;
 	}
 	
 	
@@ -38,11 +37,8 @@ public class RecruitVO {
 	public String getPosition() {
 		return position;
 	}
-	public String getLanguage() {
-		return language;
-	}
-	public int getSalary() {
-		return salary;
+	public String getTech() {
+		return tech;
 	}
 	public String getJob_type() {
 		return job_type;
@@ -65,7 +61,8 @@ public class RecruitVO {
 	public Date getStart_date() {
 		return start_date;
 	}
-	
-	
+	public String getTitle() {
+		return title;
+	}
 	
 }
