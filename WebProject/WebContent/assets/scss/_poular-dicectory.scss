@@ -1,0 +1,133 @@
+.popular-directorya-area{
+    .properties{
+        margin: 0 15px;
+        &__card{
+            box-shadow: 0px 6px 6px 0px rgba(2, 25, 65, 0.08);
+            border-radius: 10px;
+             @include transition(.4s);
+            &:hover{
+                box-shadow: 0px 8px 8px 0px rgba(2,25,65,0.08);    
+            }
+        }
+        &__img{
+            img{
+                width: 100%;
+                border-radius: 10px 10px 0 0 ;
+                position: relative;
+            }
+            .img-text{
+                position: absolute;
+                top: 32px;
+                left: 28px;
+                z-index: 2;
+               span{
+                    color: #fff;
+                    font-size: 13px;
+                    font-weight: 500;
+                    padding: 7px 15px;
+                    border-radius: 5px;
+                    text-transform: uppercase;
+                    border: 1px solid rgba(255, 255, 255,.5);
+                }
+            }
+            .icon{
+                position: absolute;
+                bottom: -29px;
+                left: 32px;
+                img{
+                    width:56px;
+                    height:56px;
+                }
+            }
+
+        }
+        &__caption{
+            padding:47px 18px 16px 22px;
+            border-bottom: 1px solid #ebeff4;
+            h3{
+                font-size: 20px;
+                font-weight: 500;
+                margin-bottom: 6px;
+                @media #{$lg}{
+                    font-size: 16px;
+                }
+                & a:hover,.properties__card{
+                    color:#ff5757 ;
+    
+                }
+            }
+            P{
+                & span{
+                    color:$theme-color;
+                    font-size: 16px;
+                    @media #{$md}{
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+        &__footer{
+            padding: 19px 18px 20px 29px;
+             @include transition(.4s);
+             @media #{$xs}{
+                padding: 19px 10px 20px 12px;
+             }
+            .restaurant-name{
+                img{
+                    display: inline-block;
+                    padding-right: 7px;
+                    font-size: 16px;
+                }
+                h3{
+                    display: inline-block;
+                }
+            }
+            .heart{
+                img{
+                    cursor: pointer;
+                }
+            }
+        }
+        &.properties2 {
+            margin: 0px 5px 30px 5px !important;
+        }
+    }
+	
+}
+
+// Arrow
+.directory-active{
+    button{
+        &.slick-arrow {
+            position: absolute;
+            border: 0;
+            padding: 0;
+            z-index: 2;
+            cursor: pointer;
+            top: 50%;
+            transform: translateY(-50%);
+            left: auto;
+            background: none;
+            i{
+                font-size: 20px;
+                color: $theme-color;
+
+            }
+        }
+        &.slick-prev {
+            left: -58px;
+            i{
+                color: #ddd;
+            }
+        }
+        &.slick-next {
+            right: -58px;
+            i{
+                color: #ddd;
+            }
+        }
+    }
+    
+}
+
+ 

@@ -1,0 +1,77 @@
+.our-services{
+    @media #{$xs}{
+        padding-top: 0px;
+        padding-bottom: 40px;
+    }
+    @media #{$sm}{
+        padding-top: 0px;
+        padding-bottom: 40px;
+    }
+    @media #{$md}{
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+    @media #{$lg}{
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+    
+    .single-services{
+        // border: 1px solid rgb(218, 252, 239);
+        padding: 44px 26px;
+        @media #{$xs}{
+			padding: 47px 19px;
+        }
+        @media #{$sm}{
+			padding: 47px 19px;
+        }
+        @media #{$md}{
+			padding: 56px 32px;
+        }
+        @media #{$lg}{
+			padding: 46px 23px;
+        }
+        
+        @include transition(.4s);
+        &:hover {
+            box-shadow: 0px 10px 30px 0px rgba(133, 66, 189, 0.1);
+        }
+        .services-ion{
+            span{
+                width: 67px;
+                height: 67px;
+                background: #ddd;
+                line-height: 67px;
+                text-align: center;
+                border-radius: 50px;
+                display: inline-block;
+                position: relative;
+                margin-bottom: 31px;
+            }
+        }
+        .services-cap{
+            h5{
+                font-size: 24px;
+                color: #001f38;
+                line-height: 1.4;
+                margin-bottom: 18px;
+                @media #{$sm}{
+                    font-size: 20px;
+                }
+                a:hover{
+                    color: $theme-color;
+                }
+            }
+        }
+        &:hover{
+            // border: 1px solid $theme-color;
+            .services-ion{
+                span{
+                    color: $theme-color;
+                }
+            }
+        }
+    }
+
+}
+
