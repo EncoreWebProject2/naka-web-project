@@ -213,6 +213,19 @@
 
 
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+		$(function(){	
+			var output = localStorage.getItem('compareStorage');
+			var arr = JSON.parse(output);
+		
+			console.log(arr);
+			for(var i = 0; i<arr.length;i++){
+				console.log(arr[i].img);
+			}
+			
+		});
+    </script>
 </head>
 <body>
     <!--? Preloader Start -->
