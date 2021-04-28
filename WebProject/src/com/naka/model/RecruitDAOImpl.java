@@ -98,12 +98,16 @@ public class RecruitDAOImpl implements RecruitDAO {
 			String query = "select * from recruit where r_id=?";
 			ps = con.prepareStatement(query);
 			
+			ps.setInt(1, r_id);			
 			rs = ps.executeQuery();
+			System.out.println("ok");
 			if(rs.next()) {
-				vo =new RecruitVO(rs.getInt("r_id"), rs.getString("position"), rs.getString("language"),
+				vo =new RecruitVO(rs.getInt("r_id"), rs.getString("position"), rs.getString("tech"),
 						rs.getString("job_type"), rs.getString("education"), rs.getString("img"), rs.getString("link"), 
-						rs.getInt("c_id"), rs.getDate("exp_date"), rs.getDate("start_date"),rs.getString("title"));
+						rs.getDate("exp_date"), rs.getDate("start_date"),rs.getString("title"));
+				System.out.println(vo.toString());
 			}
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally {

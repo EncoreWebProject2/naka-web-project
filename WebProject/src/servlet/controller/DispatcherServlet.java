@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "", loadOnStartup = 1)
+@WebServlet(urlPatterns = "*.do", loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -24,11 +24,12 @@ public class DispatcherServlet extends HttpServlet {
 		String contextPath = request.getContextPath();
 		String command = requestURI.substring(contextPath.length()+1);
 
-		String path = "blog.jsp";
+		String path = "index.html";
 		
+		System.out.println(command);
 		Controller controller = ControllerFactory.getInstance().createController(command);
 		
-		try {
+		try {			
 			path = controller.execute(request, response);
 		}catch(Exception e) {			
 			

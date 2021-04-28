@@ -29,6 +29,15 @@
 		    min-height: 120px !important;
 		}
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript">
+	//자바 스크립트라면 온클린.... 제이쿼리는 선택자와 함수를 연결함
+		$(function () {
+    		$('.single-location').click(function() {
+    			var win = window.open("recruit_detail.do?id=5");
+		});//click
+	});
+</script>
 </head>
 <body>
     <!-- ? Preloader Start -->
@@ -97,26 +106,38 @@
                                 <p>Let's find the pefect matching job for you.</p>
                             </div>
                             <!--Hero form -->
-                            <form action="#" class="search-box mb-100">
+                            <form action="#" class="search-box" style="margin: 10px;">
                                 <div class="input-form">
                                     <input type="text" placeholder="What are you finding?">
                                 </div>
-                                <div class="select-form">
-                                    <div class="select-itms">
-                                        <select name="select" id="select1">
-                                            <option value="">In where?</option>
-                                            <option value="">Catagories One</option>
-                                            <option value="">Catagories Two</option>
-                                            <option value="">Catagories Three</option>
-                                            <option value="">Catagories Four</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                
                                 <div class="search-form">
                                     <a href="#"><i class="ti-search"></i> Search</a>
                                     
                                 </div>	
                             </form>	
+                            <div class="select-form">
+                                    <div class="select-itms" style="float: left; margin: 10px; margin-bottom: 30px;">
+                                        <select name="select" id="select1">
+                                            <option value="">직군</option>
+                                            <option value="">서버</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="select-itms"  style="float: left; margin: 10px; margin-bottom: 30px;" >
+                                        <select name="select" id="select1">
+                                            <option value="">채용 형태</option>
+                                            <option value="">신입</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="select-itms"  style="float: left; margin: 10px; margin-bottom: 30px;">
+                                        <select name="select" id="select1">
+                                            <option value="">학력</option>
+                                            <option value="">무관</option>
+                                        </select>
+                                    </div>
+                            </div>
                             
                         </div>
                     </div>
@@ -135,7 +156,7 @@
                             <div class="location-img">
                                 <img src="assets/img/gallery/location3.png" alt="">
                             </div>
-                            <div class="location-details">
+                            <div class="location-details" >
                                 <p>Rome</p>
                                 <a href="#" class="location-btn">50 <i class="ti-plus"></i> Listing</a>
                                 <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>

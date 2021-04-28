@@ -10,7 +10,9 @@ public class ControllerFactory {
 	
 	public  Controller  createController(String command) {
 		Controller controller = null;
-		if(command.equals("")) {
+		if(command.equals("recruit_detail.do")) {
+			System.out.println("factory");
+			controller = new recruitDetailController();
 			
 		}else if(command.equals("")) {
 			
