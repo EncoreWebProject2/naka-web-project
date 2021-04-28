@@ -31,8 +31,7 @@ public class RecruitDAO {
 	}
 	
 
-	public Connection getConnection() throws SQLException {		
-		System.out.println("��񿬰� ����....");
+	public Connection getConnection() throws SQLException {	
 		return ds.getConnection(); 
 	}
 
@@ -88,31 +87,4 @@ public class RecruitDAO {
 		return vo;
 	}
 	
-	public String getCompany(int r_id) throws SQLException {
-		String img = null;
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		
-		try {
-			conn = ds.getConnection();
-			
-			String query = "select img from recurit where r_id=?";
-			ps = conn.prepareStatement(query);
-			
-			ps.setInt(1, r_id);
-			
-			rs = ps.executeQuery();
-			
-			if(rs.next()) {
-				img = rs.getString("img");
-			}
-			
-		}finally {
-			closeAll(rs, ps, conn);
-		}
-		
-		return img;
-	}
 }

@@ -13,9 +13,8 @@ public class ControllerFactory {
 		if(command.equals("compare.do")) {
 			System.out.println("compare");
 			controller = new CompareController();
-		}else if(command.equals("company.do")) {
-			System.out.println("company");
-			controller = new CompanyController();
+		}else if(command.equals("")) {
+		
 		}
 		return controller;
 	}

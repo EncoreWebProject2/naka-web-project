@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -30,24 +31,24 @@
 			
 			if(arr.length >= 3){
 				alert("비교함이 가득 찼습니다.");
+			}else if(arr.indexOf($(this).val()) != -1 ){
+				alert("이미 비교함에 존재합니다.");
 			}else{
 				var id = $(this).val();
-				arr.push(id);
-				
-				localStorage.setItem('compareStorage',JSON.stringify(arr));
 				
 				$.ajax({
 					type: "post",
-					url: "company.do",
+					url: "CompareServlet",
 					data: "id=" + id,
 					
 					success: function(result) {
-						alert(result);
-						/*var html = "<input type=hidden name=recruit value=" + id + ">";*/
+						console.log(result);
 						
-						$('form').append(result);
+						arr.push(JSON.parse(result));
+						
+						localStorage.setItem('compareStorage',JSON.stringify(arr));
 					}
-				})
+				});	
 			}
 				
 		});
@@ -61,8 +62,9 @@
 <button name="recruitBtn" value="3">line</button>
 <button name="recruitBtn" value="4">cupang</button>
 <button name="recruitBtn" value="5">baemin</button>
-<form action="compare.do">
-<input type="submit" value="send" id="sendBtn">
+<span>
+      <a href="compare.html" class="compareBtn on">비교하기</a>
+</span>
 </form>
 </body>
 </html>
