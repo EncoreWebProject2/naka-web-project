@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+	$(function(){	
+		
+		$('input[name=recruit]').each(function(index) {
+			if(localStorage.getItem('compareStorage') != null){
+				var output = localStorage.getItem('compareStorage');
+				var arr = JSON.parse(output);
+				
+				if(arr.indexOf($(this).val()) != -1){
+					$(this).prop("checked",true);
+				}
+			}
+		});
+		
+		$('button[name=recruitBtn]').click(function () {
+			//로컬 스토리지에 저장 setItem()		
+			
+			var arr = []
+			if(localStorage.getItem('compareStorage') != null){
+				var output = localStorage.getItem('compareStorage');
+				arr = JSON.parse(output);
+			}
+			
+			if(arr.length >= 3){
+				alert("비교함이 가득 찼습니다.");
+			}else{
+				var id = $(this).val();
+				arr.push(id);
+				
+				localStorage.setItem('compareStorage',JSON.stringify(arr));
+				
+				$.ajax({
+					type: "post",
+					url: "company.do",
+					data: "id=" + id,
+					
+					success: function(result) {
+						alert(result);
+						/*var html = "<input type=hidden name=recruit value=" + id + ">";*/
+						
+						$('form').append(result);
+					}
+				})
+			}
+				
+		});
+
+	});
+</script>
+</head>
+<body>
+<button name="recruitBtn" value="1">naver</button>
+<button name="recruitBtn" value="2">kakao</button>
+<button name="recruitBtn" value="3">line</button>
+<button name="recruitBtn" value="4">cupang</button>
+<button name="recruitBtn" value="5">baemin</button>
+<form action="compare.do">
+<input type="submit" value="send" id="sendBtn">
+</form>
+</body>
+</html>
