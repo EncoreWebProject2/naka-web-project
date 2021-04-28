@@ -25,9 +25,114 @@
 	<link rel="stylesheet" href="assets/css/nice-select.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 	<style>
+	
+		button{
+			cursor:pointer;
+		}
     	.slider-height1 {
 		    min-height: 120px !important;
 		}
+		
+		#compareFooter{
+			position:fixed; 
+		}
+		
+		#cartText{
+			position:fixed;
+			left:0px; 
+			bottom:0px; 
+			z-index: 1;
+			line-height:70px;
+			height:60px; 
+			width:170px; 
+			background:#170B3B; 
+			color: white;
+			text-align: center;
+			font-family: "Rubik",sans-serif;
+			font-size: 15px;
+			font-weight: 600;
+		}
+		
+		#cartNum{
+			background:rgb(255, 100, 97);
+			color: white;
+			font-size: 20px;
+			font-weight: 500;
+			display: inline-block;
+		    position:fixed;
+		    left:60px; 
+			bottom:45px;
+		    z-index: 2;
+		    width: 50px;
+		    height: 50px;
+		    line-height:50px;
+	        border-radius: 4px;
+	        text-align: center;
+	        font-family: system-ui;
+		}
+		
+		#compareBox{
+			position: fixed;
+		    left: 50%;
+		    bottom: 0;
+		    z-index: 1;
+		    transform: translate(-50%,0);
+		    width: 1100px;
+		    height: 80px;
+		    text-align: center;
+		    background: rgba(23, 11, 59, 0.95); 
+		   
+		}
+		
+		#compareList{
+			display: inline-block;
+		}
+		
+		.card{
+			display: inline-block;
+			float: left;
+		    display: table;
+		    width: 80px;
+		    height: 80px;
+		    margin-left: 70px;
+		    background: rgba(23, 11, 59, 0); 
+		}
+		
+		.compareBtn{
+			display: inline-block;
+			margin-right: 200px;
+			float: right;
+			text-align: center;
+		    width: 120px;
+		    height: 40px;
+		    line-height: 40px;
+		    margin-top: 20px;
+		    font-size: 16px;
+		    color: #fff;
+		    font-weight: 600;
+		    background: rgba(255, 100, 97, 0.85);
+		    border-radius: 3px;
+		    left:800px; 
+			bottom:40px;
+			font-family: system-ui;
+			
+		}
+		
+		.compareBtn:hover {
+		    background: rgba(255, 100, 97, 1);
+		    cursor: pointer;
+		}
+		
+		.cartBox:hover{
+			cursor: pointer;
+		}
+		
+		.whitePlus{
+			color: #fff;
+			z-index: 2;
+			line-height: 80px;
+		}
+		
     </style>
 </head>
 <body>
@@ -70,7 +175,7 @@
                         </div>          
                         <!-- Header-btn -->
                         <div class="header-btns d-none d-lg-block f-right">
-                            <a href="#" class="mr-40"> Log in</a>
+                            <a href="login.html" class="mr-40"> Log in</a>
                             <a href="#" class="mr-40"><i class="ti-user"></i> Sign up</a>
                         </div>
                             
@@ -135,21 +240,25 @@
                             <div class="location-img">
                                 <img src="assets/img/gallery/location3.png" alt="">
                             </div>
-                            <div class="location-details">
+                            <div class="location-details" >
+                            	<button class="location-btn" id="1" name="addCart" value="1">비교함 추가</button>
                                 <p>Rome</p>
-                                <a href="#" class="location-btn">50 <i class="ti-plus"></i> Listing</a>
+                                
                                 <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
+                           		
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">
+                    	<input type=hidden id="2" value="2"/>
                         <div class="single-location mb-30">
                             <div class="location-img">
                                 <img src="assets/img/gallery/location4.png" alt="">
                             </div>
                             <div class="location-details">
+                            	<button class="location-btn" id="2" name="addCart" value="2">비교함 추가</button>
                                 <p>Italy</p>
-                                <a href="#" class="location-btn">28 <i class="ti-plus"></i> Location</a>
+                                
                                 <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
                             </div>
                         </div>
@@ -160,20 +269,21 @@
                                 <img src="assets/img/gallery/location5.png" alt="">
                             </div>
                             <div class="location-details">
+                            	<button class="location-btn" id="3" name="addCart" value="3">비교함 추가</button>
                                 <p>Nepal</p>
-                                <a href="#" class="location-btn">99 <i class="ti-plus"></i> Listing</a>
                                 <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6">
+                    	<input type=hidden id="recruitId" value="4"/>
                         <div class="single-location mb-30">
                             <div class="location-img">
                                 <img src="assets/img/gallery/location5.png" alt="">
                             </div>
                             <div class="location-details">
+                            	<button class="location-btn" id="4" name="addCart" value="4">비교함 추가</button>
                                 <p>Nepal</p>
-                                <a href="#" class="location-btn">99 <i class="ti-plus"></i> Listing</a>
                                 <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
                             </div>
                         </div>
@@ -181,7 +291,28 @@
                 </div>
             </div>
         </div>
-        
+        <div class="compareFooter">
+        	<div class="cartBox">
+        		<div id="cartNum">0</div>
+        		<div id="cartText">비교함에 담긴 공고 </div>
+        		
+        		
+        	</div>
+        	<div id="compareBox">
+        		<span id="compareList">
+        			<ul>
+	        			<li class="card"><i class="fa fa-plus-circle fa-3x whitePlus" aria-hidden="true" ></i></li>
+	        			<li class="card"><i class="fa fa-plus-circle fa-3x whitePlus" aria-hidden="true" ></i></li>
+	        			<li class="card"><i class="fa fa-plus-circle fa-3x whitePlus" aria-hidden="true" ></i></li>
+        			</ul>
+        		</span>
+        		<span>
+        			<a href="#" class="compareBtn on">비교하기</a>
+        		</span>
+        	</div>	
+        		
+        	
+        </div>
     </main>
     <footer>
         <div class="footer-wrapper pt-30">
@@ -193,7 +324,7 @@
                             <div class="col-xl-10 col-lg-9 ">
                                 <div class="footer-copy-right">
                                     <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Nakala</p>
+  										Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Nakala</p>
                                 </div>
                             </div>
                         </div>
@@ -209,7 +340,34 @@
     </div>
 
     <!-- JS here -->
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		
+		
+		
+		$(function () {
+			$("#compareBox").hide();
+			$('.cartBox').click(function () {
+				console.log("cartbox clicked");
+				$("#compareBox").toggle(500);
+				$('.cartBox').hide();
+	    		
+			});//click
+	    	
+			var previousScroll = 0;
+		    $(window).scroll(function(event){
+		       //alert("scrolllll");
+		    	if($("#compareBox").is(":visible")){
+		    		console.log("scroll");
+		    		$('#compareBox').hide(500);
+		    		$('.cartBox').show();
+		    	}
+		    });
+		});
+		
+	 	    
+	    
+	</script>
     <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
     <!-- Jquery, Popper, Bootstrap -->
     <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
