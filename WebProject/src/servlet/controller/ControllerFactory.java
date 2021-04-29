@@ -14,8 +14,6 @@ public class ControllerFactory {
 			controller = new RecruitDetailController();
 		}else if(command.equals("recruit.do")) {
 			controller = new RecruitController();	
-		}else if(command.equals("compare.do")) {
-			controller = new CompareController();
 		}
 		return controller;
 	}

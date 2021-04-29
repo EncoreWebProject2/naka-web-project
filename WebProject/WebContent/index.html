@@ -244,6 +244,16 @@
 				setTimeout(() => { arrLengthCheck(); }, 100);
 				setTimeout(() => { showCart(); }, 100);
 			});
+      	
+      	$('.compareBtn').click( function() {
+      		var output = localStorage.getItem('compareStorage');
+			arr = JSON.parse(output);
+			if(arr.length !=null  && arr.length > 1){
+				window.open('compare.html', '_blank');
+			}else{
+				alert("공고를 2개 이상 비교함에 넣어주세요.");
+			}
+		});
       
 
 		});
@@ -340,6 +350,7 @@
 	   				addLoadedRecruits();
 	   		});	
 		});
+		
 
 </script>
 </head>
@@ -472,7 +483,7 @@
         			</ul>
         		</span>
         		<span>
-        			<a href="compare.html" target="_blank" class="compareBtn on">비교하기</a>
+        			<button class="compareBtn on">비교하기</button>
         		</span>
         	</div>	
         		
