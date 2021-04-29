@@ -1,5 +1,6 @@
 package servlet.controller;
 
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,27 +17,28 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("post");
 		doProcess(request, response);
 	}
 	
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String command = requestURI.substring(contextPath.length()+1);
+		System.out.println(command);
 
 		String path = "index.html";
 		
 		Controller controller = ControllerFactory.getInstance().createController(command);
-	
-		try {			
+		
+		try {
 			path = controller.execute(request, response);
 		}catch(Exception e) {			
 			
 		}
 		
-		if(path!=null) {
-			request.getRequestDispatcher(path).forward(request, response);
-		}
+		if(path!=null)request.getRequestDispatcher(path).forward(request, response);
 	}
 
 }

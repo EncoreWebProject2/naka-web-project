@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+	$(function(){	
+		
+		$('input[name=recruit]').each(function(index) {
+			if(localStorage.getItem('compareStorage') != null){
+				var output = localStorage.getItem('compareStorage');
+				var arr = JSON.parse(output);
+				
+				if(arr.indexOf($(this).val()) != -1){
+					$(this).prop("checked",true);
+				}
+			}
+		});
+		
+		$('button[name=recruitBtn]').click(function () {
+			//로컬 스토리지에 저장 setItem()		
+			
+			var arr = []
+			if(localStorage.getItem('compareStorage') != null){
+				var output = localStorage.getItem('compareStorage');
+				arr = JSON.parse(output);
+			}
+			
+			if(arr.length >= 3){
+				alert("비교함이 가득 찼습니다.");
+			}else if(arr.indexOf($(this).val()) != -1 ){
+				alert("이미 비교함에 존재합니다.");
+			}else{
+				var id = $(this).val();
+				
+				$.ajax({
+					type: "post",
+					url: "CompareServlet",
+					data: "id=" + id,
+					
+					success: function(result) {
+						console.log(result);
+						
+						arr.push(JSON.parse(result));
+						
+						localStorage.setItem('compareStorage',JSON.stringify(arr));
+					}
+				});	
+			}
+				
+		});
+
+	});
+</script>
+</head>
+<body>
+<button name="recruitBtn" value="1">naver</button>
+<button name="recruitBtn" value="2">kakao</button>
+<button name="recruitBtn" value="3">line</button>
+<button name="recruitBtn" value="4">cupang</button>
+<button name="recruitBtn" value="5">baemin</button>
+<span>
+      <a href="compare.html" class="compareBtn on">비교하기</a>
+</span>
+</form>
+</body>
+</html>

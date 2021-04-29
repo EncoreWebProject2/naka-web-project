@@ -25,12 +25,134 @@
 	<link rel="stylesheet" href="assets/css/nice-select.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 	<style>
+    	button{
+			cursor:pointer;
+		}
     	.slider-height1 {
 		    min-height: 120px !important;
+		}
+		
+		#compareFooter{
+			position:fixed; 
+		}
+		
+		#cartText{
+			position:fixed;
+			left:0px; 
+			bottom:0px; 
+			z-index: 1;
+			line-height:70px;
+			height:60px; 
+			width:170px; 
+			background:#170B3B; 
+			color: white;
+			text-align: center;
+			font-family: "Rubik",sans-serif;
+			font-size: 15px;
+			font-weight: 600;
+		}
+		
+		#cartNum{
+			background:rgb(255, 100, 97);
+			color: white;
+			font-size: 20px;
+			font-weight: 500;
+			display: inline-block;
+		    position:fixed;
+		    left:60px; 
+			bottom:45px;
+		    z-index: 2;
+		    width: 50px;
+		    height: 50px;
+		    line-height:50px;
+	        border-radius: 4px;
+	        text-align: center;
+	        font-family: system-ui;
+		}
+		
+		#compareBox{
+			position: fixed;
+		    left: 50%;
+		    bottom: 0;
+		    z-index: 1;
+		    transform: translate(-50%,0);
+		    width: 1100px;
+		    height: 80px;
+		    text-align: center;
+		    background: rgba(23, 11, 59, 0.95); 
+		   
+		}
+		
+		#compareList{
+			display: inline-block;
+		}
+		
+		.card{
+			display: inline-block;
+			float: left;
+		    display: table;
+		    width: 80px;
+		    height: 80px;
+		    margin-left: 70px;
+		    background: rgba(23, 11, 59, 0); 
+		}
+		
+		.compareBtn{
+			display: inline-block;
+			margin-right: 200px;
+			float: right;
+			text-align: center;
+		    width: 120px;
+		    height: 40px;
+		    line-height: 40px;
+		    margin-top: 20px;
+		    font-size: 16px;
+		    color: #fff;
+		    font-weight: 600;
+		    background: rgba(255, 100, 97, 0.85);
+		    border-radius: 3px;
+		    left:800px; 
+			bottom:40px;
+			font-family: system-ui;
+			
+		}
+		
+		.compareBtn:hover {
+		    background: rgba(255, 100, 97, 1);
+		    cursor: pointer;
+		}
+		
+		.cartBox:hover{
+			cursor: pointer;
+		}
+		
+		.whitePlus{
+			color: #fff;
+			z-index: 2;
+			line-height: 80px;
 		}
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
+	$(function () {
+			$("#compareBox").hide();
+			$('.cartBox').click(function () {
+				console.log("cartbox clicked");
+				$("#compareBox").toggle(500);
+				$('.cartBox').hide();
+	    		
+			});//click
+	    	
+			var previousScroll = 0;
+		    $(window).scroll(function(event){
+		       //alert("scrolllll");
+		    	if($("#compareBox").is(":visible")){
+		    		console.log("scroll");
+		    		$('#compareBox').hide(500);
+		    		$('.cartBox').show();
+		    	}
+		    });
+		});
 	//자바 스크립트라면 온클린.... 제이쿼리는 선택자와 함수를 연결함
 		var pageNumber = 1;
 	
@@ -194,7 +316,28 @@
                 </div>
             </div>
         </div>
-        
+        <div class="compareFooter">
+        	<div class="cartBox">
+        		<div id="cartNum">0</div>
+        		<div id="cartText">비교함에 담긴 공고 </div>
+        		
+        		
+        	</div>
+        	<div id="compareBox">
+        		<span id="compareList">
+        			<ul>
+	        			<li class="card"><i class="fa fa-plus-circle fa-3x whitePlus" aria-hidden="true" ></i></li>
+	        			<li class="card"><i class="fa fa-plus-circle fa-3x whitePlus" aria-hidden="true" ></i></li>
+	        			<li class="card"><i class="fa fa-plus-circle fa-3x whitePlus" aria-hidden="true" ></i></li>
+        			</ul>
+        		</span>
+        		<span>
+        			<a href="#" class="compareBtn on">비교하기</a>
+        		</span>
+        	</div>	
+        		
+        	
+        </div>
     </main>
     <footer>
         <div class="footer-wrapper pt-30">
