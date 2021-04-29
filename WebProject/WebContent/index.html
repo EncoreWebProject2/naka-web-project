@@ -32,11 +32,53 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
 	//자바 스크립트라면 온클린.... 제이쿼리는 선택자와 함수를 연결함
+		var pageNumber = 1;
+	
+		function addLoadedRecruits(){
+			$.ajax({
+				url:"recruit.do",
+				type:"post",
+				data:{num:pageNumber},
+				success:function(data){
+					var jsonObject = JSON.parse(data);
+					console.log(jsonObject);
+					if(jsonObject.length>0){						
+						$("#recruit_container div.row").html('');
+						for(key in jsonObject){
+							var str = '<div class="col-lg-3 col-md-6 col-sm-6"><div class="single-location mb-30"><div class="location-img">'+
+							'<img src="assets/img/gallery/location3.png" alt=""></div><div class="location-details"><p>'+jsonObject[key].title+'</p>'+
+	                        '<a href="#" class="location-btn"><i class="ti-plus"></i>Listing</a><a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>'+
+	                        '</div></div></div>';
+							$("#recruit_container div.row").append(str);
+						}
+						
+						$("#recruit_container").trigger('create');
+	                	$('.single-location').click(function() {
+	                		console.log($(this));
+	            			var win = window.open("recruit_detail.do?id=5");	
+	        			});
+					}
+				}
+			});
+		}
+		
+		$(window).scroll(function() {	
+		   if($(window).scrollTop() + $(window).height()+300 >=$(document).height()) {
+			   pageNumber++;
+			   addLoadedRecruits();
+		   }
+		});
+			
+	
+		
 		$(function () {
-    		$('.single-location').click(function() {
-    			var win = window.open("recruit_detail.do?id=5");
-		});//click
-	});
+			addLoadedRecruits();			
+	   		$('select').change(function(){
+	   			if($(this).val()!='')
+	   				addLoadedRecruits();
+	   		});	
+		});
+
 </script>
 </head>
 <body>
@@ -120,25 +162,24 @@
                                     <div class="select-itms" style="float: left; margin: 10px; margin-bottom: 30px;">
                                         <select name="select" id="select1">
                                             <option value="">직군</option>
-                                            <option value="">서버</option>
+                                            <option value="서버">서버</option>
                                         </select>
                                     </div>
                                     
                                     <div class="select-itms"  style="float: left; margin: 10px; margin-bottom: 30px;" >
-                                        <select name="select" id="select1">
+                                        <select name="select" id="select2">
                                             <option value="">채용 형태</option>
-                                            <option value="">신입</option>
+                                            <option value="신입">신입</option>
                                         </select>
                                     </div>
                                     
                                     <div class="select-itms"  style="float: left; margin: 10px; margin-bottom: 30px;">
-                                        <select name="select" id="select1">
+                                        <select name="select" id="select3">
                                             <option value="">학력</option>
                                             <option value="">무관</option>
                                         </select>
                                     </div>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
@@ -147,58 +188,9 @@
         <!--Hero Area End-->
         <!--? Popular Locations Start 01-->
         <div class="popular-location border-bottom section-padding40">
-            <div class="container">
-               
-                <div class="row">
+            <div id="recruit_container" class="container">
+                <div class="row">                    
                     
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-location mb-30">
-                            <div class="location-img">
-                                <img src="assets/img/gallery/location3.png" alt="">
-                            </div>
-                            <div class="location-details" >
-                                <p>Rome</p>
-                                <a href="#" class="location-btn">50 <i class="ti-plus"></i> Listing</a>
-                                <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-location mb-30">
-                            <div class="location-img">
-                                <img src="assets/img/gallery/location4.png" alt="">
-                            </div>
-                            <div class="location-details">
-                                <p>Italy</p>
-                                <a href="#" class="location-btn">28 <i class="ti-plus"></i> Location</a>
-                                <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-location mb-30">
-                            <div class="location-img">
-                                <img src="assets/img/gallery/location5.png" alt="">
-                            </div>
-                            <div class="location-details">
-                                <p>Nepal</p>
-                                <a href="#" class="location-btn">99 <i class="ti-plus"></i> Listing</a>
-                                <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-location mb-30">
-                            <div class="location-img">
-                                <img src="assets/img/gallery/location5.png" alt="">
-                            </div>
-                            <div class="location-details">
-                                <p>Nepal</p>
-                                <a href="#" class="location-btn">99 <i class="ti-plus"></i> Listing</a>
-                                <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

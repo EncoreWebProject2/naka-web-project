@@ -14,8 +14,8 @@ public class ControllerFactory {
 			System.out.println("factory");
 			controller = new recruitDetailController();
 			
-		}else if(command.equals("")) {
-			
+		}else if(command.equals("recruit.do")) {
+			controller = new RecruitController();	
 		}
 		return controller;
 	}

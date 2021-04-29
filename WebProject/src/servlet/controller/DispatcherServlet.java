@@ -26,9 +26,8 @@ public class DispatcherServlet extends HttpServlet {
 
 		String path = "index.html";
 		
-		System.out.println(command);
 		Controller controller = ControllerFactory.getInstance().createController(command);
-		
+	
 		try {			
 			path = controller.execute(request, response);
 		}catch(Exception e) {			
@@ -37,7 +36,6 @@ public class DispatcherServlet extends HttpServlet {
 		
 		if(path!=null) {
 			request.getRequestDispatcher(path).forward(request, response);
-			
 		}
 	}
 
