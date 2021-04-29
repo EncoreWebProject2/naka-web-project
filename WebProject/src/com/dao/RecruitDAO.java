@@ -70,8 +70,8 @@ public class RecruitDAO {
 									rs.getString("education"), 
 									rs.getString("img"), 
 									rs.getString("link"), 
-									0, 
-									rs.getDate("exp_date"), 
+									rs.getInt("c_id"), 
+									rs.getDate("start_date"), 
 									rs.getDate("exp_date"), 
 									rs.getString("title"));
 			}

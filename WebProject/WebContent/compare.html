@@ -119,7 +119,7 @@
   max-width: 100%;
 }
 
-.compare-job-family {
+.compare-position {
   color: #888;
   font-weight: 600;
   margin-top: 7%;
@@ -132,18 +132,18 @@
   margin: 50px 0 25px;
 }
 
-.compare-features-career {
+.compare-features-job_type {
   border-top: 1px solid #e1f1ff;
   font-size: 14px;
   line-height: 1.5;
   padding: 15px 0;
 }
 
-.compare-features-career:last-child {
+.compare-features-job_type:last-child {
   border-bottom: 1px solid #e1f1ff;
 }
 
-.compare-features-stack {
+.compare-features-tech {
   border-top: 1px solid #e1f1ff;
   height: 100px;
   font-size: 12px;
@@ -151,12 +151,12 @@
   padding: 15px 0;
 }
 
-.compare-features-career:last-child {
+.compare-features-job_type:last-child {
   border-bottom: 1px solid #e1f1ff;
 }
 
 
-.compare-dday {
+.compare-exp_date {
   color: #170B3B;
   display: block;
   font-size: 15px;
@@ -202,11 +202,13 @@
 
 
 .company {
-	height:260px;
-	text-align: center;
-	display: flex;
+	height:350px;
 	margin-top: 20%;
-	align-items: center;
+	display: flex;           /* establish flex container */
+    flex-direction: column;  /* make main axis vertical */
+    justify-content: center; /* center items vertically, in this case */
+    align-items: center;  
+	
 }
 
 
@@ -217,11 +219,19 @@
     <script type="text/javascript">
 		$(function(){	
 			var output = localStorage.getItem('compareStorage');
-			var arr = JSON.parse(output);
-		
-			console.log(arr);
-			for(var i = 0; i<arr.length;i++){
-				console.log(arr[i].img);
+			var compare_list = JSON.parse(output);
+			
+			for(key in compare_list){
+				var str = "<div class='compare-plan'>"
+					       +"<a href='#' class='scrap-button'><svg></svg></a><a href='#' class='delete'><svg></svg></a>"
+					         +"<div class='company'><img src="+compare_list[key].img+" alt=''class='compare-img'></div>"
+					           +"<h5 class='compare-position'>"+compare_list[key].position+"</h5>"
+					           	 +"<ul class='compare-features'>"
+					           	 +"<li class='compare-features-tech'>"+compare_list[key].tech+"</li>"
+		                         +"<li class='compare-features-job_type'>"+compare_list[key].job_type+"</li></ul>"
+		                         +"<span class='compare-exp_date'>"+compare_list[key].exp_date+"</span>"
+		                         +" <a href='#/' class='compare-button'>공고보기</a>"
+		        $("#compare-table").append(str);
 			}
 			
 		});
@@ -306,41 +316,8 @@
         <!-- Table Start -->
         <div class="background">
  			 <div class="container">
-    			<div class="panel compare-table"> 
-			      <div class="compare-plan">
-			      		<a href="#" class="scrap-button"><svg></svg></a><a href="#" class="delete"><svg></svg></a>
-				        <div class="company"><img src="assets/img/logo/라인.png" alt="" class="compare-img"></div>
-				        <h5 class="compare-job-family">서버</h5>
-				        <ul class="compare-features">
-				          <li class="compare-features-stack">Java, Kotlin, Spring Framework, JPA, Linux/Unix</li>
-				          <li class="compare-features-career">경력(5년 이상)</li>
-				        </ul>
-				        <span class="compare-dday">상시 채용</span>
-				        <a href="#/" class="compare-button">지원하기</a>
-			      </div> 
-			      <div class="compare-plan">
-			      		<a href="#" class="scrap-button"><svg></svg></a><a href="#" class="delete"><svg></svg></a>
-				        <div class="company"><img src="assets/img/logo/카카오.jpg" alt="" class="compare-img"></div>			   
-				        <h5 class="compare-job-family">인프라</h5>
-				        <ul class="compare-features">
-				          <li class="compare-features-stack">AWS, GCP</li>
-				          <li class="compare-features-career">무관</li>
-				        </ul>
-				        <span class="compare-dday">상시 채용</span>
-				        <a href="#/" class="compare-button">지원하기</a>   
-			      </div>
-      			  <div class="compare-plan">
-      			  		<a href="#" class="scrap-button"><svg></svg></a><a href="#" class="delete"><svg></svg></a>
-				        <div class="company"><img src="assets/img/logo/우아한형제들.jpg" alt="" class="compare-img"></div>
-				        <h5 class="compare-job-family">프론트엔드</h5>
-				        <ul class="compare-features">
-				          <li class="compare-features-stack">HTML5, CSS, Javascript(최소 ES5), React, Redux, AWS, Redux-Saga, RxJS</li>
-				          <li class="compare-features-career">경력(3년 이상)</li>
-				        </ul>
-				        <span class="compare-dday">상시 채용</span>
-				        <a href="#/" class="compare-button">지원하기</a>
-				        
-      			  </div>
+    			<div class="panel compare-table" id="compare-table"> 
+				<!-- compare-table-plan -->
     			</div>
   			</div>
 		</div>

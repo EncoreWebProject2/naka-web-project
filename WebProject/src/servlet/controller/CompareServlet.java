@@ -34,8 +34,6 @@ public class CompareServlet extends HttpServlet {
 			
 			JSONObject json = new JSONObject();
 			
-			System.out.println(recruit.getImg());
-			
 			json.put("r_id", recruit.getR_id());
 			json.put("position",recruit.getPosition());
 			json.put("tech", recruit.getTech());
