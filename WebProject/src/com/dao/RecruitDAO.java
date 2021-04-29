@@ -57,7 +57,7 @@ public class RecruitDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String query = "select * from recurit where r_id=?";
+			String query = "select * from recruit where r_id=?";
 			ps = conn.prepareStatement(query);
 			
 			ps.setInt(1, r_id);
@@ -72,7 +72,7 @@ public class RecruitDAO {
 									rs.getString("education"), 
 									rs.getString("img"), 
 									rs.getString("link"), 
-									0, 
+									rs.getInt("c_id"), 
 									rs.getDate("exp_date"), 
 									rs.getDate("exp_date"), 
 									rs.getString("title"));
