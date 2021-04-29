@@ -39,8 +39,14 @@ public class CompareServlet extends HttpServlet {
 		json.put("title", recruit.getTitle());
 		json.put("position",recruit.getPosition());
 		json.put("tech", recruit.getTech());
-		json.put("job_type", recruit.getJob_type());
 		json.put("img", company.getLogo_img());
+		
+		if(recruit.getJob_type().equals("")) {
+			json.put("job_type", "무관");
+		}else {
+			json.put("job_type", recruit.getJob_type());
+		}
+		
 		if(recruit.getExp_date() == null) {
 			json.put("exp_date", "상시모집");
 		}else {
