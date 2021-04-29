@@ -119,9 +119,10 @@
   max-width: 100%;
 }
 
-.compare-position {
+.compare-title {
   color: #888;
   font-weight: 600;
+  height:100px;
   margin-top: 7%;
   text-align: center;
 }
@@ -151,7 +152,14 @@
   padding: 15px 0;
 }
 
-.compare-features-job_type:last-child {
+.compare-features-position {
+  border-top: 1px solid #e1f1ff;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 15px 0;
+}
+
+.compare-features-position:last-child {
   border-bottom: 1px solid #e1f1ff;
 }
 
@@ -225,8 +233,9 @@
 				var str = "<div class='compare-plan'>"
 					       +"<a href='#' class='scrap-button'><svg></svg></a><a href='#' class='delete'><svg></svg></a>"
 					         +"<div class='company'><img src="+compare_list[key].img+" alt=''class='compare-img'></div>"
-					           +"<h5 class='compare-position'>"+compare_list[key].position+"</h5>"
+					           +"<h5 class='compare-title'>"+compare_list[key].title+"</h5>"
 					           	 +"<ul class='compare-features'>"
+					           	+"<li class='compare-features-position'>"+compare_list[key].position+"</li>"
 					           	 +"<li class='compare-features-tech'>"+compare_list[key].tech+"</li>"
 		                         +"<li class='compare-features-job_type'>"+compare_list[key].job_type+"</li></ul>"
 		                         +"<span class='compare-exp_date'>"+compare_list[key].exp_date+"</span>"
