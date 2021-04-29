@@ -24,6 +24,25 @@
    <link rel="stylesheet" href="assets/css/slick.css">
    <link rel="stylesheet" href="assets/css/nice-select.css">
    <link rel="stylesheet" href="assets/css/style.css">
+   <style type="text/css">
+   
+
+	.scrap-button svg {
+		background-image: url(assets/img/elements/heart-regular.svg);
+		width:18px; height:18px;
+		object-fit: cover;
+		float: left;
+		
+	}
+
+	.scrap-button svg:hover{
+		background-image: url(assets/img/elements/heart-solid.svg);
+		
+	}
+   </style>
+   
+   
+   
 </head>
 
 <body>
@@ -98,27 +117,30 @@
                              	 <h2>${cvo.company_name} </h2>
                           		
                            		<p>${rvo.title}</p>                      
-                        	</div>         
-                        	
-                        	<div class="col-xl-4 col-lg-4 col-md-5">
-                        		 <div class="footer-social f-right sm-left">
-                             		
-                             		<a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                        		 </div>
-                     		</div>
-                        	            
-                        	
-                        	
+                        	</div>   
+                             <div class='scrap-button' style="float: right; margin: 10px;"><svg></svg></div>
                         	<a href="${rvo.link}" class="btn">지원하기</a>
                     	</div>
                   	</div> <!-- blog-author,회사 이름 -->
                       <div class="quote-wrapper">
-                      <p>접수 기간 : </p>
+                      <p>접수 기간 :&nbsp; 
+                      <c:choose>
+						<c:when test="${rvo.exp_date==null && rvo.start_date==null}">상시채용</c:when>
+						<c:when test="${rvo.exp_date==null && rvo.start_date!=null}"> ${rvo.start_date} ~ 채용시</c:when>
+						<c:otherwise>  ${rvo.start_date} ~ ${rvo.exp_date} </c:otherwise>
+					  </c:choose>	
+                     
+                      </p>
                            <ul class="unordered-list">
 								<li>직군 : ${rvo.position}</li>
 								<li>기술 스택 : ${rvo.tech}</li>
 								<li>채용 형태 :  ${rvo.job_type} </li>
-								<li>학력  :  ${rvo.education}</li>
+								<li>학력  :  
+								<c:choose>
+								<c:when test="${rvo.education==''}">무관</c:when>
+								<c:otherwise> ${rvo.education} </c:otherwise>
+								</c:choose>								
+								</li>
 								
 							</ul>
                         </div><!-- blog-author, 주요 회사 정보 -->
@@ -127,8 +149,8 @@
                      <div class="feature-img" align="center">
                         <img class="img-fluid" src="${rvo.img}" alt="" >
                      </div>
-                     
-              
+                     </div>
+               </div>
             </div>
          </div>
       </section>
