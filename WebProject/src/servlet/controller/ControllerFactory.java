@@ -11,13 +11,10 @@ public class ControllerFactory {
 	public  Controller  createController(String command) {
 		Controller controller = null;
 		if(command.equals("recruit_detail.do")) {
-			System.out.println("factory");
 			controller = new RecruitDetailController();
-			
 		}else if(command.equals("recruit.do")) {
 			controller = new RecruitController();	
 		}else if(command.equals("compare.do")) {
-			System.out.println("compare");
 			controller = new CompareController();
 		}
 		return controller;
