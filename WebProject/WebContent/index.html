@@ -189,21 +189,19 @@
 		    });
       
       	$('.card').on('click', '#remove', function() {
-				var arr = []
-				if(localStorage.getItem('compareStorage') != null){
-					var output = localStorage.getItem('compareStorage');
-					arr = JSON.parse(output);
-				}
-				
-				var id = $(this).attr('name');
-				
-				var idx = arr.indexOf(id);
-				arr.splice(idx, 1);
-				
-				localStorage.setItem('compareStorage',JSON.stringify(arr));
-
-				showCart();
-				arrLengthCheck();
+	      		var arr = []
+	            if(localStorage.getItem('compareStorage') != null){
+	               var output = localStorage.getItem('compareStorage');
+	               arr = JSON.parse(output);
+	            }
+	            
+	            var idx = Number($(this).attr('name'));
+	            arr.splice(idx, 1);
+	            
+	            localStorage.setItem('compareStorage',JSON.stringify(arr));
+	
+	            showCart();
+	            arrLengthCheck();
 			});
 
       
@@ -252,33 +250,33 @@
 		
     function showCart() {
 			
-			var arr = []
-			if(localStorage.getItem('compareStorage') != null){
-				var output = localStorage.getItem('compareStorage');
-				arr = JSON.parse(output);
-			}	
-			
-			var i;
-			var name;
-			var html;
-			for(i=0;i<arr.length;i++){
-				localStorage.setItem('compareStorage',JSON.stringify(arr));
-				html = "<div><img src=assets/img/logo/logo_circle.png>";
-				html += "<img src=" + arr[i].img +">";
-				html += "<img id=remove name=" + arr[i].r_id + " src=assets/img/logo/removeBtn.png></div>";
-				
-				name = "#cart" + (i+1);
-				
-				$(name).html(html);
-				
-			}
-			var j;
-			for(j=i+1;j<=3;j++){
-				name = "#cart" + j;
-				html = "<i class='fa fa-plus-circle fa-3x whitePlus' aria-hidden='true'></i>"
-				
-				$(name).html(html);
-			}		
+	    	var arr = []
+	        if(localStorage.getItem('compareStorage') != null){
+	           var output = localStorage.getItem('compareStorage');
+	           arr = JSON.parse(output);
+	        }   
+	        
+	        var i;
+	        var name;
+	        var html;
+	        for(i=0;i<arr.length;i++){
+	           localStorage.setItem('compareStorage',JSON.stringify(arr));
+	           html = "<div><img src=assets/img/logo/logo_circle.png>";
+	           html += "<img src=" + arr[i].img +">";
+	           html += "<img id=remove name=" + i + " src=assets/img/logo/removeBtn.png></div>";
+	           
+	           name = "#cart" + (i+1);
+	           
+	           $(name).html(html);
+	           
+	        }
+	        var j;
+	        for(j=i+1;j<=3;j++){
+	           name = "#cart" + j;
+	           html = "<i class='fa fa-plus-circle fa-3x whitePlus' aria-hidden='true'></i>"
+	           
+	           $(name).html(html);
+	        }   
 		}
 
     
@@ -474,7 +472,7 @@
         			</ul>
         		</span>
         		<span>
-        			<a href="compare.html" class="compareBtn on">비교하기</a>
+        			<a href="compare.html" target="_blank" class="compareBtn on">비교하기</a>
         		</span>
         	</div>	
         		

@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.dao.RecruitDAO;
+import com.naka.model.RecruitDAOImpl;
+import com.naka.vo.CompanyVO;
 import com.naka.vo.RecruitVO;
 import org.json.JSONObject;
 /**
@@ -29,22 +30,19 @@ public class CompareServlet extends HttpServlet {
 		String id = request.getParameter("id");
 		int r_id = Integer.parseInt(id);
 		
-		try {
-			RecruitVO recruit = RecruitDAO.getInstance().getRecruit(r_id);
-			
-			JSONObject json = new JSONObject();
-			
-			json.put("r_id", recruit.getR_id());
-			json.put("position",recruit.getPosition());
-			json.put("tech", recruit.getTech());
-			json.put("job_type", recruit.getJob_type());
-			json.put("img", recruit.getImg());
-			json.put("exp_date", recruit.getExp_date());
-			
-			out.println(json);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		RecruitVO recruit = RecruitDAOImpl.getInstance().getRecruit(r_id);
+		CompanyVO company = RecruitDAOImpl.getInstance().getCompany(recruit.getC_id());
+		
+		JSONObject json = new JSONObject();
+		
+		json.put("r_id", recruit.getR_id());
+		json.put("position",recruit.getPosition());
+		json.put("tech", recruit.getTech());
+		json.put("job_type", recruit.getJob_type());
+		json.put("img", company.getLogo_img());
+		json.put("exp_date", recruit.getExp_date());
+		
+		out.println(json);
 		
 	}
 
