@@ -131,10 +131,17 @@
 			z-index: 2;
 			line-height: 80px;
 		}
+		.location-img img{
+			width: 330px;
+			height: 330px;
+		}
+		.location-details p{
+			font-weight: bold;			
+		}
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
-	$(function () {
+		$(function () {
 			$("#compareBox").hide();
 			$('.cartBox').click(function () {
 				console.log("cartbox clicked");
@@ -155,6 +162,7 @@
 		});
 	//자바 스크립트라면 온클린.... 제이쿼리는 선택자와 함수를 연결함
 		var pageNumber = 1;
+		var co_ids = {1:"네이버.png",2:"우아한형제들.jpg",3:"토스.png",4:"라인.png",5:"쿠팡.png",6:"당근마켓.png",7:"카카오.jpg"}
 	
 		function addLoadedRecruits(){
 			$.ajax({
@@ -167,8 +175,10 @@
 					if(jsonObject.length>0){						
 						$("#recruit_container div.row").html('');
 						for(key in jsonObject){
+							var title = jsonObject[key].title;
+							if(title.length>24) title = title.substr(0,24)+"....";
 							var str = '<div class="col-lg-3 col-md-6 col-sm-6"><div class="single-location mb-30"><div class="location-img">'+
-							'<img src="assets/img/gallery/location3.png" alt=""></div><div class="location-details"><p>'+jsonObject[key].title+'</p>'+
+							'<img src="assets/img/logo/'+co_ids[jsonObject[key].c_id]+'" alt=""></div><div class="location-details"><p class="title">'+title+'</p>'+
 	                        '<a href="#" class="location-btn"><i class="ti-plus"></i>Listing</a><a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>'+
 	                        '</div></div></div>';
 							$("#recruit_container div.row").append(str);
