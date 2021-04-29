@@ -8,13 +8,14 @@ public class ControllerFactory {
 		return factory;
 	}
 	
-	public Controller createController(String command) {
+	public  Controller  createController(String command) {
 		Controller controller = null;
-		if(command.equals("compare.do")) {
-			System.out.println("compare");
+		if(command.equals("recruit_detail.do")) {
+			controller = new RecruitDetailController();
+		}else if(command.equals("recruit.do")) {
+			controller = new RecruitController();	
+		}else if(command.equals("compare.do")) {
 			controller = new CompareController();
-		}else if(command.equals("")) {
-		
 		}
 		return controller;
 	}

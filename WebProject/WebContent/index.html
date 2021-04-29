@@ -25,8 +25,7 @@
 	<link rel="stylesheet" href="assets/css/nice-select.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 	<style>
-	
-		button{
+    	button{
 			cursor:pointer;
 		}
     	.slider-height1 {
@@ -95,7 +94,7 @@
 		    width: 80px;
 		    height: 80px;
 		    margin-left: 70px;
-		    background: rgba(23, 11, 59, 0);
+		    background: rgba(23, 11, 59, 0); 
 		}
 		.card>div{
 			margin:0 auto;
@@ -150,8 +149,201 @@
 			z-index: 2;
 			line-height: 80px;
 		}
-		
+		.location-img{
+			border: 4px solid #B367FF;
+			border-radius:24px;
+		}
+		.location-img img{
+			width: 330px;
+			height: 330px;
+			opacity: 0.4;
+		}
+		.location-details p{
+			font-weight: bold;			
+		}
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript">
+	
+	
+		$(function () {
+			showCart();
+			arrLengthCheck();
+			
+			$("#compareBox").hide();
+			$('.cartBox').click(function () {
+				console.log("cartbox clicked");
+				$("#compareBox").toggle(500);
+				$('.cartBox').hide();
+	    		
+			});//click
+	    	
+			var previousScroll = 0;
+		    $(window).scroll(function(event){
+		       //alert("scrolllll");
+		    	if($("#compareBox").is(":visible")){
+		    		console.log("scroll");
+		    		$('#compareBox').hide(500);
+		    		$('.cartBox').show();
+		    	}
+		    });
+      
+      	$('.card').on('click', '#remove', function() {
+				var arr = []
+				if(localStorage.getItem('compareStorage') != null){
+					var output = localStorage.getItem('compareStorage');
+					arr = JSON.parse(output);
+				}
+				
+				var id = $(this).attr('name');
+				
+				var idx = arr.indexOf(id);
+				arr.splice(idx, 1);
+				
+				localStorage.setItem('compareStorage',JSON.stringify(arr));
+
+				showCart();
+				arrLengthCheck();
+			});
+
+      
+      	$('.row').on('click','button[name=addItemCart]',function () {
+				//로컬 스토리지에 저장 setItem()		
+				console.log("click");
+				var arr = []
+				if(localStorage.getItem('compareStorage') != null){
+					var output = localStorage.getItem('compareStorage');
+					arr = JSON.parse(output);
+				}
+				
+				if(arr.length >= 3){
+					alert("비교함이 가득 찼습니다. 슬롯을 비운 후 다시 시도해 주세요");			
+				}else{
+					var flag = false;
+					for(var i = 0; i<arr.length;i++){
+						if(arr[i].r_id==$(this).attr('id')){
+							flag = true;
+						}
+					}
+					if(flag){
+						alert("비교함에 이미 존재하는 공고입니다.");
+					}else{
+						var id = $(this).val();
+						
+						$.ajax({
+							type: "post",
+							url: "CompareServlet",
+							data: "id=" + id,
+							
+							success: function(result) {
+								arr.push(JSON.parse(result));
+								localStorage.setItem('compareStorage',JSON.stringify(arr));
+							}
+						});	
+					}
+					
+				}		
+				setTimeout(() => { arrLengthCheck(); }, 100);
+				setTimeout(() => { showCart(); }, 100);
+			});
+      
+
+		});
+		
+    function showCart() {
+			
+			var arr = []
+			if(localStorage.getItem('compareStorage') != null){
+				var output = localStorage.getItem('compareStorage');
+				arr = JSON.parse(output);
+			}	
+			
+			var i;
+			var name;
+			var html;
+			for(i=0;i<arr.length;i++){
+				localStorage.setItem('compareStorage',JSON.stringify(arr));
+				html = "<div><img src=assets/img/logo/logo_circle.png>";
+				html += "<img src=" + arr[i].img +">";
+				html += "<img id=remove name=" + arr[i].r_id + " src=assets/img/logo/removeBtn.png></div>";
+				
+				name = "#cart" + (i+1);
+				
+				$(name).html(html);
+				
+			}
+			var j;
+			for(j=i+1;j<=3;j++){
+				name = "#cart" + j;
+				html = "<i class='fa fa-plus-circle fa-3x whitePlus' aria-hidden='true'></i>"
+				
+				$(name).html(html);
+			}		
+		}
+
+    
+		arrLengthCheck = function (){
+			var cnt = 0;
+			var output = localStorage.getItem('compareStorage');
+			arr = JSON.parse(output);
+			console.log("checking arr: "+arr);
+			if(arr !=  null && arr.length >= 0){
+				cnt = arr.length;
+			}
+			
+			document.getElementById("cartNum").innerHTML = cnt;
+			
+		}
+	
+		var pageNumber = 1;
+		var co_ids = {1:"네이버.png",2:"우아한형제들.jpg",3:"토스.png",4:"라인.png",5:"쿠팡.png",6:"당근마켓.png",7:"카카오.jpg"};
+	
+		function addLoadedRecruits(){
+			$.ajax({
+				url:"recruit.do",
+				type:"post",
+				data:{num:pageNumber},
+				success:function(data){
+					var jsonObject = JSON.parse(data);
+					if(jsonObject.length>0){						
+						$("#recruit_container div.row").html('');
+						for(key in jsonObject){
+							var title = jsonObject[key].title;
+							if(title.length>24) title = title.substr(0,24)+"....";							
+							var str = '<div class="col-lg-3 col-md-6 col-sm-6"><div class="single-location mb-30"><div class="location-img">'+
+							'<img id="'+jsonObject[key].r_id+'" src="assets/img/logo/'+co_ids[jsonObject[key].c_id]+'" alt=""></div><div class="location-details"><p class="title">'+title+'</p>'+
+	                        '<button class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">비교함 추가</button><a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>'+
+	                        '</div></div></div>';
+							$("#recruit_container div.row").append(str);
+						}
+						
+						$("#recruit_container").trigger('create');
+	                	$('.single-location img').click(function() {	                		
+	            			var win = window.open("recruit_detail.do?id="+$(this).attr('id'));	
+	        			});
+					}
+				}
+			});
+		}
+		
+		$(window).scroll(function() {	
+		   if($(window).scrollTop() + $(window).height()+300 >=$(document).height()) {
+			   pageNumber++;
+			   addLoadedRecruits();
+		   }
+		});
+			
+	
+		
+		$(function () {
+			addLoadedRecruits();			
+	   		$('select').change(function(){
+	   			if($(this).val()!='')
+	   				addLoadedRecruits();
+	   		});	
+		});
+
+</script>
 </head>
 <body>
     <!-- ? Preloader Start -->
@@ -220,27 +412,38 @@
                                 <p>Let's find the pefect matching job for you.</p>
                             </div>
                             <!--Hero form -->
-                            <form action="#" class="search-box mb-100">
+                            <form action="#" class="search-box" style="margin: 10px;">
                                 <div class="input-form">
                                     <input type="text" placeholder="What are you finding?">
                                 </div>
-                                <div class="select-form">
-                                    <div class="select-itms">
-                                        <select name="select" id="select1">
-                                            <option value="">In where?</option>
-                                            <option value="">Catagories One</option>
-                                            <option value="">Catagories Two</option>
-                                            <option value="">Catagories Three</option>
-                                            <option value="">Catagories Four</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                
                                 <div class="search-form">
                                     <a href="#"><i class="ti-search"></i> Search</a>
                                     
                                 </div>	
                             </form>	
-                            
+                            <div class="select-form">
+                                    <div class="select-itms" style="float: left; margin: 10px; margin-bottom: 30px;">
+                                        <select name="select" id="select1">
+                                            <option value="">직군</option>
+                                            <option value="서버">서버</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="select-itms"  style="float: left; margin: 10px; margin-bottom: 30px;" >
+                                        <select name="select" id="select2">
+                                            <option value="">채용 형태</option>
+                                            <option value="신입">신입</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="select-itms"  style="float: left; margin: 10px; margin-bottom: 30px;">
+                                        <select name="select" id="select3">
+                                            <option value="">학력</option>
+                                            <option value="">무관</option>
+                                        </select>
+                                    </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -249,63 +452,9 @@
         <!--Hero Area End-->
         <!--? Popular Locations Start 01-->
         <div class="popular-location border-bottom section-padding40">
-            <div class="container">
-               
-                <div class="row">
+            <div id="recruit_container" class="container">
+                <div class="row">                    
                     
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-location mb-30">
-                            <div class="location-img">
-                                <img src="assets/img/gallery/location3.png" alt="">
-                            </div>
-                            <div class="location-details" >
-                            	<button class="location-btn" id="1" name="addItemCart" value="1">비교함 추가</button>
-                                <p>Rome</p>
-                                
-                                <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
-                           		
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                    	<input type=hidden id="2" value="2"/>
-                        <div class="single-location mb-30">
-                            <div class="location-img">
-                                <img src="assets/img/gallery/location4.png" alt="">
-                            </div>
-                            <div class="location-details">
-                            	<button class="location-btn" id="2" name="addItemCart" value="2">비교함 추가</button>
-                                <p>Italy</p>
-                                
-                                <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-location mb-30">
-                            <div class="location-img">
-                                <img src="assets/img/gallery/location5.png" alt="">
-                            </div>
-                            <div class="location-details">
-                            	<button class="location-btn" id="3" name="addItemCart" value="3">비교함 추가</button>
-                                <p>Nepal</p>
-                                <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                    	<input type=hidden id="recruitId" value="4"/>
-                        <div class="single-location mb-30">
-                            <div class="location-img">
-                                <img src="assets/img/gallery/location5.png" alt="">
-                            </div>
-                            <div class="location-details">
-                            	<button class="location-btn" id="4" name="addItemCart" value="4">비교함 추가</button>
-                                <p>Nepal</p>
-                                <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -342,14 +491,13 @@
                             <div class="col-xl-10 col-lg-9 ">
                                 <div class="footer-copy-right">
                                     <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  										Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Nakala</p>
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Nakala</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
         </div>
     </footer>
 
@@ -359,138 +507,7 @@
     </div>
 
     <!-- JS here -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script type="text/javascript">
-		
-		
-		
-		$(function () {
-			showCart();
-			arrLengthCheck();
-			
-			$("#compareBox").hide();
-			$('.cartBox').click(function () {
-				console.log("cartbox clicked");
-				$("#compareBox").toggle(500);
-				$('.cartBox').hide();
-	    		
-			});//click
-	    	
-			var previousScroll = 0;
-		    $(window).scroll(function(event){
-		       //alert("scrolllll");
-		    	if($("#compareBox").is(":visible")){
-		    		console.log("scroll");
-		    		$('#compareBox').hide(500);
-		    		$('.cartBox').show();
-		    	}
-		    });
-      
-      $('.card').on('click', '#remove', function() {
-				var arr = []
-				if(localStorage.getItem('compareStorage') != null){
-					var output = localStorage.getItem('compareStorage');
-					arr = JSON.parse(output);
-				}
-				
-				var idx = Number($(this).attr('name'));
-				arr.splice(idx, 1);
-				
-				localStorage.setItem('compareStorage',JSON.stringify(arr));
 
-				showCart();
-				arrLengthCheck();
-			});
-
-      $('button[name=addItemCart]').click(function () {
-				//로컬 스토리지에 저장 setItem()		
-				
-				var arr = []
-				if(localStorage.getItem('compareStorage') != null){
-					var output = localStorage.getItem('compareStorage');
-					arr = JSON.parse(output);
-				}
-				
-				if(arr.length >= 3){
-					alert("비교함이 가득 찼습니다. 슬롯을 비운 후 다시 시도해 주세요");			
-				}else{
-					var flag = false;
-					for(var i = 0; i<arr.length;i++){
-						if(arr[i].r_id==$(this).attr('id')){
-							flag = true;
-						}
-					}
-					if(flag){
-						alert("비교함에 이미 존재하는 공고입니다.");
-					}else{
-						var id = $(this).val();
-						
-						$.ajax({
-							type: "post",
-							url: "CompareServlet",
-							data: "id=" + id,
-							
-							success: function(result) {
-								arr.push(JSON.parse(result));
-								localStorage.setItem('compareStorage',JSON.stringify(arr));
-							}
-						});	
-					}
-					
-				}		
-				setTimeout(() => { arrLengthCheck(); }, 100);
-				setTimeout(() => { showCart(); }, 100);
-			});
-      
-
-		});
-		
-    function showCart() {
-			
-			var arr = []
-			if(localStorage.getItem('compareStorage') != null){
-				var output = localStorage.getItem('compareStorage');
-				arr = JSON.parse(output);
-			}	
-			
-			var i;
-			var name;
-			var html;
-			for(i=0;i<arr.length;i++){
-				localStorage.setItem('compareStorage',JSON.stringify(arr));
-				html = "<div><img src=assets/img/logo/logo_circle.png>";
-				html += "<img src=" + arr[i].img +">";
-				html += "<img id=remove name=" + i + " src=assets/img/logo/removeBtn.png></div>";
-				
-				name = "#cart" + (i+1);
-				
-				$(name).html(html);
-				
-			}
-			var j;
-			for(j=i+1;j<=3;j++){
-				name = "#cart" + j;
-				html = "<i class='fa fa-plus-circle fa-3x whitePlus' aria-hidden='true'></i>"
-				
-				$(name).html(html);
-			}		
-		}
-
-    
-		arrLengthCheck = function (){
-			var cnt = 0;
-			var output = localStorage.getItem('compareStorage');
-			arr = JSON.parse(output);
-			console.log("checking arr: "+arr);
-			if(arr !=  null && arr.length >= 0){
-				cnt = arr.length;
-			}
-			
-			document.getElementById("cartNum").innerHTML = cnt;
-			
-		}
-	    
-	</script>
     <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
     <!-- Jquery, Popper, Bootstrap -->
     <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
@@ -532,5 +549,7 @@
     <script src="./assets/js/plugins.js"></script>
     <script src="./assets/js/main.js"></script>
 
+
+    
     </body>
 </html>
