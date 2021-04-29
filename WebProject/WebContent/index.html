@@ -241,7 +241,7 @@
                                 <img src="assets/img/gallery/location3.png" alt="">
                             </div>
                             <div class="location-details" >
-                            	<button class="location-btn" id="1" name="addCart" value="1">비교함 추가</button>
+                            	<button class="location-btn" id="1" name="addItemCart" value="1">비교함 추가</button>
                                 <p>Rome</p>
                                 
                                 <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
@@ -256,7 +256,7 @@
                                 <img src="assets/img/gallery/location4.png" alt="">
                             </div>
                             <div class="location-details">
-                            	<button class="location-btn" id="2" name="addCart" value="2">비교함 추가</button>
+                            	<button class="location-btn" id="2" name="addItemCart" value="2">비교함 추가</button>
                                 <p>Italy</p>
                                 
                                 <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
@@ -269,7 +269,7 @@
                                 <img src="assets/img/gallery/location5.png" alt="">
                             </div>
                             <div class="location-details">
-                            	<button class="location-btn" id="3" name="addCart" value="3">비교함 추가</button>
+                            	<button class="location-btn" id="3" name="addItemCart" value="3">비교함 추가</button>
                                 <p>Nepal</p>
                                 <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
                             </div>
@@ -282,7 +282,7 @@
                                 <img src="assets/img/gallery/location5.png" alt="">
                             </div>
                             <div class="location-details">
-                            	<button class="location-btn" id="4" name="addCart" value="4">비교함 추가</button>
+                            	<button class="location-btn" id="4" name="addItemCart" value="4">비교함 추가</button>
                                 <p>Nepal</p>
                                 <a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>
                             </div>
@@ -331,6 +331,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </footer>
 
@@ -346,6 +347,8 @@
 		
 		
 		$(function () {
+			arrLengthCheck();
+			
 			$("#compareBox").hide();
 			$('.cartBox').click(function () {
 				console.log("cartbox clicked");
@@ -363,8 +366,52 @@
 		    		$('.cartBox').show();
 		    	}
 		    });
+		    
+		    $('button[name=addItemCart]').click(function () {
+				//로컬 스토리지에 저장 setItem()		
+				
+				var arr = []
+				if(localStorage.getItem('compareStorage') != null){
+					var output = localStorage.getItem('compareStorage');
+					arr = JSON.parse(output);
+				}
+				
+				if(arr.length >= 3){
+					alert("비교함이 가득 찼습니다. 슬롯을 비운 후 다시 시도해 주세요");
+				}else if(arr.indexOf($(this).val()) != -1 ){
+					alert("해당 공고는 이미 비교함에 존재합니다.");
+				}else{
+					var id = $(this).val();
+					
+					$.ajax({
+						type: "post",
+						url: "CompareServlet",
+						data: "id=" + id,
+						
+						success: function(result) {
+							arr.push(JSON.parse(result));
+							localStorage.setItem('compareStorage',JSON.stringify(arr));
+						}
+					});	
+					
+				}		
+				setTimeout(() => { arrLengthCheck(); }, 100);
+			});
+		    
 		});
 		
+		arrLengthCheck = function (){
+			var cnt = 0;
+			var output = localStorage.getItem('compareStorage');
+			arr = JSON.parse(output);
+			console.log("checking arr: "+arr);
+			if(arr !=  null && arr.length > 0){
+				cnt = arr.length;
+			}
+			
+			document.getElementById("cartNum").innerHTML = cnt;
+			
+		}
 	 	    
 	    
 	</script>
