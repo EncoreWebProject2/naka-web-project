@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
+import com.naka.vo.CompanyVO;
 import com.naka.vo.RecruitVO;
 
 public interface RecruitDAO {
@@ -16,6 +17,7 @@ public interface RecruitDAO {
 	public void closeAll(ResultSet rs,PreparedStatement ps, Connection con);
 	public ArrayList<RecruitVO> getRecruits(int pageNumber);
 	public RecruitVO getRecruit(int r_id);
+	public CompanyVO getCompany(int c_id);
 	public ArrayList<RecruitVO> searchRecruits(String position, String job_type, String education, String keyword,
 			String scrap,int pageNumber );
 }

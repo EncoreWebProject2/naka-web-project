@@ -12,7 +12,7 @@ public class ControllerFactory {
 		Controller controller = null;
 		if(command.equals("recruit_detail.do")) {
 			System.out.println("factory");
-			controller = new recruitDetailController();
+			controller = new RecruitDetailController();
 			
 		}else if(command.equals("recruit.do")) {
 			controller = new RecruitController();	

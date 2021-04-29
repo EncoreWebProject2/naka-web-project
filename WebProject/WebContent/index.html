@@ -162,7 +162,7 @@
 		});
 	//자바 스크립트라면 온클린.... 제이쿼리는 선택자와 함수를 연결함
 		var pageNumber = 1;
-		var co_ids = {1:"네이버.png",2:"우아한형제들.jpg",3:"토스.png",4:"라인.png",5:"쿠팡.png",6:"당근마켓.png",7:"카카오.jpg"}
+		var co_ids = {1:"네이버.png",2:"우아한형제들.jpg",3:"토스.png",4:"라인.png",5:"쿠팡.png",6:"당근마켓.png",7:"카카오.jpg"};
 	
 		function addLoadedRecruits(){
 			$.ajax({
@@ -177,7 +177,8 @@
 						for(key in jsonObject){
 							var title = jsonObject[key].title;
 							if(title.length>24) title = title.substr(0,24)+"....";
-							var str = '<div class="col-lg-3 col-md-6 col-sm-6"><div class="single-location mb-30"><div class="location-img">'+
+							//alert(jsonObject[key].c_id);
+							var str = '<div class="col-lg-3 col-md-6 col-sm-6"><div class="single-location mb-30" id="'+jsonObject[key].r_id+'"><div class="location-img">'+
 							'<img src="assets/img/logo/'+co_ids[jsonObject[key].c_id]+'" alt=""></div><div class="location-details"><p class="title">'+title+'</p>'+
 	                        '<a href="#" class="location-btn"><i class="ti-plus"></i>Listing</a><a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>'+
 	                        '</div></div></div>';
@@ -186,8 +187,8 @@
 						
 						$("#recruit_container").trigger('create');
 	                	$('.single-location').click(function() {
-	                		console.log($(this));
-	            			var win = window.open("recruit_detail.do?id=5");	
+	                		
+	            			var win = window.open("recruit_detail.do?id="+$(this).attr('id'));	
 	        			});
 					}
 				}

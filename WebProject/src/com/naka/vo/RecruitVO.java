@@ -29,22 +29,7 @@ public class RecruitVO {
 		this.start_date = start_date;
 		this.title = title;
 	}
-	
-	public RecruitVO(int r_id, String position, String tech, String job_type, String education,
-			String img, String link,  Date exp_date, Date start_date,String title) {
-		this.r_id = r_id;
-		this.position = position;
-		this.tech = tech;
-		this.job_type = job_type;
-		this.education = education;
-		this.img = img;
-		this.link = link;
 		
-		this.exp_date = exp_date;
-		this.start_date = start_date;
-		this.title = title;
-	}
-	
 	
 	public int getR_id() {
 		return r_id;

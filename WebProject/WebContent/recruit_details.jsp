@@ -92,11 +92,11 @@
                   
                      <div class="blog-author">
                      	<div class="media align-items-center">
-                        	<img src="assets/img/logo/${cvo.img}" alt="">
+                        	<img src="${cvo.logo_img}" alt="">
                         	<div class="media-body">
-                           		<a href="#">
-                             	 <h2>회사제목 - 라인</h2>
-                          		 </a>
+                           		
+                             	 <h2>${cvo.company_name} </h2>
+                          		
                            		<p>${rvo.title}</p>                      
                         	</div>         
                         	
@@ -109,7 +109,7 @@
                         	            
                         	
                         	
-                        	<a href="#" class="btn">지원하기</a>
+                        	<a href="${rvo.link}" class="btn">지원하기</a>
                     	</div>
                   	</div> <!-- blog-author,회사 이름 -->
                       <div class="quote-wrapper">
@@ -124,8 +124,8 @@
                         </div><!-- blog-author, 주요 회사 정보 -->
                      
                      
-                     <div class="feature-img">
-                        <img class="img-fluid" src="assets/img/post/${rvo.img}" alt="">
+                     <div class="feature-img" align="center">
+                        <img class="img-fluid" src="${rvo.img}" alt="" >
                      </div>
                      
               

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.naka.vo.CompanyVO;
 import com.naka.vo.RecruitVO;
 
 public class RecruitDAOImpl implements RecruitDAO {
@@ -74,7 +75,7 @@ public class RecruitDAOImpl implements RecruitDAO {
 			while(rs.next()) {
 				list.add(new RecruitVO(rs.getInt("r_id"), rs.getString("position"), rs.getString("tech"),
 						rs.getString("job_type"), rs.getString("education"), rs.getString("img"), rs.getString("link"), 
-						0, rs.getDate("exp_date"), rs.getDate("start_date"),rs.getString("title")));
+						rs.getInt("c_id"), rs.getDate("exp_date"), rs.getDate("start_date"),rs.getString("title")));
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -103,8 +104,8 @@ public class RecruitDAOImpl implements RecruitDAO {
 			if(rs.next()) {
 				vo =new RecruitVO(rs.getInt("r_id"), rs.getString("position"), rs.getString("tech"),
 						rs.getString("job_type"), rs.getString("education"), rs.getString("img"), rs.getString("link"), 
-						rs.getDate("exp_date"), rs.getDate("start_date"),rs.getString("title"));
-				System.out.println(vo.toString());
+						rs.getInt("c_id"), rs.getDate("exp_date"), rs.getDate("start_date"),rs.getString("title"));
+				
 			}
 			
 		}catch (Exception e) {
@@ -114,6 +115,34 @@ public class RecruitDAOImpl implements RecruitDAO {
 		}
 		return vo;
 	}
+	
+	@Override
+	public CompanyVO getCompany(int c_id) {
+		Connection con =null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		CompanyVO vo = null;
+		
+		try {
+			con = getConnection();
+			String query = "select * from company where c_id=?";
+			ps = con.prepareStatement(query);
+			
+			ps.setInt(1, c_id);			
+			rs = ps.executeQuery();
+			System.out.println("company ok");
+			if(rs.next()) {
+				vo =new CompanyVO(rs.getInt("c_id"),rs.getString("company_name"),rs.getString("logo_img"));					
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeAll(rs,ps, con);
+		}
+		return vo;
+	}
+	
 
 	@Override
 	public ArrayList<RecruitVO> searchRecruits(String position, String job_type, String education, String keyword,
