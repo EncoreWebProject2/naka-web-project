@@ -21,7 +21,7 @@ public class RecruitDAO {
 		try {
 			InitialContext ic = new InitialContext();
 			ds = (DataSource)ic.lookup("java:comp/env/jdbc/mysql");
-			System.out.println("DataSource Lookup....OK");
+			System.out.println("DataSource Lookup....OK ");
 		} catch (NamingException e) {
 			System.out.println("DataSource Lookup....Fail");
 		}		
@@ -53,7 +53,6 @@ public class RecruitDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		
 		try {
 			conn = ds.getConnection();
 			
@@ -63,7 +62,6 @@ public class RecruitDAO {
 			ps.setInt(1, r_id);
 			
 			rs = ps.executeQuery();
-			
 			if(rs.next()) {
 				vo = new RecruitVO(rs.getInt("r_id"), 
 									rs.getString("position"), 
@@ -73,7 +71,7 @@ public class RecruitDAO {
 									rs.getString("img"), 
 									rs.getString("link"), 
 									rs.getInt("c_id"), 
-									rs.getDate("exp_date"), 
+									rs.getDate("start_date"), 
 									rs.getDate("exp_date"), 
 									rs.getString("title"));
 			}
@@ -81,8 +79,6 @@ public class RecruitDAO {
 		}finally {
 			closeAll(rs, ps, conn);
 		}
-		
-		
 		
 		return vo;
 	}

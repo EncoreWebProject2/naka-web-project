@@ -29,7 +29,7 @@ public class RecruitVO {
 		this.start_date = start_date;
 		this.title = title;
 	}
-		
+	
 	
 	public int getR_id() {
 		return r_id;

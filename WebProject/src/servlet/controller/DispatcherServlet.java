@@ -17,6 +17,7 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("post");
 		doProcess(request, response);
 	}
 	
@@ -25,6 +26,7 @@ public class DispatcherServlet extends HttpServlet {
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String command = requestURI.substring(contextPath.length()+1);
+		System.out.println(command);
 
 		String path = "index.html";
 		
