@@ -21,7 +21,7 @@ public class RecruitDAO {
 		try {
 			InitialContext ic = new InitialContext();
 			ds = (DataSource)ic.lookup("java:comp/env/jdbc/mysql");
-			System.out.println("DataSource Lookup....OK");
+			System.out.println("DataSource Lookup....OK ");
 		} catch (NamingException e) {
 			System.out.println("DataSource Lookup....Fail");
 		}		
@@ -53,17 +53,15 @@ public class RecruitDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		
 		try {
 			conn = ds.getConnection();
 			
-			String query = "select * from recurit where r_id=?";
+			String query = "select * from recruit where r_id=?";
 			ps = conn.prepareStatement(query);
 			
 			ps.setInt(1, r_id);
 			
 			rs = ps.executeQuery();
-			
 			if(rs.next()) {
 				vo = new RecruitVO(rs.getInt("r_id"), 
 									rs.getString("position"), 
@@ -81,8 +79,6 @@ public class RecruitDAO {
 		}finally {
 			closeAll(rs, ps, conn);
 		}
-		
-		
 		
 		return vo;
 	}
