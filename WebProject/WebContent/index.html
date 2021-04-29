@@ -393,9 +393,7 @@
 					arr = JSON.parse(output);
 				}
 				
-				var id = $(this).attr('name');
-				
-				var idx = arr.indexOf(id);
+				var idx = Number($(this).attr('name'));
 				arr.splice(idx, 1);
 				
 				localStorage.setItem('compareStorage',JSON.stringify(arr));
@@ -462,7 +460,7 @@
 				localStorage.setItem('compareStorage',JSON.stringify(arr));
 				html = "<div><img src=assets/img/logo/logo_circle.png>";
 				html += "<img src=" + arr[i].img +">";
-				html += "<img id=remove name=" + arr[i].r_id + " src=assets/img/logo/removeBtn.png></div>";
+				html += "<img id=remove name=" + i + " src=assets/img/logo/removeBtn.png></div>";
 				
 				name = "#cart" + (i+1);
 				
