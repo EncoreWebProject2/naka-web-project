@@ -226,12 +226,42 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript">
 		$(function(){	
+			refresh();
+			
+			$('#compare-table').on('click', '.delete', function() {
+	      		var arr = []
+	            if(localStorage.getItem('compareStorage') != null){
+	               var output = localStorage.getItem('compareStorage');
+	               arr = JSON.parse(output);
+	            }
+	      		if(arr.length !=null  && arr.length > 2){
+	      			var idx = $(this).attr('id');
+		            for(var i=0; i<arr.length; i++){
+		            	if(arr[i].r_id == idx){
+		            		arr.splice(i, 1);
+		            	}
+		            }
+		            
+		            localStorage.setItem('compareStorage',JSON.stringify(arr));
+				}else{
+					alert("공고는 2개 이상 비교가 가능합니다.");
+				}
+	            
+	      		refresh();
+	
+	            
+			});
+			
+		});
+		
+		function refresh(){
+			
 			var output = localStorage.getItem('compareStorage');
 			var compare_list = JSON.parse(output);
-			
+			var str="";
 			for(key in compare_list){
-				var str = "<div class='compare-plan'>"
-					       +"<a href='#' class='scrap-button'><svg></svg></a><a href='#' class='delete'><svg></svg></a>"
+				str += "<div class='compare-plan'>"
+					       +"<a href='#' class='scrap-button'><svg></svg></a><div id='"+compare_list[key].r_id +"' class='delete'><svg></svg></div>"
 					         +"<div class='company'><img src="+compare_list[key].img+" alt=''class='compare-img'></div>"
 					           +"<h5 class='compare-title'>"+compare_list[key].title+"</h5>"
 					           	 +"<ul class='compare-features'>"
@@ -239,11 +269,11 @@
 					           	 +"<li class='compare-features-tech'>"+compare_list[key].tech+"</li>"
 		                         +"<li class='compare-features-job_type'>"+compare_list[key].job_type+"</li></ul>"
 		                         +"<span class='compare-exp_date'>"+compare_list[key].exp_date+"</span>"
-		                         +" <a href='recruit_detail.do?id="+ compare_list[key].r_id + "'  target='_blank' class='compare-button'>공고보기</a>"
-		        $("#compare-table").append(str);
+		                         +" <a href='recruit_detail.do?id="+ compare_list[key].r_id + "'  target='_blank' class='compare-button'>공고보기</a></div>";
+		       
 			}
-			
-		});
+			$("#compare-table").html(str);
+		}
     </script>
 </head>
 <body>
