@@ -377,22 +377,30 @@
 				}
 				
 				if(arr.length >= 3){
-					alert("비교함이 가득 찼습니다. 슬롯을 비운 후 다시 시도해 주세요");
-				}else if(arr.indexOf($(this).val()) != -1 ){
-					alert("해당 공고는 이미 비교함에 존재합니다.");
+					alert("비교함이 가득 찼습니다. 슬롯을 비운 후 다시 시도해 주세요");			
 				}else{
-					var id = $(this).val();
-					
-					$.ajax({
-						type: "post",
-						url: "CompareServlet",
-						data: "id=" + id,
-						
-						success: function(result) {
-							arr.push(JSON.parse(result));
-							localStorage.setItem('compareStorage',JSON.stringify(arr));
+					var flag = false;
+					for(var i = 0; i<arr.length;i++){
+						if(arr[i].r_id==$(this).attr('id')){
+							flag = true;
 						}
-					});	
+					}
+					if(flag){
+						alert("비교함에 이미 존재하는 공고입니다.");
+					}else{
+						var id = $(this).val();
+						
+						$.ajax({
+							type: "post",
+							url: "CompareServlet",
+							data: "id=" + id,
+							
+							success: function(result) {
+								arr.push(JSON.parse(result));
+								localStorage.setItem('compareStorage',JSON.stringify(arr));
+							}
+						});	
+					}
 					
 				}		
 				setTimeout(() => { arrLengthCheck(); }, 100);
@@ -405,7 +413,7 @@
 			var output = localStorage.getItem('compareStorage');
 			arr = JSON.parse(output);
 			console.log("checking arr: "+arr);
-			if(arr !=  null && arr.length > 0){
+			if(arr !=  null && arr.length >= 0){
 				cnt = arr.length;
 			}
 			
