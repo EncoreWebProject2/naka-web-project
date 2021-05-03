@@ -2750,9 +2750,7 @@ hr {
     color: #fff;
     font-size: 19px;
 }
-.single-location:hover .location-img img {
-    transform: scale(1.1);
-}
+
 .popular-directorya-area .properties {
     margin: 0 15px;
 }

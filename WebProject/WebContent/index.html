@@ -162,9 +162,23 @@
 			font-weight: bold;			
 		}
 		
-		.single-location:hover .location-img img{transform:scale(1.3)}
 		
-		.recruit-hover{transform:scale(10.0);}
+		
+		.scrap-button svg {
+		background-image: url(assets/img/elements/heart-regular.svg);
+		width:18px; height:18px;
+		object-fit: cover;
+		float: left;
+		
+		}
+
+		.scrap-button svg:hover{
+		background-image: url(assets/img/elements/heart-solid.svg);
+		
+		}
+		
+		.recruit-hover{font-size: 1px; font-weight: normal;}
+		.recruit-mouseleave{font-weight: bold;}
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -175,16 +189,23 @@
 			arrLengthCheck();
 			
 			$('.row').on('mouseenter', '.single-location.mb-30', function() {						
-				$(this).find('img').addClass('recruit-hover'); //특정 태그 찾는 find
-				var id = $(this).find('img').attr('id');
-				$(this).find('p').html("");
-				var getBackMyJSON = $(this).find('#'+id).data('info');
-				console.log(getBackMyJSON);
+				$(this).find('p').addClass('recruit-hover');
+				var id = $(this).find('img').attr('id');			
+				var recruitInfo = $(this).find('#'+id).data('info');
+				var str = "직무 : "+ recruitInfo.position +"<br> 채용유형 : "+recruitInfo.job_type +"<br>학력 : "+recruitInfo.education+"<br>기술스택 : "+recruitInfo.tech;
+				$(this).find('p').html(str);
+				
+				console.log(recruitInfo);
 				
 				
 			});
 			$('.row').on('mouseleave', '.single-location.mb-30', function() {						
-				$(this).find('img').removeClass('recruit-hover'); //특정 태그 찾는 find
+				$(this).find('p').removeClass('recruit-hover'); //특정 태그 찾는 find
+				var id = $(this).find('img').attr('id');			
+				var recruitInfo = $(this).find('#'+id).data('info');
+				var title = recruitInfo.title;
+				if(title.length>24) title = title.substr(0,24)+"....";	
+				$(this).find('p').html(title);
 			});
 			
 			
@@ -332,7 +353,7 @@
 							if(title.length>24) title = title.substr(0,24)+"....";							
 							var str = '<div class="col-lg-3 col-md-6 col-sm-6"><div class="single-location mb-30" name ="recruit"><div class="location-img">'+
 							'<img id="'+jsonObject[key].r_id+'" src="assets/img/logo/'+co_ids[jsonObject[key].c_id]+'" alt=""></div><div class="location-details"><p class="title">'+title+'</p>'+
-	                        '<button class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">비교함 추가</button><a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>'+
+	                        '<button class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">비교함 추가</button> <div class="scrap-button" style="float: left; margin: 10px;"><svg></svg></div>'+
 	                        '</div></div></div>';
 							$("#recruit_container div.row").append(str);
 							
