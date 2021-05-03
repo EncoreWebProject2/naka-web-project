@@ -94,5 +94,25 @@ public class UserDAOImpl implements UserDAO {
 		}
 		
 	}
+	
+	public boolean isExist(String id) throws SQLException {
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String query = "SELECT u_id FROM user WHERE u_id=?";
+			ps = conn.prepareStatement(query);
+			ps.setString(1, id);
+			
+			rs = ps.executeQuery();
+			
+			return rs.next();
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+	}	
 
 }

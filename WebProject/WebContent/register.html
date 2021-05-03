@@ -1,0 +1,248 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>DirectoryListing</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/slicknav.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/hamburgers.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/nice-select.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <style>
+    	.form{
+    		text-align:center;
+    		margin : auto;
+    		width: 650px;;
+    	}
+    	.select{
+    		width: 100%;
+    		color:rgb(117,117,139);
+    	}
+    	.radio{
+    		text-align: left !important;
+    		color:rgb(117,117,139);
+    	}
+    	.radio>span{
+    		margin-right: 10px;
+    		margin-left: 10px;
+    		color:rgb(117,117,139);
+    	}
+    	.submit_btn{
+    		margin-top:20px;
+    		width: 30%;
+    	}
+    	.date{
+    		color:rgb(117,117,139);
+    		font-size: 15px;
+    	}
+    	#birthday{
+    		width:89%;
+    		line-height:40px;
+    		border:none;
+    		outline:none;
+    		background:#f9f9ff;
+    		padding:0 20px;
+    		float:left;
+    		color:rgb(117,117,139);
+    	}
+    	#bir_text{
+    		line-height:40px;
+    		text-align:left;
+    		float:left;
+    		width:10%;
+    		margin-left: 1%;
+    		color:rgb(117,117,139);
+    	}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    $(function(){	
+    	$('input[name=id]').keyup(function() {
+    		$.ajax({
+       			type:'post',
+       			url:'idcheck.do?id=' + $(this).val(),/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+       			success: function(result) {
+       				console.log(result);
+       				if(result=="true"){
+       					$('#check_id').html("아이디가 중복되었습니다.");
+       	   				$( "#check_id" ).css( "color", "red" );
+       				}else{
+       					$('#check_id').html("사용가능한 아이디 입니다.");
+       	   				$( "#check_id" ).css( "color", "green" );
+       				}
+   				}//callback
+       		});//ajax
+		});
+    	
+    	$('input[name=password_check]').keyup(function() {
+    		
+   			if($(this).val() == $('input[name=password]').val()){
+   				$('#check_pass').html("비밀번호가 일치합니다.");
+   				$( "#check_pass" ).css( "color", "green" );
+   			}else{
+   				$('#check_pass').html("비밀번호가 일치하지 않습니다.");
+   				$( "#check_pass" ).css( "color", "red" );
+   			}
+   				
+		});
+   });
+    </script>
+</head>
+<body>
+    <main>
+        <!-- Hero End -->
+       <div class="section-top-border form">
+			<div class="logo">
+                 <a href="index.html"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
+             </div>
+			<form name="loginFormData" action="" method="post">
+        <div class="mt-10">
+           <input type="text" name="id" placeholder="ID"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID'" required
+              class="single-input">
+           <p id="check_id"></p>
+        </div>
+        <div class="mt-10">
+           <input type="password" name="password" placeholder="password"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'" required
+              class="single-input">
+        </div>
+        <div class="mt-10">
+           <input type="password" name="password_check" placeholder="password check"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'password check'" required
+              class="single-input">
+           <p id="check_pass"></p>
+        </div>
+        <div class="mt-10">
+           <input type="text" name="name" placeholder="name"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'name'" required
+              class="single-input">
+        </div>
+        <div class="mt-10">
+           <input type="text" name="address" placeholder="address"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'address'"
+              class="single-input">
+        </div>
+        <div class="mt-10">
+           <input type="text" name="phone" placeholder="phone number"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'phone number'"
+              class="single-input">
+        </div>
+        <div class="mt-10 radio">
+           <span>구직상태</span>
+           <span><input type="radio" name="status" value="1"> 학생</span>
+           <span><input type="radio" name="status" value="2"> 구직자</span>
+           <span><input type="radio" name="status" value="3"> 이직</span>
+        </div>
+        <div class="mt-10">
+           <input type="email" name="email" placeholder="email"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required
+              class="single-input">
+        </div>
+        <div class="mt-10">
+           <div class="default-select" id="default-select"">
+              <select class="select"  name="jobField" id="jobField" >
+              <option value="1">분야</option>
+              <option value="2">서버</option>
+              <option value="3">프론트엔드</option>
+              <option value="4">Newyork</option>
+              <option value="5">Islamabad</option>
+              </select>
+           </div>
+        </div>
+        <div class="mt-10">
+           <div class="default-select" id="default-select"">
+              <select class="select" name="education" id="education" >
+              <option value="1">최종학력</option>
+              <option value="2">고등학교 졸업</option>
+              <option value="3">대학교 졸업 예정</option>
+              <option value="4">대학교 졸업</option>
+              </select>
+           </div>
+        </div>
+        <div class="mt-10">
+           <div id="bir_text">birthday</div>
+           <input type="date" name="birthday" placeholder="birthday" id="birthday">
+        </div>
+        <div class="mt-10">
+           <input type="submit" class="genric-btn primary-border submit_btn">
+        </div>
+     </form> 
+		</div>
+    </main>
+     <footer>
+        <div class="footer-wrapper pt-30">
+            <!-- footer-bottom -->
+            <div class="footer-bottom-area">
+                <div class="container">
+                    <div class="footer-border">
+                        <div class="row d-flex justify-content-between align-items-center">
+                            <div class="col-xl-10 col-lg-9 ">
+                                <div class="footer-copy-right">
+                                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  										Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Nakala</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+      <!-- JS here -->
+
+      <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+      <!-- Jquery, Popper, Bootstrap -->
+      <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+      <script src="./assets/js/popper.min.js"></script>
+      <script src="./assets/js/bootstrap.min.js"></script>
+      <!-- Jquery Mobile Menu -->
+      <script src="./assets/js/jquery.slicknav.min.js"></script>
+
+      <!-- Jquery Slick , Owl-Carousel Plugins -->
+      <script src="./assets/js/owl.carousel.min.js"></script>
+      <script src="./assets/js/slick.min.js"></script>
+      <!-- One Page, Animated-HeadLin -->
+      <script src="./assets/js/wow.min.js"></script>
+      <script src="./assets/js/animated.headline.js"></script>
+      <script src="./assets/js/jquery.magnific-popup.js"></script>
+
+      <!-- Date Picker -->
+      <script src="./assets/js/gijgo.min.js"></script>
+      <!-- Nice-select, sticky -->
+      <script src="./assets/js/jquery.nice-select.min.js"></script>
+      <script src="./assets/js/jquery.sticky.js"></script>
+      
+      <!-- counter , waypoint,Hover Direction -->
+      <script src="./assets/js/jquery.counterup.min.js"></script>
+      <script src="./assets/js/waypoints.min.js"></script>
+      <script src="./assets/js/jquery.countdown.min.js"></script>
+      <script src="./assets/js/hover-direction-snake.min.js"></script>
+
+      <!-- contact js -->
+      <script src="./assets/js/contact.js"></script>
+      <script src="./assets/js/jquery.form.js"></script>
+      <script src="./assets/js/jquery.validate.min.js"></script>
+      <script src="./assets/js/mail-script.js"></script>
+      <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+      
+      <!-- Jquery Plugins, main Jquery -->	
+      <script src="./assets/js/plugins.js"></script>
+      <script src="./assets/js/main.js"></script>
+     
+    </body>
+</html>
