@@ -87,18 +87,29 @@ public class RankDAOImpl implements RankDAO{
 
 	@Override
 	public void refreshRank() {
-		ArrayList<RecruitVO> list = new ArrayList<>();
+		ArrayList<RecruitVO> list = new ArrayList<RecruitVO>();
+		list.add(null);
 		
 		HashMap<String,Integer> tech_map = new HashMap<String,Integer>();
+		HashMap<String,Integer> position_map = new HashMap<String,Integer>();
+		HashMap<String,Integer> job_type_map = new HashMap<String,Integer>();
 		
-		for(int i=1;list!=null;i++) {
+		for(int i=1;list.size()!=0;i++) {
 			list = RecruitDAOImpl.getInstance().getRecruits(i);			
-			for(RecruitVO vo : list)
+			for(RecruitVO vo : list) {
 				for(String s : vo.getTech().split(", ")) {
-					tech_map.put(s, tech_map.getOrDefault(s, 0)+1);
+					tech_map.put(s, tech_map.getOrDefault(s, 0)+1);	
 				}
-				System.out.println(tech_map);
+				for(String s : vo.getPosition().split(", ")) {
+					position_map.put(s, position_map.getOrDefault(s, 0)+1);
+				}
+				for(String s : vo.getJob_type().split("/")) {
+					job_type_map.put(s, job_type_map.getOrDefault(s, 0)+1);
+				}
 			}
-			//처리
 		}
+		System.out.println(tech_map);
+		System.out.println(position_map);
+		System.out.println(job_type_map);
 	}
+}
