@@ -14,6 +14,8 @@ public class ControllerFactory {
 			controller = new RecruitDetailController();
 		}else if(command.equals("recruit.do")) {
 			controller = new RecruitController();	
+		}else if(command.equals("ranking.do")) {
+			controller = new RankController();
 		}
 		return controller;
 	}
