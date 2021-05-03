@@ -14,7 +14,11 @@ public class ControllerFactory {
 			controller = new RecruitDetailController();
 		}else if(command.equals("recruit.do")) {
 			controller = new RecruitController();	
+		}else if(command.equals("login.do")) {
+			controller = new LoginController();	
+		
 		}
+		
 		return controller;
 	}
 }
