@@ -161,6 +161,10 @@
 		.location-details p{
 			font-weight: bold;			
 		}
+		
+		.single-location:hover .location-img img{transform:scale(1.3)}
+		
+		.recruit-hover{transform:scale(10.0);}
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -169,6 +173,22 @@
 		$(function () {
 			showCart();
 			arrLengthCheck();
+			
+			$('.row').on('mouseenter', '.single-location.mb-30', function() {						
+				$(this).find('img').addClass('recruit-hover'); //특정 태그 찾는 find
+				var id = $(this).find('img').attr('id');
+				$(this).find('p').html("");
+				var getBackMyJSON = $(this).find('#'+id).data('info');
+				console.log(getBackMyJSON);
+				
+				
+			});
+			$('.row').on('mouseleave', '.single-location.mb-30', function() {						
+				$(this).find('img').removeClass('recruit-hover'); //특정 태그 찾는 find
+			});
+			
+			
+			
 			
 			$("#compareBox").hide();
 			$('.cartBox').click(function () {
@@ -310,11 +330,13 @@
 						for(key in jsonObject){
 							var title = jsonObject[key].title;
 							if(title.length>24) title = title.substr(0,24)+"....";							
-							var str = '<div class="col-lg-3 col-md-6 col-sm-6"><div class="single-location mb-30"><div class="location-img">'+
+							var str = '<div class="col-lg-3 col-md-6 col-sm-6"><div class="single-location mb-30" name ="recruit"><div class="location-img">'+
 							'<img id="'+jsonObject[key].r_id+'" src="assets/img/logo/'+co_ids[jsonObject[key].c_id]+'" alt=""></div><div class="location-details"><p class="title">'+title+'</p>'+
 	                        '<button class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">비교함 추가</button><a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>'+
 	                        '</div></div></div>';
 							$("#recruit_container div.row").append(str);
+							
+							$('#'+jsonObject[key].r_id).data('info',jsonObject[key]);
 						}
 						
 						$("#recruit_container").trigger('create');
