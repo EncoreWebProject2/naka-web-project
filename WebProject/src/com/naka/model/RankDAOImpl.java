@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -108,8 +109,36 @@ public class RankDAOImpl implements RankDAO{
 				}
 			}
 		}
-		System.out.println(tech_map);
-		System.out.println(position_map);
-		System.out.println(job_type_map);
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int i = 1;
+		
+		try {
+			con = getConnection();
+			String query = "INSERT INTO ranking (id, name, value) VALUES(?,?,?)";
+			ps = con.prepareStatement(query);
+			
+			for(Entry<String, Integer> e: tech_map.entrySet()) { 
+			ps.setString(1,"t_" + i);
+			ps.setString(2, e.getKey());
+			ps.setInt(3, e.getValue());
+			}
+			for(Entry<String, Integer> e: position_map.entrySet()) { 
+				ps.setString(1,"p_" + i);
+				ps.setString(2, e.getKey());
+				ps.setInt(3, e.getValue());
+				}
+			for(Entry<String, Integer> e: job_type_map.entrySet()) { 
+				ps.setString(1,"j_" + i);
+				ps.setString(2, e.getKey());
+				ps.setInt(3, e.getValue());
+				}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeAll(rs,ps, con);
+		}
+		
 	}
 }
