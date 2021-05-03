@@ -165,5 +165,4 @@ public class RecruitDAOImpl implements RecruitDAO {
 
 		return list;
 	}
-
 }
