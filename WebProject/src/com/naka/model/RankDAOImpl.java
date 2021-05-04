@@ -80,7 +80,7 @@ public class RankDAOImpl implements RankDAO{
 		ArrayList<RankVO> list = new ArrayList<RankVO>();
 		try {
 			con = getConnection();
-			String query = "SELECT name,value FROM ranking WHERE id LIKE 't%' ORDER BY value DESC LIMIT 21;";
+			String query = "SELECT name,value FROM ranking WHERE id LIKE 't%' ORDER BY value DESC LIMIT 20;";
 			ps = con.prepareStatement(query);
 			
 			rs = ps.executeQuery();
