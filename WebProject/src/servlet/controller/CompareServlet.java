@@ -38,7 +38,6 @@ public class CompareServlet extends HttpServlet {
 		json.put("r_id", recruit.getR_id());
 		json.put("title", recruit.getTitle());
 		json.put("position",recruit.getPosition());
-		json.put("tech", recruit.getTech());
 		json.put("img", company.getLogo_img());
 		
 		if(recruit.getJob_type().equals("")) {
@@ -51,7 +50,14 @@ public class CompareServlet extends HttpServlet {
 			json.put("exp_date", "상시모집");
 		}else {
 			json.put("exp_date", recruit.getExp_date());
-		}	
+		}
+		
+		if(recruit.getTech().equals("")) {
+			json.put("tech", "상세 공고 확인");
+		}else {
+			json.put("tech", recruit.getTech());
+		}
+		
 		out.println(json);
 		
 	}

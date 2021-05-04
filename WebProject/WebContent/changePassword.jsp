@@ -115,7 +115,7 @@
 							success: function(result) {
 								if(result){
 									alert(name+"님의 비밀번호가 성공적으로 변경되었습니다.");
-									window.location.href = 'myPage.jsp'; 
+									window.location.href = 'index.jsp'; 
 								}
 								
 								
@@ -257,7 +257,7 @@
                                         </a>
                                     </li> 
                                     <li>
-                                        <a href="#" class="d-flex">
+                                        <a href="deleteAccount.jsp" class="d-flex">
                                             <p>회원 탈퇴</p>
                                         </a>
                                     </li>
