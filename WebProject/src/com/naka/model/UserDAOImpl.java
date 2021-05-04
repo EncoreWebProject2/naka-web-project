@@ -16,6 +16,8 @@ import com.naka.vo.CompanyVO;
 import com.naka.vo.RecruitVO;
 import com.naka.vo.UserVO;
 
+import servlet.controller.SHA256Util;
+
 public class UserDAOImpl implements UserDAO {
 	private static UserDAOImpl instance = new UserDAOImpl();
 	private DataSource ds;
@@ -119,10 +121,21 @@ public class UserDAOImpl implements UserDAO {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		String salt = null;
+		String o_password = password;
 		
 		try {
 			conn = getConnection();
-			String query = "SELECT u_id FROM user WHERE u_id=? AND password=?";
+			String query = "SELECT salt FROM user WHERE u_id=?";
+			ps = conn.prepareStatement(query);
+			
+			ps.setString(1, id);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) salt =  rs.getString("salt");
+			password = SHA256Util.getEncrypt(o_password, salt);
+			
+			query = "SELECT u_id FROM user WHERE u_id=? AND password=?";
 			ps = conn.prepareStatement(query);
 			ps.setString(1, id);
 			ps.setString(2, password);
@@ -141,10 +154,21 @@ public class UserDAOImpl implements UserDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		UserVO vo = null;
+		String salt = null;
+		String o_password = password;
 		
 		try {
 			conn = getConnection();
-			String query = "SELECT name, email FROM user WHERE u_id=? AND password=?";
+			String query = "SELECT salt FROM user WHERE u_id=?";
+			ps = conn.prepareStatement(query);
+			
+			ps.setString(1, id);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) salt =  rs.getString("salt");
+			password = SHA256Util.getEncrypt(o_password, salt);
+			
+			query = "SELECT name, email FROM user WHERE u_id=? AND password=?";
 			ps = conn.prepareStatement(query);
 			
 			ps.setString(1, id);
@@ -162,6 +186,7 @@ public class UserDAOImpl implements UserDAO {
 			closeAll(rs, ps, conn);
 		}
 		return vo;
+
 	}
 
 }
