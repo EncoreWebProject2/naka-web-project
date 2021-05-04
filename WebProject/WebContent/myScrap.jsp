@@ -95,12 +95,15 @@
 			
 			$('#scrap_info').on('click','.delete', function() {
 				var r_id = $(this).attr('id');
+				var index = $(this).attr('name');
+				index = parseInt(index);
 				$.ajax({
 	       			type:'post',
 	       			url:'scrapdelete.do?',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
 	       			data:'r_id=' + r_id+'&u_id=${rvo.u_id}',
 	       			success: function(result) {
-	       				refresh(clickPage);
+	       				if((index % 10 == 0) && (index != 0)) refresh(clickPage-1);
+	       				else refresh(clickPage);
 	   				}//callback
 	       		});//ajax
 			});
@@ -144,7 +147,7 @@
 	    		        html += '<div class="media-body"><a href="#"><h4>'+json.title+'</h4></a>';
 	    		        html += '<p>'+json.tech+'</p></div>';
 	    		        html += '<a href="'+json.link+'" class="genric-btn primary login-signup-button" id="supoortBtn">지원하기</a>';
-	    		        html += '<svg class="delete" id='+json.r_id+'></svg></div></div>'
+	    		        html += '<svg class="delete" id='+json.r_id+' name='+i+'></svg></div></div>'
 	   				}//callback
 	       		});//ajax
 			}
