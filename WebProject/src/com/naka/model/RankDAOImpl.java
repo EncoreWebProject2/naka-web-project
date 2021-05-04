@@ -84,14 +84,50 @@ public class RankDAOImpl implements RankDAO{
 
 	@Override
 	public ArrayList<RankVO> getPositionRank() {
-		return null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		ArrayList<RankVO> list = new ArrayList<RankVO>();
+		try {
+			con = getConnection();
+			String query = "SELECT name,value FROM ranking WHERE id LIKE 'p%' ORDER BY value DESC LIMIT 10;";
+			ps = con.prepareStatement(query);
+			while(rs.next()) {
+				list.add(new RankVO(rs.getString("name"),rs.getInt("value")));
+			}
+			
+		}catch(Exception e) {
+			
+		}finally {
+			closeAll(rs, ps, con);
+		}
+		return list;
 	}
 
 	@Override
 	public ArrayList<RankVO> getTypeRate() {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		ArrayList<RankVO> list = new ArrayList<RankVO>();
+		try {
+			con = getConnection();
+			String query = "SELECT name,value FROM ranking WHERE id LIKE 'j%' ORDER BY value;";
+			ps = con.prepareStatement(query);
+			while(rs.next()) {
+				list.add(new RankVO(rs.getString("name"),rs.getInt("value")));
+			}
+			
+		}catch(Exception e) {
+			
+		}finally {
+			closeAll(rs, ps, con);
+		}
+		return list;
 	}
+	
 
 	@Override
 	public void refreshRank() {
