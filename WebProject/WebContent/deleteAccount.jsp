@@ -39,19 +39,72 @@
 		#logoutHeader{
 			color: rgb(112, 48, 160) !important;
 			z-index: 2;
-		}		
+		}
+		
+		.blog_item{
+			text-align: center;
+		}
+		
+		#for-deleteAccount{
+			text-align: left;
+		}	
+			
 		a, button {
 		    color: rgb(112, 48, 160);
 		    outline: medium none;
 		}
 		
-		.table-name{
-    		width: 80px;
+		.login-signup-button{
+			margin-top:20px;
+    		width: 30%;
+			background: #aa67ff !important;
+			color: #fff !important;
+			text-align: center;
+			border: solid #aa67ff !important;
+			font-size: 15px;
 		}
+		
+		.login-signup-button:hover {
+		    margin-top:20px;
+    		width: 30%;
+		    background: #fff !important;
+		    cursor: pointer;
+		    color: #aa67ff !important;
+		    border: solid #aa67ff !important;
+		    font-size: 15px;
+		}
+		
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
+	$(function(){	
+		$('input[name=password_check]').keyup(function() {
+			
+				if($(this).val() == $('input[name=password]').val()){
+					$('#check_pass').html("비밀번호가 일치합니다.");
+					$( "#check_pass" ).css( "color", "green" );
+				}else{
+					$('#check_pass').html("비밀번호가 일치하지 않습니다.");
+					$( "#check_pass" ).css( "color", "red" );
+				}
+					
+		});
+		
+		$("form").submit(function(){	    
 	
+		    $.ajax({
+				type: "post",
+				url: "deleteAccount.do",
+				data: "id="+'<%=rvo.getU_id() %>'+"&password="+$('#password').val(),
+				success: function(result) {
+					alert("탈퇴가 성공적으로 완료되었습니다.");
+					window.location.href = 'index.jsp'; 
+					
+				}
+			});	
+			
+		});
+	});
 	
 	</script>
 
@@ -81,7 +134,7 @@
                         </div>
 						<div id="logoutHeader">
 							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getU_id() %>님</a>
+							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>님</a>
 						</div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
@@ -115,65 +168,30 @@
                 <div class="row">
                     <div class="col-lg-8 mb-5 mb-lg-0">
                         <div class="blog_left_sidebar">
-                            <article class="blog_item">
+                            <form class="blog_item">
                                 <div class="blog_details">
-                                        <h2 class="blog-head" style="color: #2d2d2d;">회원 정보</h2><br>
-                                   <table>
-							            <tr>
-							                <td id="title" class="table-name" >아이디</td>
-							                <td><%=rvo.getU_id() %></td>
-							            </tr>
-							                    
-							            <tr>
-							                <td id="title" class="table-name" >이름</td>
-							                <td><%=rvo.getName() %></td>
-							            </tr>
-							            <tr>
-							                <td id="title" class="table-name" >주소</td>
-							                <td>
-							                    <%=rvo.getAddress() %>
-							                </td>
-							            </tr>   
-							            <tr>
-							                <td id="title" class="table-name" >휴대전화</td>
-							                <td><%=rvo.getPhone() %></td>
-							            </tr>
-							            <tr>
-							                <td id="title" class="table-name" >구직상태</td>
-							                <td><%=rvo.getStatus() %></td>
-							            </tr>   
-							            <tr>
-							                <td id="title" class="table-name" >이메일</td>
-							                <td>
-							                    <%=rvo.getEmail() %>
-							                </td>
-							            </tr>
-							            <tr>
-							                <td id="title" class="table-name" >분야</td>
-							                <td>
-							                    <%=rvo.getJob_field() %>
-							                </td>
-							            </tr>    
-							            <tr>
-							                <td id="title" class="table-name" >최종학력</td>
-							                <td>
-							                    <%=rvo.getEducation() %>
-							                </td>
-							            </tr>           
-							            <tr>
-							                <td id="title" class="table-name" >생일</td>
-							                <td>
-							                    <%=rvo.getBirth_day() %>
-							                </td>
-							            </tr>
-							                    
-							            
-							                    
-							            
-							            
-							        </table>
+                                    <a class="d-inline-block" href="blog_details.html">
+                                        <h2 class="blog-head" style="color: #2d2d2d;">회원 탈퇴</h2>
+                                    </a>
+                                <div class="mt-10" >
+						           <p class="single-input" id="for-deleteAccount" ><%=rvo.getU_id() %></p>
+						        </div>
+						        <div class="mt-10">
+						           <input type="password" name="password" id="password" placeholder="password"
+						              onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'" required
+						              class="single-input">
+						        </div>
+						        <div class="mt-10">
+						           <input type="password" name="password_check" placeholder="password check"
+						              onfocus="this.placeholder = ''" onblur="this.placeholder = 'password check'" required
+						              class="single-input">
+						           <p id="check_pass"></p>
+						        </div>
+						        <div class="mt-10">
+          							 <input type="submit" class="genric-btn primary-border submit_btn login-signup-button" value="탈퇴">
+       						    </div>
                                 </div>
-                            </article>
+                            </form>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -191,7 +209,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="changePassword.jsp" class="d-flex">
+                                        <a href="#" class="d-flex">
                                             <p>비밀번호 수정</p>
                                         </a>
                                     </li> 

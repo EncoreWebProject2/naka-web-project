@@ -67,6 +67,27 @@
     		margin-left: 1%;
     		color:rgb(117,117,139);
     	}
+    	
+    	.login-signup-button{
+			margin-top:20px;
+    		width: 30%;
+		    background: #fff !important;
+		    cursor: pointer;
+		    color: #aa67ff !important;
+		    border: solid #aa67ff !important;
+		    border-width: 1px;
+		    font-size: 15px;
+		}
+		
+		.login-signup-button:hover {
+		    margin-top:20px;
+    		width: 30%;
+			background: #aa67ff !important;
+			color: #fff !important;
+			text-align: center;
+			border: solid #aa67ff !important;
+			font-size: 15px;
+		}
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
@@ -107,13 +128,15 @@
 				type: "post",
 				url: "register.do",
 				data: queryString,
-			    dataType: "json",
 			    encode: true,
 				success: function(result) {
 					console.log("result: "+result);
 					alert(result+"님 회원가입이 성공적으로 완료되었습니다.");
-					window.location.href = 'login.html'; 
+					window.location.href = 'login.jsp'; 
 					
+				},
+				error: function(err){
+					alert("error");
 				}
 			});	
 			
@@ -126,7 +149,7 @@
         <!-- Hero End -->
        <div class="section-top-border form">
 			<div class="logo">
-                 <a href="index.html"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
+                 <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
              </div>
 			<form name="loginFormData" action="" method="post">
         <div class="mt-10">
@@ -198,7 +221,7 @@
            <input type="date" name="birthday" placeholder="birthday" id="birthday">
         </div>
         <div class="mt-10">
-           <input type="submit" class="genric-btn primary-border submit_btn">
+           <input type="submit" class="genric-btn primary-border submit_btn login-signup-button">
         </div>
      </form> 
 		</div>

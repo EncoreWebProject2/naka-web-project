@@ -45,13 +45,91 @@
 		    outline: medium none;
 		}
 		
-		.table-name{
-    		width: 80px;
+		.blog_details div p {
+    		margin-bottom: 0px;
 		}
+		.table-name{
+			vertical-align: top;
+    		padding-top: 5px;
+    		margin-right: 10px;
+		}
+		
+		.login-signup-button{
+			margin-top:20px;
+    		width: 30%;
+			background: #aa67ff !important;
+			color: #fff !important;
+			text-align: center;
+			border: solid #aa67ff !important;
+			font-size: 15px;
+		}
+		
+		.login-signup-button:hover {
+		    margin-top:20px;
+    		width: 30%;
+		    background: #fff !important;
+		    cursor: pointer;
+		    color: #aa67ff !important;
+		    border: solid #aa67ff !important;
+		    font-size: 15px;
+		}
+		
+		table {
+			border-collapse: separate;
+			border-spacing: 0 10px;
+		}
+		
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
-	
+	 $(function(){	
+		 $('input[name=newPasswordConfirm]').keyup(function() {
+	    		
+	   			if($(this).val() == $('input[name=newPassword]').val()){
+	   				$('#check_pass').html("비밀번호가 일치합니다.");
+	   				$( "#check_pass" ).css( "color", "green" );
+	   			}else{
+	   				$('#check_pass').html("비밀번호가 일치하지 않습니다.");
+	   				$( "#check_pass" ).css( "color", "red" );
+	   			}
+	   				
+			});
+		
+	 });
+	 
+	 function changePass(){
+		 var queryString = $("form[name=changePassword]").serialize();
+		 var name = $('#name').val();
+		 $.ajax({
+				type: "post",
+				url: "checkPassword.do",
+				data: "id="+$('#id').val()+"&password="+$('#password').val(),
+			    encode: true,
+				success: function(result) {
+					if(result){
+						$.ajax({
+							type: "post",
+							url: "changePassword.do",
+							data: queryString,
+						    encode: true,
+							success: function(result) {
+								if(result){
+									alert(name+"님의 비밀번호가 성공적으로 변경되었습니다.");
+									window.location.href = 'index.jsp'; 
+								}
+								
+								
+							}
+						});	
+						
+					}else{
+						alert("비밀번호가 틀렸습니다.");
+						
+					}		
+				}
+			});	
+		    
+	 }
 	
 	</script>
 
@@ -117,61 +195,44 @@
                         <div class="blog_left_sidebar">
                             <article class="blog_item">
                                 <div class="blog_details">
-                                        <h2 class="blog-head" style="color: #2d2d2d;">회원 정보</h2><br>
+                                    <a class="d-inline-block" href="blog_details.html">
+                                        <h2 class="blog-head" style="color: #2d2d2d;">비밀번호 수정</h2>
+                                    </a>
+                                    <form name="changePassword" action="" method="post">
                                    <table>
 							            <tr>
-							                <td id="title" class="table-name" >아이디</td>
-							                <td><%=rvo.getU_id() %></td>
-							            </tr>
-							                    
-							            <tr>
-							                <td id="title" class="table-name" >이름</td>
-							                <td><%=rvo.getName() %></td>
-							            </tr>
-							            <tr>
-							                <td id="title" class="table-name" >주소</td>
+							                <td class="table-name" id="title" style="vertical-align:top">현재 비밀번호</td>
 							                <td>
-							                    <%=rvo.getAddress() %>
-							                </td>
-							            </tr>   
-							            <tr>
-							                <td id="title" class="table-name" >휴대전화</td>
-							                <td><%=rvo.getPhone() %></td>
-							            </tr>
-							            <tr>
-							                <td id="title" class="table-name" >구직상태</td>
-							                <td><%=rvo.getStatus() %></td>
-							            </tr>   
-							            <tr>
-							                <td id="title" class="table-name" >이메일</td>
-							                <td>
-							                    <%=rvo.getEmail() %>
+							                	<div>
+							                		<p><input type="password" id="oldPassword" name="oldPassword"></p>
+							                		<p><input type="hidden" name="id" id="id" value="<%=rvo.getU_id() %>"></p>
+							                		<p><input type="hidden" name="name" id="name" value="<%=rvo.getName() %>"></p>
+							                	</div>
 							                </td>
 							            </tr>
 							            <tr>
-							                <td id="title" class="table-name" >분야</td>
+							                <td class="table-name" id="title">새로운 비밀번호</td>
 							                <td>
-							                    <%=rvo.getJob_field() %>
-							                </td>
-							            </tr>    
-							            <tr>
-							                <td id="title" class="table-name" >최종학력</td>
-							                <td>
-							                    <%=rvo.getEducation() %>
-							                </td>
-							            </tr>           
-							            <tr>
-							                <td id="title" class="table-name" >생일</td>
-							                <td>
-							                    <%=rvo.getBirth_day() %>
+							                	<div>
+							                		<p><input type="password" id="newPassword" name="newPassword"></p>
+							                	</div>
 							                </td>
 							            </tr>
-							                    
-							            
-							                    
-							            
-							            
+							            <tr>
+							                <td class="table-name" id="title">비밀번호 확인</td>
+							                <td>
+							                	<div>
+							                		<p><input type="password" name="newPasswordConfirm"></p>
+							                		<p id="check_pass"></p>
+							                	</div>
+							                </td>
+							            </tr>   		         
 							        </table>
+							        <div class="mt-10">
+							        <br>
+							           <input type="button" class="genric-btn primary-border submit_btn login-signup-button" onclick="changePass();" value="비밀변호 변경">
+							        </div>
+    							 </form> 
                                 </div>
                             </article>
                         </div>

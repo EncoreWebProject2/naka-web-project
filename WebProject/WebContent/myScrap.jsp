@@ -25,6 +25,23 @@
 	<link rel="stylesheet" href="assets/css/nice-select.css">
 	<link rel="stylesheet" href="assets/css/style.css">
 	<style>
+		.login-signup-button{
+	        margin-top:20px;
+	        background: #aa67ff !important;
+	        color: #fff !important;
+	        text-align: center;
+	        border: solid #aa67ff !important;
+	        font-size: 15px;
+	     }
+	     
+	     .login-signup-button:hover {
+	         margin-top:20px;
+	         background: #fff !important;
+	         cursor: pointer;
+	         color: #aa67ff !important;
+	         border: solid #aa67ff !important;
+	         font-size: 15px;
+	     }
 		.blog-author{
 			margin: 0 auto;
 			margin-top:10px !important;
@@ -59,6 +76,13 @@
 			line-height: 30px !important;
 			font-size: .9em  !important;
 			margin-left: 2px;
+			border: solid #aa67ff !important;
+			color: #aa67ff !important;
+		}
+		.pageBtn:hover{
+			background: #aa67ff !important;
+			border: solid #aa67ff !important;
+			color: #fff !important;
 		}
 		#supoortBtn:hover{
 			color: #170B3B !important;
@@ -76,38 +100,39 @@
 	       			url:'scrapdelete.do?',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
 	       			data:'r_id=' + r_id+'&u_id=${rvo.u_id}',
 	       			success: function(result) {
-	       				refresh(0);
+	       				refresh(clickPage);
 	   				}//callback
 	       		});//ajax
 			});
 		});
 
 		function refresh(index) {
+			clickPage = index;
 			var scrapList = [];
 			scrapList = scrap('${rvo.u_id}');
 			if(scrap_list[0] == 0){
 				$('#scrap_info').html("<p align='center'>스크랩이 존재하지 않습니다.</p>");
+				$('.pageBtn').remove();
 				return;
 			}
 			var len = scrapList.length-1;
-			len /= 10;
-			len += 1;
-			len = parseInt(len);
-			
+			pageNum = len / 10;
+			pageNum++;
+			pageNum = parseInt(pageNum);
+			if(len % 10 == 0) pageNum--;
 			var html2 = "";
-			for(var i=0;i<len;i++){
+			for(var i=0;i<pageNum;i++){
 				html2 += '<a href="#" class="genric-btn primary-border pageBtn" onclick="refresh('+i+')">'+(i+1)+'</a>'
 			}
 			
 			$('.indexing').html(html2);
 			
-			len1 = scrapList.length-1;
-			if(((scrapList.length-1)-(index*10)) > 10){
+			if((len-(index*10)) > 10){
 				len1 = 10;
 			}
 			
 			html = "";
-			for(var i=(index*10);i<len1;i++){
+			for(var i=(index*10);i<len;i++){
 				$.ajax({
 	       			type:'post',
 	       			url:'scrapRecruit.do?id='+scrap_list[i],
@@ -118,7 +143,7 @@
 	    		        html += '<img src="'+ json.logo_img +'" alt="">';
 	    		        html += '<div class="media-body"><a href="#"><h4>'+json.title+'</h4></a>';
 	    		        html += '<p>'+json.tech+'</p></div>';
-	    		        html += '<a href="'+json.link+'" class="genric-btn primary" id="supoortBtn">지원하기</a>';
+	    		        html += '<a href="'+json.link+'" class="genric-btn primary login-signup-button" id="supoortBtn">지원하기</a>';
 	    		        html += '<svg class="delete" id='+json.r_id+'></svg></div></div>'
 	   				}//callback
 	       		});//ajax
