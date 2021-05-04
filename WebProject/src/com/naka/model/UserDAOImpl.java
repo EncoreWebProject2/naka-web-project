@@ -63,11 +63,10 @@ public class UserDAOImpl implements UserDAO {
 
 		
 	public void register(UserVO vo) throws SQLException, ParseException{
-		
-		int result = 0;
-		
-		Date utilDate = new SimpleDateFormat("YYYY-mm-dd").parse(vo.getBirth_day());
+				
+		Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(vo.getBirth_day());
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); 
+		//System.out.println("utilDate: "+utilDate);
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try{
@@ -87,8 +86,8 @@ public class UserDAOImpl implements UserDAO {
 			ps.setDate(10,  sqlDate);
 			ps.setString(11, vo.getScrap());
 			ps.setString(12, vo.getSalt());
-			
-			result = ps.executeUpdate();
+
+			System.out.println(ps.executeUpdate()+"row가 삽입되었다.");
 		}finally{
 			closeAll(ps, conn);
 		}

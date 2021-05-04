@@ -99,6 +99,25 @@
    			}
    				
 		});
+    	
+    	$("form").submit(function(){
+		    var queryString = $("form[name=loginFormData]").serialize() ;
+
+		    $.ajax({
+				type: "post",
+				url: "register.do",
+				data: queryString,
+			    dataType: "json",
+			    encode: true,
+				success: function(result) {
+					console.log("result: "+result);
+					alert(result+"님 회원가입이 성공적으로 완료되었습니다.");
+					window.location.href = 'login.html'; 
+					
+				}
+			});	
+			
+		});
    });
     </script>
 </head>
