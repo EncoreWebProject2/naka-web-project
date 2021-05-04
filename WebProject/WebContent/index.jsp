@@ -254,7 +254,7 @@
       		var output = localStorage.getItem('compareStorage');
 			arr = JSON.parse(output);
 			if(arr.length !=null  && arr.length > 1){
-				window.open('compare.html', '_blank');
+				window.open('compare.jsp', '_blank');
 			}else{
 				alert("공고를 2개 이상 비교함에 넣어주세요.");
 			}
@@ -397,15 +397,16 @@
                                 </ul>
                             </nav>
                         </div>          
-                 
+               			<div class="header-btns d-none d-lg-block f-right">
                         <%if(rvo == null) {%>
-                            <a href="login.jsp" class="mr-40"> Log in</a>
-                            <a href="register.html" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;Sign up</a>
+                            <a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
+                            <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
                         <%}else{ %>	
 							<!-- 로그인 이후 화면 -->
 							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getU_id() %>님</a>
+							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>님</a>
 						<%} %>
+						</div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
