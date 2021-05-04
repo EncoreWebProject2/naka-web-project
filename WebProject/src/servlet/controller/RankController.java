@@ -13,11 +13,12 @@ public class RankController implements Controller{
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String command = request.getParameter("rank_command");
 		String path = null;
-//		if(command.equals("refresh")) {
-			RankDAOImpl.getInstance().refreshRank();
-//		}
-//		else
-//			path = "ranking.jsp";
+		if(command.equals("tech")) {
+			//RankDAOImpl.getInstance().refreshRank();
+		RankDAOImpl.getInstance().getTechRank();
+		}
+		else
+			path = "ranking.jsp";
 		return path;	
 	}
 	

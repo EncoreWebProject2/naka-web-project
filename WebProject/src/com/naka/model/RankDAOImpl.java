@@ -6,21 +6,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+
 import com.naka.vo.RankVO;
 import com.naka.vo.RecruitVO;
+
 
 public class RankDAOImpl implements RankDAO{
 	private static RankDAOImpl instance = new RankDAOImpl();
 	private DataSource ds;
 	
 	public RankDAOImpl() {
+//		try {
+//			Class.forName(ServerInfo.DRIVER_NAME);
+//			System.out.println("드라이버 로딩 성공...");
+//			
+//		}catch(ClassNotFoundException e) {
+//			System.out.println("드라이버 로딩 실패...");
+//		}
 		try {
 			InitialContext ic = new InitialContext();
 			ds = (DataSource)ic.lookup("java:comp/env/jdbc/mysql");
@@ -33,11 +40,16 @@ public class RankDAOImpl implements RankDAO{
 		return instance;
 	}
 	
-	@Override
-	public Connection getConnection() throws SQLException {
-		return ds.getConnection();
-	}
-
+	
+	  @Override 
+	  public Connection getConnection() throws SQLException { 
+		  return ds.getConnection();
+	  }
+	 
+//	public Connection getConnection() throws SQLException {		
+//		System.out.println("디비연결 성공....");
+//		return DriverManager.getConnection(ServerInfo.URL,ServerInfo.USER, ServerInfo.PASS);
+//	}
 	@Override
 	public void closeAll(PreparedStatement ps, Connection con) {
 		try {
@@ -70,9 +82,20 @@ public class RankDAOImpl implements RankDAO{
 			con = getConnection();
 			String query = "SELECT name,value FROM ranking WHERE id LIKE 't%' ORDER BY value DESC LIMIT 21;";
 			ps = con.prepareStatement(query);
+			
+			rs = ps.executeQuery();
 			while(rs.next()) {
-				list.add(new RankVO(rs.getString("name"),rs.getInt("value")));
-			}
+				if (rs.getString("name")!="") {
+					list.add(new RankVO(rs.getString("name"),rs.getInt("value")));
+					
+				}
+				else {
+					
+					continue;
+					}
+				}
+				
+			
 			
 		}catch(Exception e) {
 			
@@ -93,6 +116,8 @@ public class RankDAOImpl implements RankDAO{
 			con = getConnection();
 			String query = "SELECT name,value FROM ranking WHERE id LIKE 'p%' ORDER BY value DESC LIMIT 10;";
 			ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+			
 			while(rs.next()) {
 				list.add(new RankVO(rs.getString("name"),rs.getInt("value")));
 			}
@@ -116,6 +141,7 @@ public class RankDAOImpl implements RankDAO{
 			con = getConnection();
 			String query = "SELECT name,value FROM ranking WHERE id LIKE 'j%' ORDER BY value;";
 			ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
 			while(rs.next()) {
 				list.add(new RankVO(rs.getString("name"),rs.getInt("value")));
 			}
@@ -192,4 +218,12 @@ public class RankDAOImpl implements RankDAO{
 		}
 		
 	}
+//	public static void main(String[] args) throws Exception {
+//		RankDAOImpl dao = new RankDAOImpl();
+//		ArrayList<RankVO> list1 = dao.getTechRank();
+//		ArrayList<RankVO> list2 = dao.getPositionRank();
+//		ArrayList<RankVO> list3 = dao.getTypeRate();
+//		for(RankVO vo : list3) System.out.println(vo);
+//		
+//	}
 }
