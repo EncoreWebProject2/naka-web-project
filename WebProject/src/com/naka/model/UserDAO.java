@@ -22,4 +22,6 @@ public interface UserDAO {
 	public void addScrap(String id, int r_id) throws SQLException;
 	public String getScrap(String id) throws SQLException;
 	public void deleteScrap(String id, int r_id) throws SQLException;
+	UserVO login(String id, String password) throws SQLException;
+	public boolean passcheck(String id, String password) throws SQLException;
 }

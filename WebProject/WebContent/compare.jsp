@@ -1,3 +1,7 @@
+<%@page import="com.naka.vo.UserVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% UserVO rvo = (UserVO)session.getAttribute("rvo"); %>
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -214,10 +218,6 @@
     align-items: center;  
 	
 }
-
-
-
-
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript">
@@ -233,7 +233,7 @@
 	            }
 	      		if(arr.length !=null  && arr.length > 2){
 	      			var idx = $(this).attr('id');
-		            for(var i=0; i<arr.length; i++){
+			        for(var i=0; i<arr.length; i++){
 		            	if(arr[i].r_id == idx){
 		            		arr.splice(i, 1);
 		            	}
@@ -250,22 +250,24 @@
 			});
 		
 			$('#compare-table').on('click','.scrap-button', function() {
-				var uid = '<%=(UserVO)session.getAttribute("rvo")%>'
 				
-				console.log(uid);
-				if(uid == null){
+				var r_vo = '${rvo}';
+				var u_id = '${rvo.u_id}';
+				
+				if(u_id == ""){
+					alert("로그인이 필요한 서비스 입니다.");
 					return;
 				}
 				
 				var r_id = $(this).attr('id');
-				
 				var s = $('#'+ r_id + " svg").attr('id');
 				if(s == "svg1"){
 					$('#' + r_id +' svg').css("background-image", "url(assets/img/elements/heart-solid.svg)");
 					$('#'+ r_id + " svg").attr('id','svg2');
 					$.ajax({
 		       			type:'post',
-		       			url:'scrapadd.do?r_id=' + r_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			url:'scrapadd.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			data:'r_id=' + r_id+'&u_id='+u_id,
 		       			success: function(result) {
 		   				}//callback
 		       		});//ajax
@@ -274,7 +276,8 @@
 					$('#'+ r_id + " svg").attr('id','svg1');
 					$.ajax({
 		       			type:'post',
-		       			url:'scrapdelete.do?r_id=' + r_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			url:'scrapdelete.do?',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			data:'r_id=' + r_id+'&u_id='+u_id,
 		       			success: function(result) {
 		   				}//callback
 		       		});//ajax
@@ -286,11 +289,11 @@
 		
 
       	var scrap_list = [];
-		function scrap(){
+		function scrap(u_id){
 
 			$.ajax({
        			type:'post',
-       			url:'scrap.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+       			url:'scrap.do?u_id='+u_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
        			async: false,
        			success: function(result) {
        				str = result.split(",");
@@ -306,7 +309,13 @@
 			var compare_list = JSON.parse(output);
 			var str="";
 			var scrapList = [];
-			scrapList = scrap();
+			var r_vo = '${rvo}';
+			var u_id = '${rvo.u_id}';
+			
+			if(u_id != ""){
+				scrapList = scrap(u_id);
+			}
+			
 			for(key in compare_list){
 				var src;
 				var svg;
@@ -355,7 +364,7 @@
                     <div class="menu-wrapper d-flex align-items-center justify-content-between">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                            <a href="index.jsp"><img src="assets/img/logo/logo.png" alt=""></a>
                         </div>
                         <!-- Main-menu -->
                         <div class="main-menu f-right d-none d-lg-block">
@@ -382,8 +391,14 @@
                         </div>          
                         <!-- Header-btn -->
                         <div class="header-btns d-none d-lg-block f-right">
-                            <a href="#" class="mr-40"><i class="ti-user"></i> Log in</a>
-                            <a href="#" class="btn">Add Listing</a>
+                        <%if(rvo == null){ %>
+                        	<a href="#" class="mr-40">&nbsp;&nbsp;Sign up</a>
+                            <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
+                       	<%}else{ %>
+							<!-- 로그인 이후 화면 -->
+							<a href="logout.do" class="mr-40"> Log out</a>
+							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getU_id() %>님</a>
+						<%} %>
                         </div>
                         <!-- Mobile Menu -->
                         <div class="col-12">

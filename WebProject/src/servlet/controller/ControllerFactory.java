@@ -24,9 +24,15 @@ public class ControllerFactory {
 			controller = new ScrapController();	
 		}else if(command.equals("scrapdelete.do")) {
 			controller = new ScrapDeleteController();	
+		}else if(command.equals("login.do")) {
+			controller = new LoginController();	
+		}else if(command.equals("passcheck.do")) {
+			controller = new PassCheckController();	
+		}else if(command.equals("logout.do")) {
+			controller = new LogoutController();	
 		}
-		
 		
 		return controller;
 	}
 }
+
