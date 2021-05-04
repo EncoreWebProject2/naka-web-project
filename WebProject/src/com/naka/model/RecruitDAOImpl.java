@@ -13,6 +13,7 @@ import com.naka.vo.CompanyVO;
 import com.naka.vo.RecruitVO;
 
 public class RecruitDAOImpl implements RecruitDAO {
+	private int totalCount=0;
 	private static RecruitDAOImpl instance = new RecruitDAOImpl();
 	private DataSource ds;
 	
@@ -20,6 +21,7 @@ public class RecruitDAOImpl implements RecruitDAO {
 		try {
 			InitialContext ic = new InitialContext();
 			ds = (DataSource)ic.lookup("java:comp/env/jdbc/mysql");
+			setTotalCount();
 		} catch (Exception e) {
 			System.err.println("Datasource create Error");
 		}
@@ -66,9 +68,9 @@ public class RecruitDAOImpl implements RecruitDAO {
 		ArrayList<RecruitVO> list = new ArrayList<RecruitVO>();
 		try {
 			con = getConnection();
-			String query = "select R.* from (select * from recruit) R limit ? offset ?";
+			String query = "select R.* from (select * from recruit) R limit ? , ?";
 			ps = con.prepareStatement(query);
-			ps.setInt(1, 4*4);
+			ps.setInt(1, 4*4*(pageNumber-1));
 			ps.setInt(2, 4*4*pageNumber);
 			
 			rs = ps.executeQuery();
@@ -85,6 +87,78 @@ public class RecruitDAOImpl implements RecruitDAO {
 		
 		return list;
 	}
+	
+	private void setTotalCount() {
+		Connection con =null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		ArrayList<RecruitVO> list = new ArrayList<RecruitVO>();
+		try {
+			con = getConnection();
+			String query = "select count(*) from recruit";
+			ps = con.prepareStatement(query);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				this.totalCount=rs.getInt(1);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeAll(rs,ps, con);
+		}
+	}
+	
+	@Override
+	public int getTotalCount() {
+		return totalCount;
+	}
+	
+	@Override
+	public int getSearchCount(String position, String job_type, String education, String keyword,String scrap) {
+		Connection con =null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String[][] inputs = new String[][] {{"position",position},{"job_type",job_type},{"education",education},{"title",keyword}};
+		
+		ArrayList<RecruitVO> list = new ArrayList<RecruitVO>();
+		try {
+			con = getConnection();
+			String query = "select count(*) from recruit ";
+			boolean flag=false;
+			for(int i=0;i<4;i++) {
+				if(inputs[i][1]!=null&&!inputs[i][1].equals("")) {
+					if(!flag) {
+						query+="where ";
+						flag=true;
+					}
+					else {
+						query+="and ";
+					}
+					query+=inputs[i][0]+" like '%"+inputs[i][1]+"%' ";
+				}
+			}
+			
+			if(scrap!=null&&!scrap.equals("")) {
+				if(!flag) query+="where ";
+				query+= "scrap in (";
+				String[] s = scrap.split(",");
+				for(int i=0;i<s.length;i++) {
+					query+= "'"+s[i]+(i!=s.length-1?"',":"')");
+				}
+			}
+			ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return 0;	
+	}
 
 	@Override
 	public RecruitVO getRecruit(int r_id) {
@@ -100,7 +174,6 @@ public class RecruitDAOImpl implements RecruitDAO {
 			
 			ps.setInt(1, r_id);			
 			rs = ps.executeQuery();
-			System.out.println("ok");
 			if(rs.next()) {
 				vo =new RecruitVO(rs.getInt("r_id"), rs.getString("position"), rs.getString("tech"),
 						rs.getString("job_type"), rs.getString("education"), rs.getString("img"), rs.getString("link"), 
@@ -130,7 +203,6 @@ public class RecruitDAOImpl implements RecruitDAO {
 			
 			ps.setInt(1, c_id);			
 			rs = ps.executeQuery();
-			System.out.println("company ok");
 			if(rs.next()) {
 				vo =new CompanyVO(rs.getInt("c_id"),rs.getString("company_name"),rs.getString("logo_img"));					
 			}
@@ -150,12 +222,48 @@ public class RecruitDAOImpl implements RecruitDAO {
 		Connection con =null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		String[][] inputs = new String[][] {{"position",position},{"job_type",job_type},{"education",education},{"title",keyword}};
 		
 		ArrayList<RecruitVO> list = new ArrayList<RecruitVO>();
 		try {
 			con = getConnection();
-			String query = "select R.* from (select * from recruit where position=? and job_type=? and education = ? and r_id in (?) ) R limit 0,10";
+			String query = "select R.* from (select * from recruit ";
+			boolean flag=false;
+			for(int i=0;i<4;i++) {
+				if(inputs[i][1]!=null&&!inputs[i][1].equals("")) {
+					if(!flag) {
+						query+="where ";
+						flag=true;
+					}
+					else {
+						query+="and ";
+					}
+					query+=inputs[i][0]+" like '%"+inputs[i][1]+"%' ";
+				}
+			}
+			
+			if(scrap!=null&&!scrap.equals("")) {
+				if(!flag) query+="where ";
+				query+= "scrap in (";
+				String[] s = scrap.split(",");
+				for(int i=0;i<s.length;i++) {
+					query+= "'"+s[i]+(i!=s.length-1?"',":"')");
+				}
+			}
+			
+			
+			query+=")R limit ?,?";
+			
 			ps = con.prepareStatement(query);
+			ps.setInt(1, 4*4*(pageNumber-1));
+			ps.setInt(2, 4*4*pageNumber);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new RecruitVO(rs.getInt("r_id"), rs.getString("position"), rs.getString("tech"),
+						rs.getString("job_type"), rs.getString("education"), rs.getString("img"), rs.getString("link"), 
+						rs.getInt("c_id"), rs.getDate("exp_date"), rs.getDate("start_date"),rs.getString("title")));
+			}
+			
 	
 		}catch (Exception e) {
 			e.printStackTrace();

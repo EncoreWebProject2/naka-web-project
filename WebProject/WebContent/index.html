@@ -177,6 +177,20 @@
 		
 		.recruit-hover{margin-bottom:20px; color: #B367FF;font-size: large; font-weight: bold; float:left;}
 		
+		#page_num{
+			width:100%;
+			float:right;
+		}
+		
+		#page_num div{
+			width:50px;
+			height;50px;
+			
+			background-color: #B367FF;
+			display:inline;
+			margin: 0 10px;
+		}
+		
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -332,18 +346,22 @@
 			
 		}
 	
-		var pageNumber = 1;
+		var totalPageCount=0;
+		var pageNumber=1;
+		
 		var co_ids = {1:"네이버.png",2:"우아한형제들.jpg",3:"토스.png",4:"라인.png",5:"쿠팡.png",6:"당근마켓.png",7:"카카오.jpg"};
 	
 		function addLoadedRecruits(){
 			$.ajax({
 				url:"recruit.do",
 				type:"post",
-				data:{num:pageNumber},
+				data:{num:pageNumber,position:$("#select1").val(), job_type:$("#select2").val(), education:$("#select3").val(),
+					keyword:$("#keyword").val(), scrap:$("#scrap").val(), command:"getRecruits",
+				},
 				success:function(data){
 					var jsonObject = JSON.parse(data);
+					$("#recruit_container div.row").html('');
 					if(jsonObject.length>0){						
-						$("#recruit_container div.row").html('');
 						for(key in jsonObject){
 							var title = jsonObject[key].title;
 							if(title.length>24) title = title.substr(0,24)+"....";							
@@ -352,7 +370,6 @@
 	                        '<button style="float: right; margin-right:30px;" class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">비교함 추가</button> <div class="scrap-button" style="float: left; margin: 10px;"><svg></svg></div>'+
 	                        '</div></div></div>';
 							$("#recruit_container div.row").append(str);
-							
 							$('#'+jsonObject[key].r_id).data('info',jsonObject[key]);
 						}
 						
@@ -361,25 +378,50 @@
 	            			var win = window.open("recruit_detail.do?id="+$(this).attr('id'));	
 	        			});
 					}
+					else
+						$("#recruit_container div.row").append("결과가 없습니다.");
 				}
 			});
 		}
 		
-		$(window).scroll(function() {	
-		   if($(window).scrollTop() + $(window).height()+300 >=$(document).height()) {
-			   pageNumber++;
-			   addLoadedRecruits();
-		   }
-		});
-			
-	
+		function pageCountModify(){
+			$.ajax({
+				url:"recruit.do",
+				type:"post",
+				data:{position:$("#select1").val(), job_type:$("#select2").val(), education:$("#select3").val(),
+					keyword:$("#keyword").val(), scrap:$("#scrap").val(), command:"pageCount",
+				},
+				success:function(data){
+					totalPageCount=JSON.parse(data).pageCount;
+					var str = "";
+					for(var i=(pageNumber-5<1?1:pageNumber-5);i<totalPageCount&&i<=pageNumber+5;i++){
+						str += "<div class='pageBtn'>"+i+"</div>";
+					}
+					$("#page_num").html(str);
+					$(".pageBtn").click(function(){
+						alert($(this).html);
+					});
+				}
+			});
+		}
 		
 		$(function () {
-			addLoadedRecruits();			
+			pageCountModify();
+			addLoadedRecruits();
+			
 	   		$('select').change(function(){
-	   			if($(this).val()!='')
-	   				addLoadedRecruits();
+	   			pageNumber=1;
+	   			pageCountModify();
+   				addLoadedRecruits();
 	   		});	
+	   		
+	   		$("#keyword").keyup(function(e){
+	   			if(e.keyCode==13){
+	   				pageNumber=1;
+	   				pageCountModify();
+	   				addLoadedRecruits();
+	   			}
+	   		});
 		});
 
 </script>
@@ -451,28 +493,31 @@
                                 <p>Let's find the pefect matching job for you.</p>
                             </div>
                             <!--Hero form -->
-                            <form action="#" class="search-box" style="margin: 10px;">
+                           <form action="#" class="search-box" style="margin: 10px;">
                                 <div class="input-form">
-                                    <input type="text" placeholder="What are you finding?">
+                                    <input type="text" id="keyword" placeholder="What are you finding?">
                                 </div>
                                 
                                 <div class="search-form">
                                     <a href="#"><i class="ti-search"></i> Search</a>
                                     
                                 </div>	
-                            </form>	
+                            </form>
                             <div class="select-form">
                                     <div class="select-itms" style="float: left; margin: 10px; margin-bottom: 30px;">
                                         <select name="select" id="select1">
                                             <option value="">직군</option>
                                             <option value="서버">서버</option>
+                                            <option value="프론트">프론트</option>
                                         </select>
                                     </div>
                                     
                                     <div class="select-itms"  style="float: left; margin: 10px; margin-bottom: 30px;" >
                                         <select name="select" id="select2">
                                             <option value="">채용 형태</option>
+                                            <option value="인턴">인턴</option>
                                             <option value="신입">신입</option>
+                                            <option value="경력">경력</option>
                                         </select>
                                     </div>
                                     
@@ -480,6 +525,8 @@
                                         <select name="select" id="select3">
                                             <option value="">학력</option>
                                             <option value="">무관</option>
+                                            <option value="학">학사</option>
+                                            <option value="석">석사</option>
                                         </select>
                                     </div>
                             </div>
@@ -492,6 +539,7 @@
         <!--? Popular Locations Start 01-->
         <div class="popular-location border-bottom section-padding40">
             <div id="recruit_container" class="container">
+            	<div id="page_num">pagenation</div>
                 <div class="row">                    
                     
                 </div>
