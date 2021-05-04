@@ -18,6 +18,12 @@ public class ControllerFactory {
 			controller = new IdCheckController();
 		}else if(command.equals("register.do")) {
 			controller = new RegisterController();	
+		}else if(command.equals("scrapadd.do")) {
+			controller = new ScrapAddController();	
+		}else if(command.equals("scrap.do")) {
+			controller = new ScrapController();	
+		}else if(command.equals("scrapdelete.do")) {
+			controller = new ScrapDeleteController();
 		}else if(command.equals("login.do")) {
 			controller = new LoginController();	
 		}else if(command.equals("passcheck.do")) {
