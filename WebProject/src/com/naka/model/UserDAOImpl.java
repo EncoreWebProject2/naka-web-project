@@ -190,6 +190,40 @@ public class UserDAOImpl implements UserDAO {
 		return vo;
 
 	}
+	@Override
+	public boolean signout(String id, String password) throws SQLException {
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String salt = null;
+		String o_password = password;
+		
+		try {
+			conn = getConnection();
+			String query = "SELECT salt FROM user WHERE u_id=?";
+			ps = conn.prepareStatement(query);
+			
+			ps.setString(1, id);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {salt =  rs.getString("salt");}
+			password = SHA256Util.getEncrypt(o_password, salt);
+			
+			query = "DELETE FROM user WHERE u_id=? AND password=?";
+			
+			ps = conn.prepareStatement(query);
+			ps.setString(1, id);
+			ps.setString(2, password);
+			
+			ps.executeUpdate();
+			return rs.next();
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+	}
+	
 	
 	public void addScrap(String id, int r_id) throws SQLException {
 		
@@ -297,4 +331,5 @@ public class UserDAOImpl implements UserDAO {
 			ps1.close();
 		}
 	}
+
 }

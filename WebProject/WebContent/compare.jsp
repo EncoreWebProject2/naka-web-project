@@ -350,7 +350,7 @@
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/loder.png" alt="">
+                    <img src="assets/img/logo/nakalaLOGO.png" alt="">
                 </div>
             </div>
         </div>
@@ -364,43 +364,44 @@
                     <div class="menu-wrapper d-flex align-items-center justify-content-between">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="index.jsp"><img src="assets/img/logo/logo.png" alt=""></a>
+                            <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
                         <!-- Main-menu -->
                         <div class="main-menu f-right d-none d-lg-block">
                             <nav>
                                 <ul id="navigation">
-                                    <li><a href="index.html">Home</a></li>
-                                    <li><a href="listing.html">Catagories</a></li> 
-                                    <li><a href="#">Pages</a>
+                                   <li><a href="blog.html">Ranking</a>
                                         <ul class="submenu">
-                                            <li><a href="directory_details.html">listing Details</a></li>
-                                            <li><a href="listing.html">Catagories</a></li> 
+                                            <li><a href="blog.html">Tech Stack</a></li>
+                                            <li><a href="blog.html">Position</a></li> 
+                                            <li><a href="blog.html">Job Type</a></li> 
                                         </ul>
                                     </li>
-                                    <li><a href="blog.html">Blog</a>
-                                        <ul class="submenu">
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="blog_details.html">Blog Details</a></li>
-                                            <li><a href="elements.html">Elements</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a href="contact.html">About Us</a></li>
                                 </ul>
                             </nav>
                         </div>          
-                        <!-- Header-btn -->
-                        <div class="header-btns d-none d-lg-block f-right">
-                        <%if(rvo == null){ %>
-                        	<a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
+               			<div class="header-btns d-none d-lg-block f-right">
+                        <%if(rvo == null) {%>
+                            <a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
                             <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
-                       	<%}else{ %>
-							<!-- 로그인 이후 화면 -->
-							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>님</a>
+                        <%}else{ %>	
+                        <!-- 로그인 이후 페이지 -->
+							<div class="main-menu f-right d-none d-lg-block">
+	                            <nav>
+	                                <ul id="navigation">
+	                                   <li><a href="logout.do" class="mr-40"> Log out</a></li>
+	                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>님</a>
+	                                        <ul class="submenu">
+	                                            <li><a href="myPage.jsp">MyPage</a></li>
+	                                            <li><a href="myScrap.jsp">Scrap</a></li> 
+	                                        </ul>
+	                                    </li>
+	                                </ul>
+	                            </nav>
+                        	</div>
 						<%} %>
-                        </div>
-                        <!-- Mobile Menu -->
+						</div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -409,7 +410,7 @@
             </div>
         </div>
         <!-- Header End -->
-     </header>
+    </header>
     <main>
         <!--? Hero Start -->
         <div class="slider-area2">

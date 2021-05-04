@@ -39,7 +39,16 @@
 		#logoutHeader{
 			color: rgb(112, 48, 160) !important;
 			z-index: 2;
-		}		
+		}
+		
+		.blog_item{
+			text-align: center;
+		}
+		
+		#for-signout{
+			text-align: left;
+		}	
+			
 		a, button {
 		    color: rgb(112, 48, 160);
 		    outline: medium none;
@@ -47,7 +56,34 @@
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
+	$(function(){	
+		$('input[name=password_check]').keyup(function() {
+			
+				if($(this).val() == $('input[name=password]').val()){
+					$('#check_pass').html("비밀번호가 일치합니다.");
+					$( "#check_pass" ).css( "color", "green" );
+				}else{
+					$('#check_pass').html("비밀번호가 일치하지 않습니다.");
+					$( "#check_pass" ).css( "color", "red" );
+				}
+					
+		});
+		
+		$("form").submit(function(){	    
 	
+		    $.ajax({
+				type: "post",
+				url: "signout.do",
+				data: "id="+'<%=rvo.getU_id() %>'+"&password="+$('#password').val(),
+				success: function(result) {
+					alert("탈퇴가 성공적으로 완료되었습니다.");
+					window.location.href = 'index.jsp'; 
+					
+				}
+			});	
+			
+		});
+	});
 	
 	</script>
 
@@ -111,49 +147,30 @@
                 <div class="row">
                     <div class="col-lg-8 mb-5 mb-lg-0">
                         <div class="blog_left_sidebar">
-                            <article class="blog_item">
+                            <form class="blog_item">
                                 <div class="blog_details">
                                     <a class="d-inline-block" href="blog_details.html">
-                                        <h2 class="blog-head" style="color: #2d2d2d;">마이페이지</h2>
+                                        <h2 class="blog-head" style="color: #2d2d2d;">회원 탈퇴</h2>
                                     </a>
-                                   <table>
-							            <tr>
-							                <td id="title">아이디</td>
-							                <td><%=rvo.getU_id() %></td>
-							            </tr>
-							                    
-							            <tr>
-							                <td id="title">이름</td>
-							                <td><%=rvo.getName() %></td>
-							            </tr>
-							                                
-							            <tr>
-							                <td id="title">생일</td>
-							                <td>
-							                    <%=rvo.getBirth_day() %>
-							                </td>
-							            </tr>
-							                    
-							            <tr>
-							                <td id="title">이메일</td>
-							                <td>
-							                    <%=rvo.getEmail() %>
-							                </td>
-							            </tr>
-							                    
-							            <tr>
-							                <td id="title">휴대전화</td>
-							                <td><%=rvo.getPhone() %></td>
-							            </tr>
-							            <tr>
-							                <td id="title">주소</td>
-							                <td>
-							                    <%=rvo.getAddress() %>
-							                </td>
-							            </tr>
-							        </table>
+                                <div class="mt-10" >
+						           <p class="single-input" id="for-signout" ><%=rvo.getName() %></p>
+						        </div>
+						        <div class="mt-10">
+						           <input type="password" name="password" id="password" placeholder="password"
+						              onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'" required
+						              class="single-input">
+						        </div>
+						        <div class="mt-10">
+						           <input type="password" name="password_check" placeholder="password check"
+						              onfocus="this.placeholder = ''" onblur="this.placeholder = 'password check'" required
+						              class="single-input">
+						           <p id="check_pass"></p>
+						        </div>
+						        <div class="mt-10">
+          							 <input type="submit" class="genric-btn primary-border submit_btn" value="탈퇴">
+       						    </div>
                                 </div>
-                            </article>
+                            </form>
                         </div>
                     </div>
                     <div class="col-lg-4">
