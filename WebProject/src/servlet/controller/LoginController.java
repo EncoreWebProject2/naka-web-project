@@ -13,7 +13,8 @@ public class LoginController implements Controller{
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String id=  request.getParameter("id");
 		String password = request.getParameter("password");
-		String path = "login.html";
+		
+		String path = "login.jsp";
 		String message = "";
 		try {
 			UserVO rvo=UserDAOImpl.getInstance().login(id, password);

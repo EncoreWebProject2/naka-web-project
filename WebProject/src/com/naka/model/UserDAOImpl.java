@@ -18,6 +18,8 @@ import com.naka.vo.CompanyVO;
 import com.naka.vo.RecruitVO;
 import com.naka.vo.UserVO;
 
+import servlet.controller.SHA256Util;
+
 public class UserDAOImpl implements UserDAO {
 	private static UserDAOImpl instance = new UserDAOImpl();
 	private DataSource ds;
@@ -65,11 +67,10 @@ public class UserDAOImpl implements UserDAO {
 
 		
 	public void register(UserVO vo) throws SQLException, ParseException{
-		
-		int result = 0;
-		
-		Date utilDate = new SimpleDateFormat("YYYY-mm-dd").parse(vo.getBirth_day());
+				
+		Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(vo.getBirth_day());
 		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); 
+		//System.out.println("utilDate: "+utilDate);
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try{
@@ -89,8 +90,8 @@ public class UserDAOImpl implements UserDAO {
 			ps.setDate(10,  sqlDate);
 			ps.setString(11, vo.getScrap());
 			ps.setString(12, vo.getSalt());
-			
-			result = ps.executeUpdate();
+
+			System.out.println(ps.executeUpdate()+"row가 삽입되었다.");
 		}finally{
 			closeAll(ps, conn);
 		}
@@ -122,10 +123,21 @@ public class UserDAOImpl implements UserDAO {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		String salt = null;
+		String o_password = password;
 		
 		try {
 			conn = getConnection();
-			String query = "SELECT u_id FROM user WHERE u_id=? AND password=?";
+			String query = "SELECT salt FROM user WHERE u_id=?";
+			ps = conn.prepareStatement(query);
+			
+			ps.setString(1, id);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) salt =  rs.getString("salt");
+			password = SHA256Util.getEncrypt(o_password, salt);
+			
+			query = "SELECT u_id FROM user WHERE u_id=? AND password=?";
 			ps = conn.prepareStatement(query);
 			ps.setString(1, id);
 			ps.setString(2, password);
@@ -144,10 +156,21 @@ public class UserDAOImpl implements UserDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		UserVO vo = null;
+		String salt = null;
+		String o_password = password;
 		
 		try {
 			conn = getConnection();
-			String query = "SELECT name, email FROM user WHERE u_id=? AND password=?";
+			String query = "SELECT salt FROM user WHERE u_id=?";
+			ps = conn.prepareStatement(query);
+			
+			ps.setString(1, id);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) salt =  rs.getString("salt");
+			password = SHA256Util.getEncrypt(o_password, salt);
+			
+			query = "SELECT name, email FROM user WHERE u_id=? AND password=?";
 			ps = conn.prepareStatement(query);
 			
 			ps.setString(1, id);
@@ -165,6 +188,7 @@ public class UserDAOImpl implements UserDAO {
 			closeAll(rs, ps, conn);
 		}
 		return vo;
+
 	}
 	
 	public void addScrap(String id, int r_id) throws SQLException {
