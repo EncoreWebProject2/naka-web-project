@@ -15,7 +15,7 @@ public class DeleteAccountController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		String id=  request.getParameter("id");
 		String password = request.getParameter("password");
-		String path = "index.jsp";
+		String path = null;
 		try {
 			UserDAOImpl.getInstance().deleteAccount(id, password);
 			

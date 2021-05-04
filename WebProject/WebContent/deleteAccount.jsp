@@ -90,8 +90,7 @@
 					
 		});
 		
-		$("form").submit(function(){	    
-	
+		$("#deleteSubmit").click(function(){	    
 		    $.ajax({
 				type: "post",
 				url: "deleteAccount.do",
@@ -168,7 +167,7 @@
                 <div class="row">
                     <div class="col-lg-8 mb-5 mb-lg-0">
                         <div class="blog_left_sidebar">
-                            <form class="blog_item">
+                            <article class="blog_item">
                                 <div class="blog_details">
                                     <a class="d-inline-block" href="blog_details.html">
                                         <h2 class="blog-head" style="color: #2d2d2d;">È¸¿ø Å»Åð</h2>
@@ -188,10 +187,10 @@
 						           <p id="check_pass"></p>
 						        </div>
 						        <div class="mt-10">
-          							 <input type="submit" class="genric-btn primary-border submit_btn login-signup-button" value="Å»Åð">
+          							 <input type="button" class="genric-btn primary-border submit_btn login-signup-button" id="deleteSubmit" value="Å»Åð">
        						    </div>
                                 </div>
-                            </form>
+                            </article>
                         </div>
                     </div>
                     <div class="col-lg-4">
