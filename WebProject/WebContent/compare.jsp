@@ -392,12 +392,12 @@
                         <!-- Header-btn -->
                         <div class="header-btns d-none d-lg-block f-right">
                         <%if(rvo == null){ %>
-                        	<a href="#" class="mr-40">&nbsp;&nbsp;Sign up</a>
+                        	<a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
                             <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
                        	<%}else{ %>
 							<!-- 로그인 이후 화면 -->
 							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getU_id() %>님</a>
+							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>님</a>
 						<%} %>
                         </div>
                         <!-- Mobile Menu -->

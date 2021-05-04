@@ -404,7 +404,7 @@
                         <%}else{ %>	
 							<!-- ·Î±×ÀÎ ÀÌÈÄ È­¸é -->
 							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getU_id() %>´Ô</a>
+							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>´Ô</a>
 						<%} %>
 						</div>
                         <div class="col-12">
