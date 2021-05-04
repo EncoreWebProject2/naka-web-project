@@ -403,8 +403,19 @@
                             <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
                         <%}else{ %>	
 							<!-- ·Î±×ÀÎ ÀÌÈÄ È­¸é -->
-							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>´Ô</a>
+							<div class="main-menu f-right d-none d-lg-block">
+	                            <nav>
+	                                <ul id="navigation">
+	                                   <li><a href="logout.do" class="mr-40"> Log out</a></li>
+	                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>´Ô</a>
+	                                        <ul class="submenu">
+	                                            <li><a href="myPage.jsp">MyPage</a></li>
+	                                            <li><a href="myScrap.jsp">Scrap</a></li> 
+	                                        </ul>
+	                                    </li>
+	                                </ul>
+	                            </nav>
+                        	</div> 
 						<%} %>
 						</div>
                         <div class="col-12">
