@@ -30,6 +30,8 @@ public class ControllerFactory {
 			controller = new PassCheckController();	
 		}else if(command.equals("logout.do")) {
 			controller = new LogoutController();	
+		}else if(command.equals("scrapRecruit.do")) {
+			controller = new ScrapRecruitController();	
 		}
 		
 		return controller;
