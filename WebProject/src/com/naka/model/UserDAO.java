@@ -19,5 +19,7 @@ public interface UserDAO {
 	public void closeAll(ResultSet rs,PreparedStatement ps, Connection con);
 	public void register(UserVO user) throws SQLException, ParseException;
 	public boolean isExist(String id) throws SQLException;
-	
+	public void addScrap(String id, int r_id) throws SQLException;
+	public String getScrap(String id) throws SQLException;
+	public void deleteScrap(String id, int r_id) throws SQLException;
 }

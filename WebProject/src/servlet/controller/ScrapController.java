@@ -1,0 +1,30 @@
+package servlet.controller;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.naka.model.UserDAOImpl;
+
+public class ScrapController implements Controller{
+
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		
+		String scrap = UserDAOImpl.getInstance().getScrap("qlalf9824");
+		
+		try {
+			request.setAttribute("scrap",scrap);
+			
+			response.getWriter().print(scrap);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+}

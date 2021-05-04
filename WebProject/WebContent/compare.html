@@ -189,15 +189,11 @@
 }
 
 .scrap-button svg {
-	background-image: url(assets/img/elements/heart-regular.svg);
 	width:18px; height:18px;
 	object-fit: cover;
 	float: left;
 }
 
-.scrap-button svg:hover{
-	background-image: url(assets/img/elements/heart-solid.svg);
-}
 
 .delete svg {
 	background-image: url(assets/img/elements/times-solid.svg);
@@ -225,7 +221,8 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript">
-		$(function(){	
+    
+		$(function(){
 			refresh();
 			
 			$('#compare-table').on('click', '.delete', function() {
@@ -251,17 +248,71 @@
 	
 	            
 			});
-			
+		
+			$('#compare-table').on('click','.scrap-button', function() {
+				/*var uid = '<%=(UserVO)session.getAttribute("rvo")%>'*/
+				var r_id = $(this).attr('id');
+				
+				var s = $('#'+ r_id + " svg").attr('id');
+				if(s == "svg1"){
+					$('#' + r_id +' svg').css("background-image", "url(assets/img/elements/heart-solid.svg)");
+					$('#'+ r_id + " svg").attr('id','svg2');
+					$.ajax({
+		       			type:'post',
+		       			url:'scrapadd.do?r_id=' + r_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			success: function(result) {
+		   				}//callback
+		       		});//ajax
+				}else{
+					$('#' + r_id +' svg').css("background-image", "url(assets/img/elements/heart-regular.svg)");
+					$('#'+ r_id + " svg").attr('id','svg1');
+					$.ajax({
+		       			type:'post',
+		       			url:'scrapdelete.do?r_id=' + r_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			success: function(result) {
+		   				}//callback
+		       		});//ajax
+				}
+				
+				
+			});
 		});
 		
+
+      	var scrap_list = [];
+		function scrap(){
+
+			$.ajax({
+       			type:'post',
+       			url:'scrap.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+       			async: false,
+       			success: function(result) {
+       				str = result.split(",");
+       				scrap_list = str.map(i=>Number(i));
+       				console.log(scrap_list);
+   				}//callback
+       		});//ajax
+       		
+       		return scrap_list;
+		}
 		function refresh(){
-			
 			var output = localStorage.getItem('compareStorage');
 			var compare_list = JSON.parse(output);
 			var str="";
+			var scrapList = [];
+			scrapList = scrap();
 			for(key in compare_list){
+				var src;
+				var svg;
+				if(scrapList.includes(compare_list[key].r_id) == false){
+					src = "url(assets/img/elements/heart-regular.svg)";
+					svg = "svg1";
+				}else{
+					src = "url(assets/img/elements/heart-solid.svg)";
+					svg = "svg2";
+				}
 				str += "<div class='compare-plan'>"
-					       +"<a href='#' class='scrap-button'><svg></svg></a><div id='"+compare_list[key].r_id +"' class='delete'><svg></svg></div>"
+					       +"<a class='scrap-button' id='" +compare_list[key].r_id +"'><svg style='background-image:"+src+"' id='"+svg+"'></svg></a><div id='"+compare_list[key].r_id +"' class='delete'><svg></svg></div>"
 					         +"<div class='company'><img src="+compare_list[key].img+" alt=''class='compare-img'></div>"
 					           +"<h5 class='compare-title'>"+compare_list[key].title+"</h5>"
 					           	 +"<ul class='compare-features'>"
@@ -270,10 +321,11 @@
 		                         +"<li class='compare-features-job_type'>"+compare_list[key].job_type+"</li></ul>"
 		                         +"<span class='compare-exp_date'>"+compare_list[key].exp_date+"</span>"
 		                         +" <a href='recruit_detail.do?id="+ compare_list[key].r_id + "'  target='_blank' class='compare-button'>공고보기</a></div>";
-		       
+
 			}
 			$("#compare-table").html(str);
 		}
+		
     </script>
 </head>
 <body>
