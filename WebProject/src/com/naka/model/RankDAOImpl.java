@@ -68,13 +68,18 @@ public class RankDAOImpl implements RankDAO{
 		ArrayList<RankVO> list = new ArrayList<RankVO>();
 		try {
 			con = getConnection();
+			String query = "SELECT name,value FROM ranking WHERE id LIKE 't%' ORDER BY value DESC LIMIT 21;";
+			ps = con.prepareStatement(query);
+			while(rs.next()) {
+				list.add(new RankVO(rs.getString("name"),rs.getInt("value")));
+			}
 			
 		}catch(Exception e) {
 			
 		}finally {
 			closeAll(rs, ps, con);
 		}
-		return null;
+		return list;
 	}
 
 	@Override
@@ -122,24 +127,25 @@ public class RankDAOImpl implements RankDAO{
 			ps = con.prepareStatement(query);
 		
 			
-			  for (Map.Entry<String, Integer> entry : tech_map.entrySet()) {
+			for (Map.Entry<String, Integer> entry : tech_map.entrySet()) {
 			  ps.setString(1,"t_" + i++); 
 			  ps.setString(2, entry.getKey());
-			   ps.setInt(3,entry.getValue()); 
-			   ps.executeUpdate();
-			  }
-//			  for (Map.Entry<String, Integer> entry : position_map.entrySet()) {
-//				  ps.setString(1,"p_" + i++); 
-//				  ps.setString(2, entry.getKey());
-//				   ps.setInt(3,entry.getValue()); 
-//				   ps.executeUpdate();
-//				  }
-//			  for (Map.Entry<String, Integer> entry : job_type_map.entrySet()) {
-//				  ps.setString(1,"j_" + i++); 
-//				  ps.setString(2, entry.getKey());
-//				   ps.setInt(3,entry.getValue()); 
-//				   ps.executeUpdate();
-//				  }
+			  ps.setInt(3,entry.getValue()); 
+			  ps.executeUpdate();
+            } 
+			for (Map.Entry<String, Integer> entry : position_map.entrySet()) {
+			  ps.setString(1,"p_" + i++); 
+			  ps.setString(2, entry.getKey());
+			  ps.setInt(3,entry.getValue()); 
+			  ps.executeUpdate();
+			}
+			for (Map.Entry<String, Integer> entry : job_type_map.entrySet()) {
+			  ps.setString(1,"j_" + i++); 
+			  ps.setString(2, entry.getKey());
+			  ps.setInt(3,entry.getValue()); 
+			  ps.executeUpdate();
+			}
+ 
 		    
 		   
 			
