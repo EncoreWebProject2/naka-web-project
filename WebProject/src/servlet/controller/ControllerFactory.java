@@ -29,9 +29,17 @@ public class ControllerFactory {
 		}else if(command.equals("passcheck.do")) {
 			controller = new PassCheckController();	
 		}else if(command.equals("logout.do")) {
-			controller = new LogoutController();	
-		}else if(command.equals("signout.do")) {
-			controller = new SignoutController();	
+			controller = new LogoutController();
+		}else if(command.equals("scrapRecruit.do")) {
+			controller = new ScrapRecruitController();	
+		}else if(command.equals("changeUserInfo.do")) {
+			controller = new ChangeUserInfoController();	
+		}else if(command.equals("changePassword.do")) {
+			controller = new ChangePasswordController();	
+		}else if(command.equals("checkPassword.do")) {
+			controller = new CheckPasswordController();	
+		}else if(command.equals("deleteAccount.do")) {
+			controller = new DeleteAccountController();	
 		}
 		
 		return controller;

@@ -45,7 +45,7 @@
 			text-align: center;
 		}
 		
-		#for-signout{
+		#for-deleteAccount{
 			text-align: left;
 		}	
 			
@@ -53,6 +53,27 @@
 		    color: rgb(112, 48, 160);
 		    outline: medium none;
 		}
+		
+		.login-signup-button{
+			margin-top:20px;
+    		width: 30%;
+			background: #aa67ff !important;
+			color: #fff !important;
+			text-align: center;
+			border: solid #aa67ff !important;
+			font-size: 15px;
+		}
+		
+		.login-signup-button:hover {
+		    margin-top:20px;
+    		width: 30%;
+		    background: #fff !important;
+		    cursor: pointer;
+		    color: #aa67ff !important;
+		    border: solid #aa67ff !important;
+		    font-size: 15px;
+		}
+		
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -73,7 +94,7 @@
 	
 		    $.ajax({
 				type: "post",
-				url: "signout.do",
+				url: "deleteAccount.do",
 				data: "id="+'<%=rvo.getU_id() %>'+"&password="+$('#password').val(),
 				success: function(result) {
 					alert("Å»Åð°¡ ¼º°øÀûÀ¸·Î ¿Ï·áµÇ¾ú½À´Ï´Ù.");
@@ -113,7 +134,7 @@
                         </div>
 						<div id="logoutHeader">
 							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getU_id() %>´Ô</a>
+							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>´Ô</a>
 						</div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
@@ -153,7 +174,7 @@
                                         <h2 class="blog-head" style="color: #2d2d2d;">È¸¿ø Å»Åð</h2>
                                     </a>
                                 <div class="mt-10" >
-						           <p class="single-input" id="for-signout" ><%=rvo.getName() %></p>
+						           <p class="single-input" id="for-deleteAccount" ><%=rvo.getU_id() %></p>
 						        </div>
 						        <div class="mt-10">
 						           <input type="password" name="password" id="password" placeholder="password"
@@ -167,7 +188,7 @@
 						           <p id="check_pass"></p>
 						        </div>
 						        <div class="mt-10">
-          							 <input type="submit" class="genric-btn primary-border submit_btn" value="Å»Åð">
+          							 <input type="submit" class="genric-btn primary-border submit_btn login-signup-button" value="Å»Åð">
        						    </div>
                                 </div>
                             </form>
@@ -193,7 +214,7 @@
                                         </a>
                                     </li> 
                                     <li>
-                                        <a href="signout.jsp" class="d-flex">
+                                        <a href="deleteAccount.jsp" class="d-flex">
                                             <p>È¸¿ø Å»Åð</p>
                                         </a>
                                     </li>
