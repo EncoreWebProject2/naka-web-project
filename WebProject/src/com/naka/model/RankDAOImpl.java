@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.naming.InitialContext;
@@ -118,26 +120,33 @@ public class RankDAOImpl implements RankDAO{
 			con = getConnection();
 			String query = "INSERT INTO ranking (id, name, value) VALUES(?,?,?)";
 			ps = con.prepareStatement(query);
+		
 			
-			for(Entry<String, Integer> e: tech_map.entrySet()) { 
-			ps.setString(1,"t_" + i);
-			ps.setString(2, e.getKey());
-			ps.setInt(3, e.getValue());
-			}
-			for(Entry<String, Integer> e: position_map.entrySet()) { 
-				ps.setString(1,"p_" + i);
-				ps.setString(2, e.getKey());
-				ps.setInt(3, e.getValue());
-				}
-			for(Entry<String, Integer> e: job_type_map.entrySet()) { 
-				ps.setString(1,"j_" + i);
-				ps.setString(2, e.getKey());
-				ps.setInt(3, e.getValue());
-				}
+			  for (Map.Entry<String, Integer> entry : tech_map.entrySet()) {
+			  ps.setString(1,"t_" + i++); 
+			  ps.setString(2, entry.getKey());
+			   ps.setInt(3,entry.getValue()); 
+			   ps.executeUpdate();
+			  }
+//			  for (Map.Entry<String, Integer> entry : position_map.entrySet()) {
+//				  ps.setString(1,"p_" + i++); 
+//				  ps.setString(2, entry.getKey());
+//				   ps.setInt(3,entry.getValue()); 
+//				   ps.executeUpdate();
+//				  }
+//			  for (Map.Entry<String, Integer> entry : job_type_map.entrySet()) {
+//				  ps.setString(1,"j_" + i++); 
+//				  ps.setString(2, entry.getKey());
+//				   ps.setInt(3,entry.getValue()); 
+//				   ps.executeUpdate();
+//				  }
+		    
+		   
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			closeAll(rs,ps, con);
+			closeAll(rs,ps,con);
 		}
 		
 	}
