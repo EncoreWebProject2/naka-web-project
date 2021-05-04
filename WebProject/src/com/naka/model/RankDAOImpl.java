@@ -69,7 +69,7 @@ public class RankDAOImpl implements RankDAO {
 	}
 
 	@Override
-	public ArrayList<RankVO> getTechRank() {
+	public ArrayList<RankVO> getTechRank(String name, int value) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;

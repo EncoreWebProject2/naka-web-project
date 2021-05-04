@@ -1,7 +1,5 @@
-<%@page import="com.naka.vo.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%  UserVO rvo = (UserVO)session.getAttribute("rvo"); %>
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -81,7 +79,7 @@
                         </div>
 						<div id="logoutHeader">
 							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getU_id() %>님</a>
+							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;</a>
 						</div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
@@ -108,8 +106,8 @@
             </div>
         </div>
         <!-- Hero End -->
-       <div class="myPage"> 
-        <!-- 가져온 회원정보를 출력한다. -->
+       <div class="ranking"> 
+        <!--  -->
         <section class="blog_area section-padding">
             <div class="container">
                 <div class="row">
@@ -117,10 +115,66 @@
                         <div class="blog_left_sidebar">
                             <article class="blog_item">
                                 <div class="blog_details">
-                                    <a class="d-inline-block" href="blog_details.html">
+                                    <a class="d-inline-block" href="#">
                                         <h2 class="blog-head" style="color: #2d2d2d;">Ranking</h2>
                                     </a>
-                                   
+                                   	<div style="width:800px">
+    								<canvas id="myChart"></canvas>
+									<script>
+										let name = [];
+										let value = [];								
+									
+										var ctx = document.getElementById("myChart");
+										
+										try{
+											data.map((item) => {
+												value.push(item.value);
+												name.push(item.name);
+											});
+										
+										var myChart = new Chart(ctx, {	
+											type: 'bar',
+											data: {
+												labels: [...name],
+												datasets: [{
+													label: 'name',
+													data: [...value],
+													backgroundColor: [
+													  'rgba(255, 99, 132, 0.2)',
+											          'rgba(54, 162, 235, 0.2)',
+											          'rgba(255, 206, 86, 0.2)',
+											          'rgba(75, 192, 192, 0.2)',
+											          'rgba(153, 102, 255, 0.2)',
+											          'rgba(255, 159, 64, 0.2)'
+											        ],
+											        borderColor: [
+											          'rgba(255, 99, 132, 1)',
+											          'rgba(54, 162, 235, 1)',
+											          'rgba(255, 206, 86, 1)',
+											          'rgba(75, 192, 192, 1)',
+											          'rgba(153, 102, 255, 1)',
+											          'rgba(255, 159, 64, 1)'
+											        ],
+											        borderWidth: 1
+											      }]
+											    },
+											    options: {
+											      scales: {
+											        yAxes: [{
+											          ticks: {
+											            beginAtZero: true
+											          }
+											        }]
+											      }
+											    }
+											  });
+
+											} catch (error) {
+											  console.log(error);
+											}
+		
+									</script>
+									</div>
                                 </div>
                             </article>
                         </div>
@@ -220,7 +274,8 @@
       <script src="./assets/js/plugins.js"></script>
       <script src="./assets/js/main.js"></script>
 
+	  <!-- chart js -->
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
 
-     
     </body>
 </html>
