@@ -75,25 +75,37 @@
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
-	$('#login-form').click(function () {
-		var check = true;
+	
+	function loginbtn_click(){
 		
 		$.ajax({
 			type: "post",
 			url: "idcheck.do",
 			data: "id=" + $('#id').val(),
-			data:$('form').serialize(), 
 			success: function(flag) {
 				if(flag=="false"){
 					alert("존재하지 않는 아이디 입니다.");
-					check = false;
-				}
+				}else {
+					$.ajax({
+						type: "post",
+						url: "passcheck.do",
+						data: "id="+$('#id').val()+"&password="+$('#password').val(),
+						success: function(flag) {
+							if(flag=="false"){
+								alert("비밀번호가 일치하지 않습니다.");
+							}
+							else{
+								$('#login-form').submit();
+							}
+						}
+						})
+					}
 			}
-		if(check == true){
-			
-		
-		}
-	});//click
+			})
+	
+	};//click
+	
+
 	</script>
 
 </head>
@@ -118,7 +130,7 @@
                     <div class="menu-wrapper d-flex align-items-center justify-content-between">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="index.html"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
+                            <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
                         <!-- Main-menu -->
                         <div class="main-menu f-right d-none d-lg-block">
@@ -167,13 +179,13 @@
         <!-- Hero End -->
        <div class="loginBox">
 	       	
-	       	<a href="index.html"><img style="width: 90px; margin-top: 10px" src="assets/img/logo/nakalaLOGO.png" alt=""></a>
-	       	<form action="login.do" method="post" id="login-form">
+	       	<a href="index.jsp"><img style="width: 90px; margin-top: 10px" src="assets/img/logo/nakalaLOGO.png" alt=""></a>
+	    	<form action="login.do" method="post" id="login-form">
 	       	<h3>LOGIN</h3>
 	       	<input type="text" id="id" name="id" placeholder="id" required><br>
 	       	<input type="password" id="password" name="password" placeholder="password" required>
-	       	<a href="#" class="genric-btn primary-border login-signup-button" onclick="document.getElementById('login-form').submit();">login</a><br>
-	       	</form>
+	       	<input type="button" class="genric-btn primary-border login-signup-button" id="loginbtn" onclick="loginbtn_click();" value="login"><br>
+			</form>
 	       	<a href="#" class="signup-link"><u>signup</u></a>
        </div>
     </main>

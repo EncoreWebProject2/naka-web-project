@@ -403,7 +403,7 @@
                             <a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;Sign up</a>
                         <%}else{ %>	
 							<!-- 로그인 이후 화면 -->
-							<a href="index.jsp" class="mr-40"> Log out</a>
+							<a href="logout.do" class="mr-40"> Log out</a>
 							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getU_id() %>님</a>
 						<%} %>
                         <div class="col-12">

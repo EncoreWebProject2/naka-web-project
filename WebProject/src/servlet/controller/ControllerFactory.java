@@ -14,11 +14,19 @@ public class ControllerFactory {
 			controller = new RecruitDetailController();
 		}else if(command.equals("recruit.do")) {
 			controller = new RecruitController();	
+		}else if(command.equals("idcheck.do")) {
+			controller = new IdCheckController();
+		}else if(command.equals("register.do")) {
+			controller = new RegisterController();	
 		}else if(command.equals("login.do")) {
 			controller = new LoginController();	
-		
+		}else if(command.equals("passcheck.do")) {
+			controller = new PassCheckController();	
+		}else if(command.equals("logout.do")) {
+			controller = new LogoutController();	
 		}
 		
 		return controller;
 	}
 }
+
