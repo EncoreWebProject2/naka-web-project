@@ -44,6 +44,10 @@
 		    color: rgb(112, 48, 160);
 		    outline: medium none;
 		}
+		
+		.blog_details div p {
+    		margin-bottom: 0px;
+		}
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -116,10 +120,16 @@
                                     <a class="d-inline-block" href="blog_details.html">
                                         <h2 class="blog-head" style="color: #2d2d2d;">마이페이지</h2>
                                     </a>
+                                    <form name="changeUserInfo" action="" method="post">
                                    <table>
 							            <tr>
 							                <td id="title">아이디</td>
-							                <td><%=rvo.getU_id() %></td>
+							                <td>
+							                	<div>
+							                		<p><%=rvo.getU_id() %></p>
+							                		<p><input type="text" name="id" value="<%=rvo.getU_id() %>"></p>
+							                	</div>
+							                </td>
 							            </tr>
 							                    
 							            <tr>

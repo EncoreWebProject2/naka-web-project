@@ -400,7 +400,7 @@
                  
                         <%if(rvo == null) {%>
                             <a href="login.jsp" class="mr-40"> Log in</a>
-                            <a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;Sign up</a>
+                            <a href="register.html" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;Sign up</a>
                         <%}else{ %>	
 							<!-- 로그인 이후 화면 -->
 							<a href="logout.do" class="mr-40"> Log out</a>
