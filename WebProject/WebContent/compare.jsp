@@ -1,3 +1,7 @@
+<%@page import="com.naka.vo.UserVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% UserVO rvo = (UserVO)session.getAttribute("rvo"); %>
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -214,10 +218,6 @@
     align-items: center;  
 	
 }
-
-
-
-
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript">
@@ -233,7 +233,7 @@
 	            }
 	      		if(arr.length !=null  && arr.length > 2){
 	      			var idx = $(this).attr('id');
-		            for(var i=0; i<arr.length; i++){
+			        for(var i=0; i<arr.length; i++){
 		            	if(arr[i].r_id == idx){
 		            		arr.splice(i, 1);
 		            	}
@@ -250,22 +250,24 @@
 			});
 		
 			$('#compare-table').on('click','.scrap-button', function() {
-				var uid = '<%=(UserVO)session.getAttribute("rvo")%>'
 				
-				console.log(uid);
-				if(uid == null){
+				var r_vo = '${rvo}';
+				var u_id = '${rvo.u_id}';
+				
+				if(u_id == ""){
+					alert("로그인이 필요한 서비스 입니다.");
 					return;
 				}
 				
 				var r_id = $(this).attr('id');
-				
 				var s = $('#'+ r_id + " svg").attr('id');
 				if(s == "svg1"){
 					$('#' + r_id +' svg').css("background-image", "url(assets/img/elements/heart-solid.svg)");
 					$('#'+ r_id + " svg").attr('id','svg2');
 					$.ajax({
 		       			type:'post',
-		       			url:'scrapadd.do?r_id=' + r_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			url:'scrapadd.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			data:'r_id=' + r_id+'&u_id='+u_id,
 		       			success: function(result) {
 		   				}//callback
 		       		});//ajax
@@ -274,7 +276,8 @@
 					$('#'+ r_id + " svg").attr('id','svg1');
 					$.ajax({
 		       			type:'post',
-		       			url:'scrapdelete.do?r_id=' + r_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			url:'scrapdelete.do?',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			data:'r_id=' + r_id+'&u_id='+u_id,
 		       			success: function(result) {
 		   				}//callback
 		       		});//ajax
@@ -286,11 +289,11 @@
 		
 
       	var scrap_list = [];
-		function scrap(){
+		function scrap(u_id){
 
 			$.ajax({
        			type:'post',
-       			url:'scrap.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+       			url:'scrap.do?u_id='+u_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
        			async: false,
        			success: function(result) {
        				str = result.split(",");
@@ -306,7 +309,13 @@
 			var compare_list = JSON.parse(output);
 			var str="";
 			var scrapList = [];
-			scrapList = scrap();
+			var r_vo = '${rvo}';
+			var u_id = '${rvo.u_id}';
+			
+			if(u_id != ""){
+				scrapList = scrap(u_id);
+			}
+			
 			for(key in compare_list){
 				var src;
 				var svg;
@@ -341,7 +350,7 @@
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/loder.png" alt="">
+                    <img src="assets/img/logo/nakalaLOGO.png" alt="">
                 </div>
             </div>
         </div>
@@ -355,37 +364,44 @@
                     <div class="menu-wrapper d-flex align-items-center justify-content-between">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="index.jsp"><img src="assets/img/logo/logo.png" alt=""></a>
+                            <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
                         <!-- Main-menu -->
                         <div class="main-menu f-right d-none d-lg-block">
                             <nav>
                                 <ul id="navigation">
-                                    <li><a href="index.jsp">Home</a></li>
-                                    <li><a href="listing.html">Catagories</a></li> 
-                                    <li><a href="#">Pages</a>
+                                   <li><a href="blog.html">Ranking</a>
                                         <ul class="submenu">
-                                            <li><a href="directory_details.html">listing Details</a></li>
-                                            <li><a href="listing.html">Catagories</a></li> 
+                                            <li><a href="blog.html">Tech Stack</a></li>
+                                            <li><a href="blog.html">Position</a></li> 
+                                            <li><a href="blog.html">Job Type</a></li> 
                                         </ul>
                                     </li>
-                                    <li><a href="blog.html">Blog</a>
-                                        <ul class="submenu">
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="blog_details.html">Blog Details</a></li>
-                                            <li><a href="elements.html">Elements</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a href="contact.html">About Us</a></li>
                                 </ul>
                             </nav>
                         </div>          
-                        <!-- Header-btn -->
-                        <div class="header-btns d-none d-lg-block f-right">
-                            <a href="#" class="mr-40"><i class="ti-user"></i> Log in</a>
-                            <a href="#" class="btn">Add Listing</a>
-                        </div>
-                        <!-- Mobile Menu -->
+               			<div class="header-btns d-none d-lg-block f-right">
+                        <%if(rvo == null) {%>
+                            <a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
+                            <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
+                        <%}else{ %>	
+                        <!-- 로그인 이후 페이지 -->
+							<div class="main-menu f-right d-none d-lg-block">
+	                            <nav>
+	                                <ul id="navigation">
+	                                   <li><a href="logout.do" class="mr-40"> Log out</a></li>
+	                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>님</a>
+	                                        <ul class="submenu">
+	                                            <li><a href="myPage.jsp">MyPage</a></li>
+	                                            <li><a href="myScrap.jsp">Scrap</a></li> 
+	                                        </ul>
+	                                    </li>
+	                                </ul>
+	                            </nav>
+                        	</div>
+						<%} %>
+						</div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -394,7 +410,7 @@
             </div>
         </div>
         <!-- Header End -->
-     </header>
+    </header>
     <main>
         <!--? Hero Start -->
         <div class="slider-area2">
@@ -454,7 +470,7 @@
                                 <div class="main-menu2">
                                     <nav>
                                         <ul>
-                                            <li><a href="index.jsp">Home</a></li>
+                                            <li><a href="index.html">Home</a></li>
                                             <li><a href="explore.html">Explore</a></li> 
                                             <li><a href="pages.html">Pages</a></li>
                                             <li><a href="blog.html">Blog</a></li>

@@ -1,5 +1,7 @@
+<%@page import="com.naka.vo.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%  UserVO rvo = (UserVO)session.getAttribute("rvo"); %>
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -29,83 +31,60 @@
 		    min-height: 50px !important;
 		}
 		
-		.loginBox{
-			text-align: center;
-			height: 330px;
-			width: 280px;
-			border: solid #aa67ff;
-			border-width: 2px;
-			border-radius: 25px;
+		.section-padding {
+		     padding-top: 0px !important; 
+		     padding-bottom: 0px !important; 
+		}
+		
+		#logoutHeader{
+			color: rgb(112, 48, 160) !important;
 			z-index: 2;
-			margin: auto;
-			margin-top:40px; /* this is half the height of your div*/  
-			
 		}
 		
-		#id{
-			margin-top: 30px;
-		}
-		#password{
-			margin-top: 10px;
-		}
-		
-		.login-signup-button{
-			margin-top: 40px;
-			background: #aa67ff !important;
-			color: #fff !important;
+		.blog_item{
 			text-align: center;
-			border: solid #aa67ff !important;
-			font-size: 15px;
 		}
 		
-		.login-signup-button:hover {
-		    background: #fff !important;
-		    cursor: pointer;
-		    color: #aa67ff !important;
-		    border: solid #aa67ff !important;
-		    border-width: 1px;
-		    font-size: 15px;
-		}
-		
-		.signup-link{
-			color: #635c5c;
-			margin-top: 30px;
-			font-size: 15px;
+		#for-signout{
+			text-align: left;
+		}	
+			
+		a, button {
+		    color: rgb(112, 48, 160);
+		    outline: medium none;
 		}
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
-	
-	function loginbtn_click(){
+	$(function(){	
+		$('input[name=password_check]').keyup(function() {
+			
+				if($(this).val() == $('input[name=password]').val()){
+					$('#check_pass').html("비밀번호가 일치합니다.");
+					$( "#check_pass" ).css( "color", "green" );
+				}else{
+					$('#check_pass').html("비밀번호가 일치하지 않습니다.");
+					$( "#check_pass" ).css( "color", "red" );
+				}
+					
+		});
 		
-		$.ajax({
-			type: "post",
-			url: "idcheck.do",
-			data: "id=" + $('#id').val(),
-			success: function(flag) {
-				if(flag=="false"){
-					alert("존재하지 않는 아이디 입니다.");
-				}else {
-					$.ajax({
-						type: "post",
-						url: "passcheck.do",
-						data: "id="+$('#id').val()+"&password="+$('#password').val(),
-						success: function(flag) {
-							if(flag=="false"){
-								alert("비밀번호가 일치하지 않습니다.");
-							}
-							else{
-								$('#login-form').submit();
-							}
-						}
-						})
-					}
-			}
-			})
+		$("form").submit(function(){	    
 	
-	};//click
+		    $.ajax({
+				type: "post",
+				url: "signout.do",
+				data: "id="+'<%=rvo.getU_id() %>'+"&password="+$('#password').val(),
+				success: function(result) {
+					alert("탈퇴가 성공적으로 완료되었습니다.");
+					window.location.href = 'index.jsp'; 
+					
+				}
+			});	
+			
+		});
+	});
 	
-
 	</script>
 
 </head>
@@ -132,26 +111,10 @@
                         <div class="logo">
                             <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
-                        <!-- Main-menu -->
-                        <div class="main-menu f-right d-none d-lg-block">
-                            <nav>
-                                <ul id="navigation">
-                                   <li><a href="#">Ranking</a>
-                                        <ul class="submenu">
-                                            <li><a href="blog.html">Tech Stack</a></li>
-                                            <li><a href="blog.html">Position</a></li> 
-                                            <li><a href="blog.html">Job Type</a></li> 
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">About Us</a></li>
-                                </ul>
-                            </nav>
-                        </div>          
-                        <!-- Header-btn -->
-                        <div class="header-btns d-none d-lg-block f-right">
-                            <a href="#" class="mr-40"><i class="ti-user"></i> Log in</a>
-                        </div>
-                        <!-- Mobile Menu -->
+						<div id="logoutHeader">
+							<a href="logout.do" class="mr-40"> Log out</a>
+							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getU_id() %>님</a>
+						</div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -169,7 +132,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="hero-cap2 pt-20 text-center">
-                                <h2>Login</h2>
+                                <h2></h2>
                             </div>
                         </div>
                     </div>
@@ -177,16 +140,72 @@
             </div>
         </div>
         <!-- Hero End -->
-       <div class="loginBox">
-	       	
-	       	<a href="index.jsp"><img style="width: 90px; margin-top: 10px" src="assets/img/logo/nakalaLOGO.png" alt=""></a>
-	    	<form action="login.do" method="post" id="login-form">
-	       	<h3>LOGIN</h3>
-	       	<input type="text" id="id" name="id" placeholder="id" required><br>
-	       	<input type="password" id="password" name="password" placeholder="password" required>
-	       	<input type="button" class="genric-btn primary-border login-signup-button" id="loginbtn" onclick="loginbtn_click();" value="login"><br>
-			</form>
-	       	<a href="register.html" class="signup-link"><u>signup</u></a>
+       <div class="myPage"> 
+        <!-- 가져온 회원정보를 출력한다. -->
+        <section class="blog_area section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mb-5 mb-lg-0">
+                        <div class="blog_left_sidebar">
+                            <form class="blog_item">
+                                <div class="blog_details">
+                                    <a class="d-inline-block" href="blog_details.html">
+                                        <h2 class="blog-head" style="color: #2d2d2d;">회원 탈퇴</h2>
+                                    </a>
+                                <div class="mt-10" >
+						           <p class="single-input" id="for-signout" ><%=rvo.getName() %></p>
+						        </div>
+						        <div class="mt-10">
+						           <input type="password" name="password" id="password" placeholder="password"
+						              onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'" required
+						              class="single-input">
+						        </div>
+						        <div class="mt-10">
+						           <input type="password" name="password_check" placeholder="password check"
+						              onfocus="this.placeholder = ''" onblur="this.placeholder = 'password check'" required
+						              class="single-input">
+						           <p id="check_pass"></p>
+						        </div>
+						        <div class="mt-10">
+          							 <input type="submit" class="genric-btn primary-border submit_btn" value="탈퇴">
+       						    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog_right_sidebar">
+                            <aside class="single_sidebar_widget post_category_widget">
+                                <ul class="list cat-list">
+                                    <li>
+                                        <a href="myPage.jsp" class="d-flex">
+                                            <p>회원 정보 보기</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="changeUserInfo.jsp" class="d-flex">
+                                            <p>회원 정보 수정</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="d-flex">
+                                            <p>비밀번호 수정</p>
+                                        </a>
+                                    </li> 
+                                    <li>
+                                        <a href="signout.jsp" class="d-flex">
+                                            <p>회원 탈퇴</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Blog Area End -->
+        
        </div>
     </main>
      <footer>

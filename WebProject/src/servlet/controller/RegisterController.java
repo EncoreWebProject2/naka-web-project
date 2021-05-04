@@ -45,10 +45,8 @@ public class RegisterController implements Controller {
         System.out.println("birthday: "+birthday);
 
         UserVO vo = new UserVO(id, newPassword, name, address, phone, status, email, jobField, education, birthday, scrap, salt);
-        //System.out.println("user vo: "+ user);
         try {
 			UserDAOImpl.getInstance().register(vo);
-			//response.getWriter().write("loginSuccess");
 			response.getWriter().print(name);
 		} catch (ParseException e) {
 			

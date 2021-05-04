@@ -198,7 +198,7 @@
                                         </a>
                                     </li> 
                                     <li>
-                                        <a href="#" class="d-flex">
+                                        <a href="signout.jsp" class="d-flex">
                                             <p>È¸¿ø Å»Åð</p>
                                         </a>
                                     </li>

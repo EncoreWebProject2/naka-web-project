@@ -25,4 +25,5 @@ public interface UserDAO {
 	UserVO updateInfo(String id) throws SQLException;
 	public void changePassword(String id, String newPassword, String salt) throws SQLException;
 	public String[] checkPassword(String id) throws SQLException;
+	public boolean signout(String id, String password) throws SQLException;
 }
