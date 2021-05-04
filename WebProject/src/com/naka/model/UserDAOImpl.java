@@ -112,6 +112,56 @@ public class UserDAOImpl implements UserDAO {
 		}finally {
 			closeAll(rs, ps, conn);
 		}
-	}	
+	}
+	
+	public boolean passcheck(String id, String password) throws SQLException {
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String query = "SELECT u_id FROM user WHERE u_id=? AND password=?";
+			ps = conn.prepareStatement(query);
+			ps.setString(1, id);
+			ps.setString(2, password);
+			
+			rs = ps.executeQuery();
+			
+			return rs.next();
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+	}
+	
+	@Override
+	public UserVO login(String id, String password) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		UserVO vo = null;
+		
+		try {
+			conn = getConnection();
+			String query = "SELECT name, email FROM user WHERE u_id=? AND password=?";
+			ps = conn.prepareStatement(query);
+			
+			ps.setString(1, id);
+			ps.setString(2,  password);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				vo=  new UserVO(id, 
+							      password, 
+							      rs.getString("name"), 
+							      rs.getString("email"));
+			}
+			
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		return vo;
+	}
 
 }

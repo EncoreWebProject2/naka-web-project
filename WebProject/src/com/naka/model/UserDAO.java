@@ -19,5 +19,6 @@ public interface UserDAO {
 	public void closeAll(ResultSet rs,PreparedStatement ps, Connection con);
 	public void register(UserVO user) throws SQLException, ParseException;
 	public boolean isExist(String id) throws SQLException;
-	
+	UserVO login(String id, String password) throws SQLException;
+	public boolean passcheck(String id, String password) throws SQLException;
 }
