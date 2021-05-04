@@ -122,7 +122,7 @@
 			pageNum = len / 10;
 			pageNum++;
 			pageNum = parseInt(pageNum);
-			if(len % 10 == 0) pageNum--;
+			if(len % 10 == 0) pageNum--; 
 			var html2 = "";
 			for(var i=0;i<pageNum;i++){
 				html2 += '<a href="#" class="genric-btn primary-border pageBtn" onclick="refresh('+i+')">'+(i+1)+'</a>'
