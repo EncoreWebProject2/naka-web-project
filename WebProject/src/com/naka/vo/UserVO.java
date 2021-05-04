@@ -24,6 +24,37 @@ public class UserVO {
 		this.name = name;
 		this.email = email;
 	}
+	
+	public UserVO(String u_id, String name, String address, String phone, String status, String email, String job_field,
+			String education, String birth_day) {
+		super();
+		this.u_id = u_id;
+		this.name = name;
+		this.address = address;
+		this.phone = phone;
+		this.status = status;
+		this.email = email;
+		this.job_field = job_field;
+		this.education = education;
+		this.birth_day = birth_day;
+	}
+
+	public UserVO(String u_id, String password, String name, String address, String phone, String status, String email, String job_field,
+			String education, String birth_day) {
+		super();
+		this.u_id = u_id;
+		this.password = password;
+		this.name = name;
+		this.address = address;
+		this.phone = phone;
+		this.status = status;
+		this.email = email;
+		this.job_field = job_field;
+		this.education = education;
+		this.birth_day = birth_day;
+	}
+
+
 	public UserVO(String u_id, String password, String name, String address, String phone, String status, String email,
 			String job_field, String education, String birth_day, String scrap, String salt) {
 		super();

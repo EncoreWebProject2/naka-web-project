@@ -24,6 +24,12 @@ public class ControllerFactory {
 			controller = new PassCheckController();	
 		}else if(command.equals("logout.do")) {
 			controller = new LogoutController();	
+		}else if(command.equals("changeUserInfo.do")) {
+			controller = new ChangeUserInfoController();	
+		}else if(command.equals("changePassword.do")) {
+			controller = new ChangePasswordController();	
+		}else if(command.equals("checkPassword.do")) {
+			controller = new CheckPasswordController();	
 		}
 		
 		return controller;

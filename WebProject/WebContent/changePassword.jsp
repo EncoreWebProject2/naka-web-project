@@ -51,7 +51,7 @@
 		.table-name{
 			vertical-align: top;
     		padding-top: 5px;
-    		width: 80px;
+    		margin-right: 10px;
 		}
 		
 		.login-signup-button{
@@ -83,26 +83,53 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
 	 $(function(){	
-		$("form").submit(function(){
-		    var queryString = $("form[name=changeUserInfo]").serialize() ;
-		    $.ajax({
+		 $('input[name=newPasswordConfirm]').keyup(function() {
+	    		
+	   			if($(this).val() == $('input[name=newPassword]').val()){
+	   				$('#check_pass').html("비밀번호가 일치합니다.");
+	   				$( "#check_pass" ).css( "color", "green" );
+	   			}else{
+	   				$('#check_pass').html("비밀번호가 일치하지 않습니다.");
+	   				$( "#check_pass" ).css( "color", "red" );
+	   			}
+	   				
+			});
+		
+	 });
+	 
+	 function changePass(){
+		 var queryString = $("form[name=changePassword]").serialize();
+		 var name = $('#name').val();
+		 $.ajax({
 				type: "post",
-				url: "changeUserInfo.do",
-				data: queryString,
+				url: "checkPassword.do",
+				data: "id="+$('#id').val()+"&password="+$('#password').val(),
 			    encode: true,
 				success: function(result) {
 					if(result){
-						//alert(result+"님의 회원정보가 성공적으로 수정되었습니다");
-						window.location.href = 'myPage.jsp'; 
-					}
-					
-					
+						$.ajax({
+							type: "post",
+							url: "changePassword.do",
+							data: queryString,
+						    encode: true,
+							success: function(result) {
+								if(result){
+									alert(name+"님의 비밀번호가 성공적으로 변경되었습니다.");
+									window.location.href = 'myPage.jsp'; 
+								}
+								
+								
+							}
+						});	
+						
+					}else{
+						alert("비밀번호가 틀렸습니다.");
+						
+					}		
 				}
 			});	
-			
-		});
-		
-	 });
+		    
+	 }
 	
 	</script>
 
@@ -169,107 +196,41 @@
                             <article class="blog_item">
                                 <div class="blog_details">
                                     <a class="d-inline-block" href="blog_details.html">
-                                        <h2 class="blog-head" style="color: #2d2d2d;">회원 정보 수정</h2>
+                                        <h2 class="blog-head" style="color: #2d2d2d;">비밀번호 수정</h2>
                                     </a>
-                                    <form name="changeUserInfo" action="" method="post">
+                                    <form name="changePassword" action="" method="post">
                                    <table>
 							            <tr>
-							                <td class="table-name" id="title" style="vertical-align:top">아이디</td>
+							                <td class="table-name" id="title" style="vertical-align:top">현재 비밀번호</td>
 							                <td>
 							                	<div>
-							                		<p><%=rvo.getU_id() %></p>
-							                		<p><input type="hidden" name="id" value="<%=rvo.getU_id() %>"></p>
+							                		<p><input type="password" id="oldPassword" name="oldPassword"></p>
+							                		<p><input type="hidden" name="id" id="id" value="<%=rvo.getU_id() %>"></p>
+							                		<p><input type="hidden" name="name" id="name" value="<%=rvo.getName() %>"></p>
 							                	</div>
 							                </td>
 							            </tr>
 							            <tr>
-							                <td class="table-name" id="title">이름</td>
+							                <td class="table-name" id="title">새로운 비밀번호</td>
 							                <td>
 							                	<div>
-							                		<p><%=rvo.getName() %></p>
-							                		<p><input type="text" name="name" value="<%=rvo.getName() %>"></p>
+							                		<p><input type="password" id="newPassword" name="newPassword"></p>
 							                	</div>
 							                </td>
 							            </tr>
 							            <tr>
-							                <td class="table-name" id="title">주소</td>
+							                <td class="table-name" id="title">비밀번호 확인</td>
 							                <td>
 							                	<div>
-							                		<p><%=rvo.getAddress() %></p>
-							                		<p><input type="text" name="address" value="<%=rvo.getAddress() %>"></p>
+							                		<p><input type="password" name="newPasswordConfirm"></p>
+							                		<p id="check_pass"></p>
 							                	</div>
 							                </td>
-							            </tr>   
-							            <tr>
-							                <td class="table-name" id="title">휴대전화</td>
-							                <td>
-							                	<div>
-							                		<p><%=rvo.getPhone() %></p>
-							                		<p><input type="text" name="phone" value="<%=rvo.getPhone() %>"></p>
-							                	</div>
-							                </td>
-							            </tr>
-							            <tr>
-							                <td class="table-name" id="title">구직상태</td>
-							                <td>
-							                	<div>
-							                		<p><%=rvo.getStatus() %></p>
-							                		<p>						                		
-											           <span><input type="radio" name="status" <% if(rvo.getStatus().equals("1")){%> checked <%} %> value="1"> 학생</span>
-											           <span><input type="radio" name="status" <% if(rvo.getStatus().equals("2")){%> checked <%} %> value="2"> 구직자</span>
-											           <span><input type="radio" name="status" <% if(rvo.getStatus().equals("3")){%> checked <%} %> value="3"> 이직</span></p>
-							                	</div>
-							                </td>
-							            </tr>  
-							            <tr>
-							                <td class="table-name" id="title">이메일</td>
-							                <td>
-							                	<div>
-							                		<p><%=rvo.getEmail() %></p>
-							                		<p><input type="text" name="email" value="<%=rvo.getEmail() %>"></p>
-							                	</div>
-							                </td>
-							            </tr>
-							            <tr>
-							                <td class="table-name" id="title">분야</td>
-							                <td>
-							                	<div>
-							                		<p><%=rvo.getJob_field() %></p>
-							                		<p> <select class="select"  name="jobField" id="jobField" >
-											              <option value="2" <% if(rvo.getJob_field().equals("2")){%> selected <%} %>>서버</option>
-											              <option value="3" <% if(rvo.getJob_field().equals("3")){%> selected <%} %>>프론트엔드</option>
-											              <option value="4" <% if(rvo.getJob_field().equals("4")){%> selected <%} %>>Newyork</option>
-											              <option value="5" <% if(rvo.getJob_field().equals("5")){%> selected <%} %>>Islamabad</option>
-											              </select></p>
-							                	</div>
-							                </td>
-							            </tr>        
-							            <tr>
-							                <td class="table-name" id="title">최종학력</td>
-							                <td>
-							                	<div>
-							                		<p><%=rvo.getEducation() %></p>
-							                		<p><select class="select" name="education" id="education" >
-										              <option value="2" <% if(rvo.getEducation().equals("2")){%> selected <%} %>>고등학교 졸업</option>
-										              <option value="3" <% if(rvo.getEducation().equals("3")){%> selected <%} %>>대학교 졸업 예정</option>
-										              <option value="4" <% if(rvo.getEducation().equals("4")){%> selected <%} %>>대학교 졸업</option>
-										              </select></p>
-							                	</div>
-							                </td>
-							            </tr>       
-							            <tr>
-							                <td class="table-name" id="title">생일</td>
-							                <td>
-							                	<div>
-							                		<p><%=rvo.getBirth_day() %></p>
-							                		<p><input type="hidden" name="birthday" value="<%=rvo.getBirth_day() %>"></p>
-							                	</div>
-							                </td>
-							            </tr>							         
+							            </tr>   		         
 							        </table>
 							        <div class="mt-10">
 							        <br>
-							           <input type="submit" class="genric-btn primary-border submit_btn login-signup-button"value="회원 정보 수정">
+							           <input type="button" class="genric-btn primary-border submit_btn login-signup-button" onclick="changePass();" value="비밀변호 변경">
 							        </div>
     							 </form> 
                                 </div>

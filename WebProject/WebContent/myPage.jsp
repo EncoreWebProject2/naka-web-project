@@ -44,6 +44,10 @@
 		    color: rgb(112, 48, 160);
 		    outline: medium none;
 		}
+		
+		.table-name{
+    		width: 80px;
+		}
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -118,39 +122,57 @@
                                     </a>
                                    <table>
 							            <tr>
-							                <td id="title">아이디</td>
+							                <td id="title" class="table-name" >아이디</td>
 							                <td><%=rvo.getU_id() %></td>
 							            </tr>
 							                    
 							            <tr>
-							                <td id="title">이름</td>
+							                <td id="title" class="table-name" >이름</td>
 							                <td><%=rvo.getName() %></td>
 							            </tr>
-							                                
 							            <tr>
-							                <td id="title">생일</td>
+							                <td id="title" class="table-name" >주소</td>
+							                <td>
+							                    <%=rvo.getAddress() %>
+							                </td>
+							            </tr>   
+							            <tr>
+							                <td id="title" class="table-name" >휴대전화</td>
+							                <td><%=rvo.getPhone() %></td>
+							            </tr>
+							            <tr>
+							                <td id="title" class="table-name" >구직상태</td>
+							                <td><%=rvo.getStatus() %></td>
+							            </tr>   
+							            <tr>
+							                <td id="title" class="table-name" >이메일</td>
+							                <td>
+							                    <%=rvo.getEmail() %>
+							                </td>
+							            </tr>
+							            <tr>
+							                <td id="title" class="table-name" >분야</td>
+							                <td>
+							                    <%=rvo.getJob_field() %>
+							                </td>
+							            </tr>    
+							            <tr>
+							                <td id="title" class="table-name" >최종학력</td>
+							                <td>
+							                    <%=rvo.getEducation() %>
+							                </td>
+							            </tr>           
+							            <tr>
+							                <td id="title" class="table-name" >생일</td>
 							                <td>
 							                    <%=rvo.getBirth_day() %>
 							                </td>
 							            </tr>
 							                    
-							            <tr>
-							                <td id="title">이메일</td>
-							                <td>
-							                    <%=rvo.getEmail() %>
-							                </td>
-							            </tr>
+							            
 							                    
-							            <tr>
-							                <td id="title">휴대전화</td>
-							                <td><%=rvo.getPhone() %></td>
-							            </tr>
-							            <tr>
-							                <td id="title">주소</td>
-							                <td>
-							                    <%=rvo.getAddress() %>
-							                </td>
-							            </tr>
+							            
+							            
 							        </table>
                                 </div>
                             </article>
@@ -171,7 +193,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" class="d-flex">
+                                        <a href="changePassword.jsp" class="d-flex">
                                             <p>비밀번호 수정</p>
                                         </a>
                                     </li> 
