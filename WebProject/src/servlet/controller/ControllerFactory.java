@@ -36,8 +36,8 @@ public class ControllerFactory {
 			controller = new ChangePasswordController();	
 		}else if(command.equals("checkPassword.do")) {
 			controller = new CheckPasswordController();	
-		}else if(command.equals("signout.do")) {
-			controller = new SignoutController();	
+		}else if(command.equals("deleteAccount.do")) {
+			controller = new DeleteAccountController();	
 		}
 		
 		return controller;

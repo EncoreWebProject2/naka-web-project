@@ -117,9 +117,7 @@
                         <div class="blog_left_sidebar">
                             <article class="blog_item">
                                 <div class="blog_details">
-                                    <a class="d-inline-block" href="blog_details.html">
-                                        <h2 class="blog-head" style="color: #2d2d2d;">마이페이지</h2>
-                                    </a>
+                                        <h2 class="blog-head" style="color: #2d2d2d;">회원 정보</h2><br>
                                    <table>
 							            <tr>
 							                <td id="title" class="table-name" >아이디</td>
@@ -198,7 +196,7 @@
                                         </a>
                                     </li> 
                                     <li>
-                                        <a href="signout.jsp" class="d-flex">
+                                        <a href="deleteAccount.jsp" class="d-flex">
                                             <p>회원 탈퇴</p>
                                         </a>
                                     </li>

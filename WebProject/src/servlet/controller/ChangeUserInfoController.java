@@ -37,7 +37,7 @@ public class ChangeUserInfoController implements Controller {
 			if(rvo!=null) {
 				session.setAttribute("rvo", user);
 			}
-			out.print(request.getParameter("name"));
+			out.print(name);
 			//response.getWriter().write(name);
 		}catch(Exception e) {
 			

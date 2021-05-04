@@ -307,7 +307,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override
-	public boolean signout(String id, String password) throws SQLException {
+	public boolean deleteAccount(String id, String password) throws SQLException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;

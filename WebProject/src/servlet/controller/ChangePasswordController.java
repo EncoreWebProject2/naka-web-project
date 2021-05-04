@@ -21,10 +21,13 @@ public class ChangePasswordController implements Controller {
         String Password = SHA256Util.getEncrypt(request.getParameter("newPassword"), salt);
 		HttpSession session = request.getSession();
 		UserVO rvo=UserDAOImpl.getInstance().updateInfo(id);
-		session.setAttribute("rvo", rvo);
+		
 		try {
 			UserDAOImpl.getInstance().changePassword(id, Password, salt);
+			session.invalidate();
 			response.getWriter().print(name);
+			
+			
 			//response.getWriter().write(name);
 		}catch(Exception e) {
 			

@@ -9,16 +9,15 @@ import javax.servlet.http.HttpSession;
 import com.naka.model.UserDAOImpl;
 import com.naka.vo.UserVO;
 
-public class SignoutController implements Controller {
+public class DeleteAccountController implements Controller {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		String id=  request.getParameter("id");
 		String password = request.getParameter("password");
-		System.out.println("signout");
 		String path = "index.jsp";
 		try {
-			UserDAOImpl.getInstance().signout(id, password);
+			UserDAOImpl.getInstance().deleteAccount(id, password);
 			
 			HttpSession session = request.getSession();
 			UserVO rvo= (UserVO)session.getAttribute("rvo");

@@ -580,5 +580,5 @@
 
     
     </body>
->>>>>>> branch 'sign-up' of https://github.com/EncoreWebProject2/naka-web-project.git
+
 </html>
