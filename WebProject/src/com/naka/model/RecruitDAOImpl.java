@@ -71,7 +71,7 @@ public class RecruitDAOImpl implements RecruitDAO {
 			String query = "select R.* from (select * from recruit) R limit ? , ?";
 			ps = con.prepareStatement(query);
 			ps.setInt(1, 4*4*(pageNumber-1));
-			ps.setInt(2, 4*4*pageNumber);
+			ps.setInt(2, 4*4);
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
@@ -256,7 +256,7 @@ public class RecruitDAOImpl implements RecruitDAO {
 			
 			ps = con.prepareStatement(query);
 			ps.setInt(1, 4*4*(pageNumber-1));
-			ps.setInt(2, 4*4*pageNumber);
+			ps.setInt(2, 4*4);
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				list.add(new RecruitVO(rs.getInt("r_id"), rs.getString("position"), rs.getString("tech"),

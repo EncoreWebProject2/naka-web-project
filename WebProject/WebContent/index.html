@@ -182,15 +182,15 @@
 		#page_num{
 			width:100%;
 			float:right;
+			text-align: right;
+			margin: 10px 0;
 		}
 		
-		#page_num div{
-			width:50px;
-			height;50px;
-			
+		.pageBtn{		
 			background-color: #B367FF;
 			display:inline;
-			margin: 0 10px;
+			padding: 5px 10px;
+			margin : 10px;
 		}
 		
     </style>
@@ -350,7 +350,7 @@
 			
 		}
 	
-		var totalPageCount=0;
+		var totalPageCount=1;
 		var pageNumber=1;
 		
 		var co_ids = {1:"네이버.png",2:"우아한형제들.jpg",3:"토스.png",4:"라인.png",5:"쿠팡.png",6:"당근마켓.png",7:"카카오.jpg"};
@@ -389,6 +389,23 @@
 		}
 		
 		function pageCountModify(){
+			$("#page_num").html('');
+			var str = "";
+			pageNumber = new Number($(this).text());
+			pageNumber = pageNumber==0?1:pageNumber;
+			for(var i=(pageNumber-3<1?1:pageNumber-3);i<=pageNumber+3&&i<=totalPageCount;i++){
+				str += "<div class='pageBtn'>"+i+"</div>";
+			}
+			$("#page_num").html(str);
+			$(".pageBtn").css("color","black");
+			$(".pageBtn:contains("+pageNumber+")").css("color","white");
+			addLoadedRecruits();
+			$(document).off('click',".pageBtn",pageCountModify);
+			$(document).on('click',".pageBtn",pageCountModify);
+			
+		}
+		
+		function setTotalCount(){
 			$.ajax({
 				url:"recruit.do",
 				type:"post",
@@ -396,32 +413,27 @@
 					keyword:$("#keyword").val(), scrap:$("#scrap").val(), command:"pageCount",
 				},
 				success:function(data){
-					totalPageCount=JSON.parse(data).pageCount;
-					var str = "";
-					for(var i=(pageNumber-5<1?1:pageNumber-5);i<totalPageCount&&i<=pageNumber+5;i++){
-						str += "<div class='pageBtn'>"+i+"</div>";
-					}
-					$("#page_num").html(str);
-					$(".pageBtn").click(function(){
-						alert($(this).html);
-					});
+					totalPageCount=(JSON.parse(data).pageCount/16);
+					pageCountModify();
 				}
 			});
 		}
 		
 		$(function () {
-			pageCountModify();
+			setTotalCount();
 			addLoadedRecruits();
 			
 	   		$('select').change(function(){
 	   			pageNumber=1;
-	   			pageCountModify();
+   				setTotalCount();
+   				pageCountModify();
    				addLoadedRecruits();
 	   		});	
 	   		
 	   		$("#keyword").keyup(function(e){
 	   			if(e.keyCode==13){
 	   				pageNumber=1;
+	   				setTotalCount();
 	   				pageCountModify();
 	   				addLoadedRecruits();
 	   			}
