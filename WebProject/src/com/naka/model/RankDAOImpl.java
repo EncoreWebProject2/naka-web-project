@@ -126,7 +126,7 @@ public class RankDAOImpl implements RankDAO {
 		ArrayList<RankVO> list = new ArrayList<RankVO>();
 		try {
 			con = getConnection();
-			String query = "SELECT name,value FROM ranking WHERE id LIKE 'j%' ORDER BY value;";
+			String query = "SELECT name,value FROM ranking WHERE id LIKE 'j%' ORDER BY value DESC;";
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
 			while (rs.next()) {
