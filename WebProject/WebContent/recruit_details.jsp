@@ -1,8 +1,8 @@
+<%@page import="com.naka.vo.RecruitVO"%>
 <%@page import="com.naka.vo.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%  UserVO vo = (UserVO)session.getAttribute("rvo"); %>
-    
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -40,15 +40,15 @@
 		background-color: transparent !important;
 	}
    </style>
-       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <script type="text/javascript">
    	$(function(){
    		setScrap();
    		
    		$('.scrap-button').click(function() {
 			
-   			var u_id = '<%= vo.getU_id() %>';
-			
+   			var u_id = '${sessionScope.rvo.u_id}';
+   			
 			if(u_id == ""){
 				alert("로그인이 필요한 서비스 입니다.");
 				return;
@@ -89,9 +89,9 @@
    			url:'scrap.do?u_id='+u_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
    			async: false,
    			success: function(result) {
-   				str = result.split(",");
-   				scrap_list = str.map(i=>Number(i));
-				}//callback
+   				scrap_list = result.split(",");
+				console.log(scrap_list);	
+   			}//callback
    		});//ajax
    		
    		return scrap_list;
@@ -99,17 +99,20 @@
    	
    	function setScrap() {
    		var scrapList = [];
-		var u_id = '<%= vo.getU_id() %>';
-
+		var u_id = '${sessionScope.rvo.u_id}';
+		
 		if(u_id != ""){
 			scrapList = scrap(u_id);
 		}
 		
 		var src;
 		var svg;
-		if(scrapList.includes(${rvo.r_id}) == false){
+
+		console.log("${rvo.r_id}");
+		
+		if(scrapList.includes("${rvo.r_id}") == false){			
 			$('.scrap-button svg').css("background-image", "url(assets/img/elements/heart-regular.svg)");
-			$('.scrap-button svg').attr('id','svg1');		
+			$('.scrap-button svg').attr('id','svg1');
 		}else{
 			$('.scrap-button svg').css("background-image", "url(assets/img/elements/heart-solid.svg)");
 			$('.scrap-button svg').attr('id','svg2');
@@ -124,16 +127,16 @@
       <div class="preloader d-flex align-items-center justify-content-center">
           <div class="preloader-inner position-relative">
               <div class="preloader-circle"></div>
-              <div class="preloader-img pere-text">
-                  <img src="assets/img/logo/loder.png" alt="">
-              </div>
+                <div class="preloader-img pere-text">
+                    <img src="assets/img/logo/nakalaLOGO.png" alt="">
+                </div>
           </div>
       </div>
    </div>
    <!-- Preloader Start -->
    <header>
       <!-- Header Start -->
-      <div class="header-area header-transparent" style="background-color: #f0e9ff">
+      <div class="header-area header-transparent">
           <div class="main-header header-sticky">
               <div class="container-fluid">
                   <div class="menu-wrapper d-flex align-items-center justify-content-between">
@@ -184,7 +187,18 @@
    </header>
    <main>
       <!--? Hero Start  이미지... 여기에 공고 제목?-->
-      
+      <div class="slider-area2">
+            <div class="slider-height3  hero-overly hero-bg4 d-flex align-items-center" style="max-height: 150px;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap2 pt-20 text-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
       <!-- Hero End -->
       <!--? Blog Area Start -->
       <section class="blog_area single-post-area section-padding">
