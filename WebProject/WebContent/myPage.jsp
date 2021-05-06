@@ -204,7 +204,7 @@
                                     </li>
                                     <li>
                                         <a href="changePassword.jsp" class="d-flex">
-                                            <p>비밀번호 수정</p>
+                                            <p>비밀번호 변경</p>
                                         </a>
                                     </li> 
                                     <li>

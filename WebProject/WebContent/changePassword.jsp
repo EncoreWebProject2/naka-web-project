@@ -246,9 +246,7 @@
                         <div class="blog_left_sidebar">
                             <article class="blog_item">
                                 <div class="blog_details">
-                                    <a class="d-inline-block" href="blog_details.html">
-                                        <h2 class="blog-head" style="color: #2d2d2d;">비밀번호 수정</h2>
-                                    </a>
+                                        <h2 class="blog-head" style="color: #2d2d2d;">비밀번호 변경</h2>
                                     <form name="changePassword" action="" method="post">
                                    <table>
 							            <tr>
@@ -305,7 +303,7 @@
                                     </li>
                                     <li>
                                         <a href="changePassword.jsp" class="d-flex">
-                                            <p>비밀번호 수정</p>
+                                            <p>비밀번호 변경</p>
                                         </a>
                                     </li> 
                                     <li>
