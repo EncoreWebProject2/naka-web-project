@@ -121,27 +121,30 @@
    				
 		});
     	
-    	$("form").submit(function(){
-		    var queryString = $("form[name=loginFormData]").serialize() ;
-
-		    $.ajax({
-				type: "post",
-				url: "register.do",
-				data: queryString,
-			    encode: true,
-				success: function(result) {
-					console.log("result: "+result);
-					alert(result+"님 회원가입이 성공적으로 완료되었습니다.");
-					window.location.href = 'login.jsp'; 
-					
-				},
-				error: function(err){
-					alert("error");
-				}
-			});	
-			
-		});
+    	
    });
+    
+    function register(){
+    	var queryString = $("form[name=loginFormData]").serialize() ;
+
+	    $.ajax({
+			type: "post",
+			url: "register.do",
+			data: queryString,
+		    encode: true,
+			success: function(result) {
+				console.log("result: "+result);
+				alert(result+"님 회원가입이 성공적으로 완료되었습니다.");
+				window.location.href = 'login.jsp'; 
+				
+			},
+			error: function(err){
+				alert("error");
+			}
+		});	
+		
+    	
+    }
     </script>
 </head>
 <body>
@@ -186,9 +189,9 @@
         </div>
         <div class="mt-10 radio">
            <span>구직상태</span>
-           <span><input type="radio" name="status" value="1"> 학생</span>
-           <span><input type="radio" name="status" value="2"> 구직자</span>
-           <span><input type="radio" name="status" value="3"> 이직</span>
+           <span><input type="radio" name="status" value="학생"> 학생</span>
+           <span><input type="radio" name="status" value="구직자"> 구직자</span>
+           <span><input type="radio" name="status" value="채용담당자"> 채용담당자</span>
         </div>
         <div class="mt-10">
            <input type="email" name="email" placeholder="email"
@@ -198,21 +201,22 @@
         <div class="mt-10">
            <div class="default-select" id="default-select"">
               <select class="select"  name="jobField" id="jobField" >
-              <option value="1">분야</option>
-              <option value="2">서버</option>
-              <option value="3">프론트엔드</option>
-              <option value="4">Newyork</option>
-              <option value="5">Islamabad</option>
+              <option value="선택 안함">분야</option>
+              <option value="서버">서버</option>
+              <option value="프론트엔드">프론트엔드</option>
+              <option value="Network">Network</option>
+              <option value="정보보호">정보보호</option>
               </select>
            </div>
         </div>
         <div class="mt-10">
            <div class="default-select" id="default-select"">
               <select class="select" name="education" id="education" >
-              <option value="1">최종학력</option>
-              <option value="2">고등학교 졸업</option>
-              <option value="3">대학교 졸업 예정</option>
-              <option value="4">대학교 졸업</option>
+              <option value="선택 안함">최종학력</option>
+              <option value="고등학교 졸업">고등학교 졸업</option>
+              <option value="대학교 졸업 예정">대학교 졸업 예정</option>
+              <option value="대학교 졸업">대학교 졸업</option>
+              <option value="석사 이상">석사 이상</option>
               </select>
            </div>
         </div>
@@ -221,7 +225,7 @@
            <input type="date" name="birthday" placeholder="birthday" id="birthday">
         </div>
         <div class="mt-10">
-           <input type="submit" class="genric-btn primary-border submit_btn login-signup-button">
+           <input type="button" class="genric-btn primary-border submit_btn login-signup-button" onclick="register();" value="회원가입">
         </div>
      </form> 
 		</div>

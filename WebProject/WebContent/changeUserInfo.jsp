@@ -36,10 +36,14 @@
 		     padding-bottom: 0px !important; 
 		}
 		
-		#logoutHeader{
+		.mr-40{
 			color: rgb(112, 48, 160) !important;
 			z-index: 2;
 		}		
+		.header-area .menu-wrapper .main-menu ul ul.submenu{
+			background: rgba(179,103,255,0.8) !important; 
+		}
+			
 		a, button {
 		    color: rgb(112, 48, 160);
 		    outline: medium none;
@@ -82,27 +86,22 @@
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
-	 $(function(){	
-		$("form").submit(function(){
-		    var queryString = $("form[name=changeUserInfo]").serialize() ;
+	 
+	 function changeUser(){
+		 var queryString = $("form[name=changeUserInfo]").serialize();
 		    $.ajax({
 				type: "post",
 				url: "changeUserInfo.do",
 				data: queryString,
 			    encode: true,
 				success: function(result) {
-					if(result){
-						alert(<%=rvo.getName() %>+"님의 회원정보가 성공적으로 수정되었습니다");
-						window.location.href = 'myPage.jsp'; 
-					}
-					
-					
+					alert(<%=rvo.getName() %>+"님의 회원정보가 성공적으로 수정되었습니다");
+					window.location.href = 'myPage.jsp'; 
+		
 				}
 			});	
-			
-		});
-		
-	 });
+		 
+	 }
 	
 	</script>
 
@@ -130,10 +129,19 @@
                         <div class="logo">
                             <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
-						<div id="logoutHeader">
-							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getU_id() %>님</a>
-						</div>
+						<div class="main-menu f-right d-none d-lg-block">
+                            <nav>
+                                <ul id="navigation">
+                                   <li><a href="logout.do" class="mr-40"> Log out</a></li>
+                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>님</a>
+                                        <ul class="submenu">
+                                            <li><a href="myPage.jsp">MyPage</a></li>
+                                            <li><a href="myScrap.jsp">Scrap</a></li> 
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                       	</div> 
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -215,9 +223,9 @@
 							                	<div>
 							                		<p><%=rvo.getStatus() %></p>
 							                		<p>						                		
-											           <span><input type="radio" name="status" <% if(rvo.getStatus().equals("1")){%> checked <%} %> value="1"> 학생</span>
-											           <span><input type="radio" name="status" <% if(rvo.getStatus().equals("2")){%> checked <%} %> value="2"> 구직자</span>
-											           <span><input type="radio" name="status" <% if(rvo.getStatus().equals("3")){%> checked <%} %> value="3"> 이직</span></p>
+											           <span><input type="radio" name="status" <% if(rvo.getStatus().equals("학생")){%> checked <%} %> value="학생"> 학생</span>
+											           <span><input type="radio" name="status" <% if(rvo.getStatus().equals("구직자")){%> checked <%} %> value="구직자"> 구직자</span>
+											           <span><input type="radio" name="status" <% if(rvo.getStatus().equals("채용담당자")){%> checked <%} %> value="채용담당자"> 채용담당자</span></p>
 							                	</div>
 							                </td>
 							            </tr>  
@@ -236,10 +244,11 @@
 							                	<div>
 							                		<p><%=rvo.getJob_field() %></p>
 							                		<p> <select class="select"  name="jobField" id="jobField" >
-											              <option value="2" <% if(rvo.getJob_field().equals("2")){%> selected <%} %>>서버</option>
-											              <option value="3" <% if(rvo.getJob_field().equals("3")){%> selected <%} %>>프론트엔드</option>
-											              <option value="4" <% if(rvo.getJob_field().equals("4")){%> selected <%} %>>Newyork</option>
-											              <option value="5" <% if(rvo.getJob_field().equals("5")){%> selected <%} %>>Islamabad</option>
+							                			  <option value="선택 안함" <% if(rvo.getJob_field().equals("선택 안함")){%> selected <%} %>>분야</option>
+											              <option value="서버" <% if(rvo.getJob_field().equals("서버")){%> selected <%} %>>서버</option>
+											              <option value="프론트엔드" <% if(rvo.getJob_field().equals("프론트엔드")){%> selected <%} %>>프론트엔드</option>
+											              <option value="Network" <% if(rvo.getJob_field().equals("Network")){%> selected <%} %>>Network</option>
+											              <option value="정보보호" <% if(rvo.getJob_field().equals("정보보호")){%> selected <%} %>>정보보호</option>
 											              </select></p>
 							                	</div>
 							                </td>
@@ -250,9 +259,11 @@
 							                	<div>
 							                		<p><%=rvo.getEducation() %></p>
 							                		<p><select class="select" name="education" id="education" >
-										              <option value="2" <% if(rvo.getEducation().equals("2")){%> selected <%} %>>고등학교 졸업</option>
-										              <option value="3" <% if(rvo.getEducation().equals("3")){%> selected <%} %>>대학교 졸업 예정</option>
-										              <option value="4" <% if(rvo.getEducation().equals("4")){%> selected <%} %>>대학교 졸업</option>
+							                		  <option value="선택 안함" <% if(rvo.getEducation().equals("선택 안함")){%> selected <%} %>>최종학력</option>
+										              <option value="고등학교 졸업" <% if(rvo.getEducation().equals("고등학교 졸업")){%> selected <%} %>>고등학교 졸업</option>
+										              <option value="대학교 졸업 예정" <% if(rvo.getEducation().equals("대학교 졸업 예정")){%> selected <%} %>>대학교 졸업 예정</option>
+										              <option value="대학교 졸업" <% if(rvo.getEducation().equals("대학교 졸업")){%> selected <%} %>>대학교 졸업</option>
+										              <option value="석사 이상" <% if(rvo.getEducation().equals("석사 이상")){%> selected <%} %>>석사 이상</option>
 										              </select></p>
 							                	</div>
 							                </td>
@@ -269,7 +280,7 @@
 							        </table>
 							        <div class="mt-10">
 							        <br>
-							           <input type="submit" class="genric-btn primary-border submit_btn login-signup-button"value="회원 정보 수정">
+							           <input type="button" class="genric-btn primary-border submit_btn login-signup-button" onclick="changeUser();" value="회원 정보 수정">
 							        </div>
     							 </form> 
                                 </div>

@@ -36,10 +36,14 @@
 		     padding-bottom: 0px !important; 
 		}
 		
-		#logoutHeader{
+		.mr-40{
 			color: rgb(112, 48, 160) !important;
 			z-index: 2;
 		}		
+		.header-area .menu-wrapper .main-menu ul ul.submenu{
+			background: rgba(179,103,255,0.8) !important; 
+		}
+			
 		a, button {
 		    color: rgb(112, 48, 160);
 		    outline: medium none;
@@ -157,10 +161,19 @@
                         <div class="logo">
                             <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
-						<div id="logoutHeader">
-							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getU_id() %>ดิ</a>
-						</div>
+						<div class="main-menu f-right d-none d-lg-block">
+                            <nav>
+                                <ul id="navigation">
+                                   <li><a href="logout.do" class="mr-40"> Log out</a></li>
+                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>ดิ</a>
+                                        <ul class="submenu">
+                                            <li><a href="myPage.jsp">MyPage</a></li>
+                                            <li><a href="myScrap.jsp">Scrap</a></li> 
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                       	</div> 
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>

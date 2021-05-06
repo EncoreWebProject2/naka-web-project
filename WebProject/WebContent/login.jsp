@@ -185,7 +185,7 @@
 	       	<input type="text" id="id" name="id" placeholder="id" required><br>
 	       	<input type="password" id="password" name="password" placeholder="password" required>
 	       	<input type="button" class="genric-btn primary-border login-signup-button" id="loginbtn" onclick="loginbtn_click();" value="login"><br>
-			</form>
+			</form><br>
 	       	<a href="register.html" class="signup-link"><u>signup</u></a>
        </div>
     </main>
