@@ -1,5 +1,7 @@
+<%@page import="com.naka.vo.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%  UserVO rvo = (UserVO)session.getAttribute("rvo"); %>
     
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
@@ -66,27 +68,38 @@
                   <div class="menu-wrapper d-flex align-items-center justify-content-between">
                       <!-- Logo -->
                       <div class="logo">
-                          <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
-                      </div>
+                            <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
+                        </div>
                       <!-- Main-menu -->
                       <div class="main-menu f-right d-none d-lg-block" >
                           <nav>
-                              <ul id="navigation">
-                                  
-                                  <li><a href="blog.html">Ranking</a>
-                                      <ul class="submenu">
-                                          <li><a href="blog.html">Blog</a></li>
-                                          <li><a href="blog_details.html">Blog Details</a></li>
-                                          <li><a href="elements.html">Elements</a></li>
-                                      </ul>
-                                  </li>
-                                 
-                              </ul>
+                               <ul id="navigation">
+                                   <li><a href="ranking.jsp">Ranking</a></li>
+                                   <li><a href="contact.html">About Us</a></li>
+                                </ul>
                           </nav>
                       </div>          
                       <!-- Header-btn -->
                       <div class="header-btns d-none d-lg-block f-right">
-                          <a href="#" class="mr-40"><i class="ti-user"></i> Log in</a>                          
+                          <%if(rvo == null) {%>
+                            <a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
+                            <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
+                        <%}else{ %>	
+							<!-- 로그인 이후 화면 -->
+							<div class="main-menu f-right d-none d-lg-block">
+	                            <nav>
+	                                <ul id="navigation">
+	                                   <li><a href="logout.do" class="mr-40"> Log out</a></li>
+	                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>님</a>
+	                                        <ul class="submenu">
+	                                            <li><a href="myPage.jsp">MyPage</a></li>
+	                                            <li><a href="myScrap.jsp">Scrap</a></li> 
+	                                        </ul>
+	                                    </li>
+	                                </ul>
+	                            </nav>
+                        	</div> 
+						<%} %>                        
                       </div>
                       <!-- Mobile Menu -->
                       <div class="col-12">
@@ -167,8 +180,7 @@
                          <div class="col-xl-10 col-lg-9 ">
                              <div class="footer-copy-right">
                                  <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Nakala</p>
                              </div>
                          </div>
                      </div>
