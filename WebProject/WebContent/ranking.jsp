@@ -142,12 +142,18 @@
 	
 	
 	$(function(){
-		var els = $(".rank-list li")
-		var values = ["tech","position","job_type"];
+		var els = $(".rank-list li");
+		//alert($(els[1]).text());
+		var values = ["tech","position","job_type"];		
 		loadData("tech");
 		for(var i=0;i<3;i++){
 			$(els[i]).data("command",values[i]);
-			$(els[i]).on("click",function(e){ loadData($(this).data("command"))});
+			$(els[i]).on("click",function(e){ 
+				loadData($(this).data("command"));
+				var title = $(els[i]).text();
+				//alert(title);
+				$('.blog-head').html("...");
+				});
 		}
 	});
 	
@@ -214,10 +220,10 @@
                         <div class="blog_left_sidebar">
                             <article class="blog_item">
                                 <div class="blog_details">
-                                    <a class="d-inline-block" href="#">
+                                   
                                         <h2 class="blog-head" style="color: #2d2d2d;">Ranking</h2>
-                                    </a>
-                                   	<div style="width:800px">
+                                    
+                                   	<div style="overflow:auto; padding: 20px;">
     								<canvas id="myChart" width="400" height="400"></canvas>
 									
 									</div>
