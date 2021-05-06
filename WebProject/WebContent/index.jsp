@@ -1,3 +1,8 @@
+<%@page import="com.naka.vo.UserVO"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<%  UserVO rvo = (UserVO)session.getAttribute("rvo"); %>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -135,7 +140,7 @@
 			
 		}
 		
-		.compareBtn:hover {
+	.compareBtn:hover {
 		    background: rgba(255, 100, 97, 1);
 		    cursor: pointer;
 		}
@@ -154,12 +159,43 @@
 			border-radius:24px;
 		}
 		.location-img img{
-			width: 330px;
-			height: 330px;
+			width:270px;
+			height:270px;
 			opacity: 0.4;
 		}
 		.location-details p{
 			font-weight: bold;			
+		}
+		
+		
+		
+		.scrap-button svg {
+		background-image: url(assets/img/elements/heart-regular.svg);
+		width:18px; height:18px;
+		object-fit: cover;
+		float: left;
+		
+		}
+
+		.scrap-button svg:hover{
+		background-image: url(assets/img/elements/heart-solid.svg);
+		
+		}
+		
+		.recruit-hover{margin-bottom:20px; font-size: large; font-weight:bold; float:left;}
+		
+		#page_num{
+			width:100%;
+			float:right;
+			text-align: right;
+			margin: 10px 0;
+		}
+		
+		.pageBtn{		
+			background-color: #B367FF;
+			display:inline;
+			padding: 5px 10px;
+			margin : 10px;
 		}
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -169,6 +205,25 @@
 		$(function () {
 			showCart();
 			arrLengthCheck();
+			$('.row').on('mouseenter', '.single-location.mb-30', function() {						
+				$(this).find('.content').addClass('recruit-hover');
+				var id = $(this).find('img').attr('id');			
+				var recruitInfo = $(this).find('#'+id).data('info');
+				var tech = recruitInfo.tech;
+				if(tech.length>24) tech = tech.substr(0,20)+"....";	
+				var str = "¡˜π´ : "+ recruitInfo.position +"<br> √§øÎ¿Ø«¸ : "+recruitInfo.job_type +"<br>«–∑¬ : "+recruitInfo.education+"<br>±‚º˙Ω∫≈√ : "+tech;
+				$(this).find('p').html("");
+				$(this).find('.content').html(str);
+			});
+			$('.row').on('mouseleave', '.single-location.mb-30', function() {						
+				$(this).find('.content').removeClass('recruit-hover'); //∆Ø¡§ ≈¬±◊ √£¥¬ find
+				var id = $(this).find('img').attr('id');			
+				var recruitInfo = $(this).find('#'+id).data('info');
+				var title = recruitInfo.title;
+				if(title.length>24) title = title.substr(0,24)+"....";	
+				$(this).find('p').html(title);
+				$(this).find('.content').html("");
+			});
 			
 			$("#compareBox").hide();
 			$('.cartBox').click(function () {
@@ -206,7 +261,7 @@
 
       
       	$('.row').on('click','button[name=addItemCart]',function () {
-				//Î°úÏª¨ Ïä§ÌÜ†Î¶¨ÏßÄÏóê Ï†ÄÏû• setItem()		
+				//∑Œƒ√ Ω∫≈‰∏Æ¡ˆø° ¿˙¿Â setItem()		
 				console.log("click");
 				var arr = []
 				if(localStorage.getItem('compareStorage') != null){
@@ -215,7 +270,7 @@
 				}
 				
 				if(arr.length >= 3){
-					alert("ÎπÑÍµêÌï®Ïù¥ Í∞ÄÎìù Ï∞ºÏäµÎãàÎã§. Ïä¨Î°ØÏùÑ ÎπÑÏö¥ ÌõÑ Îã§Ïãú ÏãúÎèÑÌï¥ Ï£ºÏÑ∏Ïöî");			
+					alert("∫Ò±≥«‘¿Ã ∞°µÊ √°Ω¿¥œ¥Ÿ. ΩΩ∑‘¿ª ∫ÒøÓ »ƒ ¥ŸΩ√ Ω√µµ«ÿ ¡÷ººø‰");			
 				}else{
 					var flag = false;
 					for(var i = 0; i<arr.length;i++){
@@ -224,13 +279,13 @@
 						}
 					}
 					if(flag){
-						alert("ÎπÑÍµêÌï®Ïóê Ïù¥ÎØ∏ Ï°¥Ïû¨ÌïòÎäî Í≥µÍ≥†ÏûÖÎãàÎã§.");
+						alert("∫Ò±≥«‘ø° ¿ÃπÃ ¡∏¿Á«œ¥¬ ∞¯∞Ì¿‘¥œ¥Ÿ.");
 					}else{
 						var id = $(this).val();
 						
 						$.ajax({
 							type: "post",
-							url: "CompareServlet",
+							url: "compare.do",
 							data: "id=" + id,
 							
 							success: function(result) {
@@ -249,9 +304,9 @@
       		var output = localStorage.getItem('compareStorage');
 			arr = JSON.parse(output);
 			if(arr.length !=null  && arr.length > 1){
-				window.open('compare.html', '_blank');
+				window.open('compare.jsp', '_blank');
 			}else{
-				alert("Í≥µÍ≥†Î•º 2Í∞ú Ïù¥ÏÉÅ ÎπÑÍµêÌï®Ïóê ÎÑ£Ïñ¥Ï£ºÏÑ∏Ïöî.");
+				alert("∞¯∞Ì∏¶ 2∞≥ ¿ÃªÛ ∫Ò±≥«‘ø° ≥÷æÓ¡÷ººø‰.");
 			}
 		});
       
@@ -303,52 +358,100 @@
 			
 		}
 	
-		var pageNumber = 1;
-		var co_ids = {1:"ÎÑ§Ïù¥Î≤Ñ.png",2:"Ïö∞ÏïÑÌïúÌòïÏ†úÎì§.jpg",3:"ÌÜ†Ïä§.png",4:"ÎùºÏù∏.png",5:"Ïø†Ìå°.png",6:"ÎãπÍ∑ºÎßàÏºì.png",7:"Ïπ¥Ïπ¥Ïò§.jpg"};
+		var totalPageCount=1;
+		var pageNumber=1;
+		
+		var co_ids = {1:"≥◊¿Ãπˆ.png",2:"øÏæ∆«—«¸¡¶µÈ.jpg",3:"≈‰Ω∫.png",4:"∂Û¿Œ.png",5:"ƒÌ∆Œ.png",6:"¥Á±Ÿ∏∂ƒœ.png",7:"ƒ´ƒ´ø¿.jpg"};
 	
 		function addLoadedRecruits(){
 			$.ajax({
 				url:"recruit.do",
 				type:"post",
-				data:{num:pageNumber},
+				data:{num:pageNumber,position:$("#select1").val(), job_type:$("#select2").val(), education:$("#select3").val(),
+					keyword:$("#keyword").val(), scrap:$("#scrap").val(), command:"getRecruits",
+				},
 				success:function(data){
 					var jsonObject = JSON.parse(data);
+					$("#recruit_container div.row").html('');
 					if(jsonObject.length>0){						
-						$("#recruit_container div.row").html('');
 						for(key in jsonObject){
 							var title = jsonObject[key].title;
 							if(title.length>24) title = title.substr(0,24)+"....";							
-							var str = '<div class="col-lg-3 col-md-6 col-sm-6"><div class="single-location mb-30"><div class="location-img">'+
-							'<img id="'+jsonObject[key].r_id+'" src="assets/img/logo/'+co_ids[jsonObject[key].c_id]+'" alt=""></div><div class="location-details"><p class="title">'+title+'</p>'+
-	                        '<button class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">ÎπÑÍµêÌï® Ï∂îÍ∞Ä</button><a href="#"><img src="assets/img/gallery/heart1.png" alt=""></a>'+
+							var str = '<div class="col-lg-3 col-md-6 col-sm-6" style="overflow:hidden;""><div class="single-location mb-30" name ="recruit"><div class="location-img">'+
+							'<img id="'+jsonObject[key].r_id+'" src="assets/img/logo/'+co_ids[jsonObject[key].c_id]+'" alt=""></div><div class="location-details"><p class="title">'+title+'</p>'+'<div class= "content"></div>'+
+	                        '<button style="float: right; margin-right:30px;" class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">∫Ò±≥«‘ √ﬂ∞°</button> <div class="scrap-button" style="float: left; margin: 10px;"><svg></svg></div>'+
 	                        '</div></div></div>';
 							$("#recruit_container div.row").append(str);
+							$('#'+jsonObject[key].r_id).data('info',jsonObject[key]);
 						}
 						
 						$("#recruit_container").trigger('create');
-	                	$('.single-location img').click(function() {	                		
-	            			var win = window.open("recruit_detail.do?id="+$(this).attr('id'));	
+	                	$('.single-location').click(function() {	   
+	                		var id = $(this).find('img').attr('id');	
+	            			var win = window.open("recruit_detail.do?id="+id);	
 	        			});
 					}
+					else
+						$("#recruit_container div.row").append("∞·∞˙∞° æ¯Ω¿¥œ¥Ÿ.");
 				}
 			});
 		}
 		
-		$(window).scroll(function() {	
-		   if($(window).scrollTop() + $(window).height()+300 >=$(document).height()) {
-			   pageNumber++;
-			   addLoadedRecruits();
-		   }
-		});
+		function pageCountModify(){
+			$("#page_num").html('');
+			var str = "";
+			pageNumber = new Number($(this).text());
+			pageNumber = pageNumber==0?1:pageNumber;
+			for(var i=(pageNumber-2<1?1:pageNumber-2);i<=pageNumber+2&&i<=totalPageCount;i++){
+				str += "<div class='pageBtn'>"+i+"</div>";
+			}
+			$("#page_num").html(str);
+			$(".pageBtn").css("color","black");
+			$(".pageBtn:contains("+pageNumber+")").css("color","white");
+			addLoadedRecruits();
+			$(document).off('click',".pageBtn",pageCountModify);
+			$(document).on('click',".pageBtn",pageCountModify);
 			
-	
+		}
+		
+		function setTotalCount(){
+			$.ajax({
+				url:"recruit.do",
+				type:"post",
+				data:{position:$("#select1").val(), job_type:$("#select2").val(), education:$("#select3").val(),
+					keyword:$("#keyword").val(), scrap:$("#scrap").val(), command:"pageCount",
+				},
+				success:function(data){
+					totalPageCount=(JSON.parse(data).pageCount/16);
+					pageCountModify();
+				}
+			});
+		}
 		
 		$(function () {
-			addLoadedRecruits();			
+			setTotalCount();
+			addLoadedRecruits();
+			
+			$('form input').on('keypress', function(e) {
+			    return e.which !== 13;
+			});
+			
 	   		$('select').change(function(){
-	   			if($(this).val()!='')
-	   				addLoadedRecruits();
+	   			pageNumber=1;
+   				setTotalCount();
+   				pageCountModify();
+   				addLoadedRecruits();
 	   		});	
+	   		
+	   		$("#keyword").keyup(function(e){
+	   			if(e.keyCode==13){
+	   				e.preventDefault();
+	   				pageNumber=1;
+	   				setTotalCount();
+	   				pageCountModify();
+	   				addLoadedRecruits();
+	   			}
+	   		});
 		});
 		
 
@@ -375,26 +478,38 @@
                     <div class="menu-wrapper d-flex align-items-center justify-content-between">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="index.html"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
+                            <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
                         <!-- Main-menu -->
                         <div class="main-menu f-right d-none d-lg-block">
                             <nav>
                                 <ul id="navigation">
-                                   <li><a href="ranking.jsp">Ranking</a>
-                                        
-                                    </li>
-                                    <li><a href="contact.html">About Us</a></li>
+                                   <li><a href="blog.html">Ranking</a></li>
+                                   <li><a href="contact.html">About Us</a></li>
                                 </ul>
                             </nav>
                         </div>          
-                        <!-- Header-btn -->
-                        <div class="header-btns d-none d-lg-block f-right">
-                            <a href="login.html" class="mr-40"> Log in</a>
-                            <a href="#" class="mr-40"><i class="ti-user"></i> Sign up</a>
-                        </div>
-                            
-                        <!-- Mobile Menu -->
+               			<div class="header-btns d-none d-lg-block f-right">
+                        <%if(rvo == null) {%>
+                            <a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
+                            <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
+                        <%}else{ %>	
+							<!-- ∑Œ±◊¿Œ ¿Ã»ƒ »≠∏È -->
+							<div class="main-menu f-right d-none d-lg-block">
+	                            <nav>
+	                                <ul id="navigation">
+	                                   <li><a href="logout.do" class="mr-40"> Log out</a></li>
+	                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>¥‘</a>
+	                                        <ul class="submenu">
+	                                            <li><a href="myPage.jsp">MyPage</a></li>
+	                                            <li><a href="myScrap.jsp">Scrap</a></li> 
+	                                        </ul>
+	                                    </li>
+	                                </ul>
+	                            </nav>
+                        	</div> 
+						<%} %>
+						</div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -419,7 +534,7 @@
                             <!--Hero form -->
                             <form action="#" class="search-box" style="margin: 10px;">
                                 <div class="input-form">
-                                    <input type="text" placeholder="What are you finding?">
+                                    <input type="text" id="keyword" placeholder="What are you finding?">
                                 </div>
                                 
                                 <div class="search-form">
@@ -428,24 +543,29 @@
                                 </div>	
                             </form>	
                             <div class="select-form">
-                                    <div class="select-itms" style="float: left; margin: 10px; margin-bottom: 30px;">
+                                     <div class="select-itms" style="float: left; margin: 10px; margin-bottom: 30px;">
                                         <select name="select" id="select1">
-                                            <option value="">ÏßÅÍµ∞</option>
-                                            <option value="ÏÑúÎ≤Ñ">ÏÑúÎ≤Ñ</option>
+                                            <option value="">¡˜±∫</option>
+                                            <option value="º≠πˆ">º≠πˆ</option>
+                                            <option value="«¡∑–∆Æ">«¡∑–∆Æ</option>
                                         </select>
                                     </div>
                                     
                                     <div class="select-itms"  style="float: left; margin: 10px; margin-bottom: 30px;" >
                                         <select name="select" id="select2">
-                                            <option value="">Ï±ÑÏö© ÌòïÌÉú</option>
-                                            <option value="Ïã†ÏûÖ">Ïã†ÏûÖ</option>
+                                            <option value="">√§øÎ «¸≈¬</option>
+                                            <option value="¿Œ≈œ">¿Œ≈œ</option>
+                                            <option value="Ω≈¿‘">Ω≈¿‘</option>
+                                            <option value="∞Ê∑¬">∞Ê∑¬</option>
                                         </select>
                                     </div>
                                     
                                     <div class="select-itms"  style="float: left; margin: 10px; margin-bottom: 30px;">
                                         <select name="select" id="select3">
-                                            <option value="">ÌïôÎ†•</option>
-                                            <option value="">Î¨¥Í¥Ä</option>
+                                            <option value="">«–∑¬</option>
+                                            <option value="">π´∞¸</option>
+                                            <option value="«–">«–ªÁ</option>
+                                            <option value="ºÆ">ºÆªÁ</option>
                                         </select>
                                     </div>
                             </div>
@@ -458,6 +578,7 @@
         <!--? Popular Locations Start 01-->
         <div class="popular-location border-bottom section-padding40">
             <div id="recruit_container" class="container">
+            	<div id="page_num">pagenation</div>
                 <div class="row">                    
                     
                 </div>
@@ -466,7 +587,7 @@
         <div class="compareFooter">
         	<div class="cartBox">
         		<div id="cartNum">0</div>
-        		<div id="cartText">ÎπÑÍµêÌï®Ïóê Îã¥Í∏¥ Í≥µÍ≥† </div>
+        		<div id="cartText">∫Ò±≥«‘ø° ¥„±‰ ∞¯∞Ì </div>
         		
         		
         	</div>
@@ -479,7 +600,7 @@
         			</ul>
         		</span>
         		<span>
-        			<button class="compareBtn on">ÎπÑÍµêÌïòÍ∏∞</button>
+        			<button class="compareBtn on">∫Ò±≥«œ±‚</button>
         		</span>
         	</div>	
         		
@@ -557,4 +678,5 @@
 
     
     </body>
+
 </html>

@@ -20,4 +20,6 @@ public interface RecruitDAO {
 	public CompanyVO getCompany(int c_id);
 	public ArrayList<RecruitVO> searchRecruits(String position, String job_type, String education, String keyword,
 			String scrap,int pageNumber );
+	public int getSearchCount(String position, String job_type, String education, String keyword,String scrap);
+	int getTotalCount();
 }

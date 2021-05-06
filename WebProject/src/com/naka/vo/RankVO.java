@@ -5,9 +5,20 @@ public class RankVO {
 	private String name;
 	private int value;
 	
+	
+	public RankVO() {
+		super();
+		
+	}
+
 	public RankVO(String id, String name, int value) {
 		super();
 		this.id = id;
+		this.name = name;
+		this.value = value;
+	}
+	public RankVO(String name, int value) {
+		super();
 		this.name = name;
 		this.value = value;
 	}
