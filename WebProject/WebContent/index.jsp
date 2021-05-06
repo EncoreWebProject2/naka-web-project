@@ -174,7 +174,6 @@
 		width:18px; height:18px;
 		object-fit: cover;
 		float: left;
-		
 		}
 
 		.scrap-button svg:hover{
@@ -427,7 +426,6 @@
 				},
 				success:function(data){
 					totalPageCount=(JSON.parse(data).pageCount/16);
-					pageCountModify();
 				}
 			});
 		}
@@ -444,7 +442,6 @@
 	   			pageNumber=1;
    				setTotalCount();
    				pageCountModify();
-   				addLoadedRecruits();
 	   		});	
 	   		
 	   		$("#keyword").keyup(function(e){
@@ -453,7 +450,6 @@
 	   				pageNumber=1;
 	   				setTotalCount();
 	   				pageCountModify();
-	   				addLoadedRecruits();
 	   			}
 	   		});
 		});
