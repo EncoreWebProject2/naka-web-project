@@ -1,3 +1,7 @@
+<%@page import="com.naka.vo.UserVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% UserVO rvo = (UserVO)session.getAttribute("rvo"); %>
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -214,9 +218,9 @@
     align-items: center;  
 	
 }
-
-
-
+.slider-height3 {
+    height: 130px !important;
+}
 
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -233,7 +237,7 @@
 	            }
 	      		if(arr.length !=null  && arr.length > 2){
 	      			var idx = $(this).attr('id');
-		            for(var i=0; i<arr.length; i++){
+			        for(var i=0; i<arr.length; i++){
 		            	if(arr[i].r_id == idx){
 		            		arr.splice(i, 1);
 		            	}
@@ -250,22 +254,24 @@
 			});
 		
 			$('#compare-table').on('click','.scrap-button', function() {
-				var uid = '<%=(UserVO)session.getAttribute("rvo")%>'
 				
-				console.log(uid);
-				if(uid == null){
+				var r_vo = '${rvo}';
+				var u_id = '${rvo.u_id}';
+				
+				if(u_id == ""){
+					alert("로그인이 필요한 서비스 입니다.");
 					return;
 				}
 				
 				var r_id = $(this).attr('id');
-				
 				var s = $('#'+ r_id + " svg").attr('id');
 				if(s == "svg1"){
 					$('#' + r_id +' svg').css("background-image", "url(assets/img/elements/heart-solid.svg)");
 					$('#'+ r_id + " svg").attr('id','svg2');
 					$.ajax({
 		       			type:'post',
-		       			url:'scrapadd.do?r_id=' + r_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			url:'scrapadd.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			data:'r_id=' + r_id+'&u_id='+u_id,
 		       			success: function(result) {
 		   				}//callback
 		       		});//ajax
@@ -274,7 +280,8 @@
 					$('#'+ r_id + " svg").attr('id','svg1');
 					$.ajax({
 		       			type:'post',
-		       			url:'scrapdelete.do?r_id=' + r_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			url:'scrapdelete.do?',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+		       			data:'r_id=' + r_id+'&u_id='+u_id,
 		       			success: function(result) {
 		   				}//callback
 		       		});//ajax
@@ -286,11 +293,11 @@
 		
 
       	var scrap_list = [];
-		function scrap(){
+		function scrap(u_id){
 
 			$.ajax({
        			type:'post',
-       			url:'scrap.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+       			url:'scrap.do?u_id='+u_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
        			async: false,
        			success: function(result) {
        				str = result.split(",");
@@ -306,7 +313,13 @@
 			var compare_list = JSON.parse(output);
 			var str="";
 			var scrapList = [];
-			scrapList = scrap();
+			var r_vo = '${rvo}';
+			var u_id = '${rvo.u_id}';
+			
+			if(u_id != ""){
+				scrapList = scrap(u_id);
+			}
+			
 			for(key in compare_list){
 				var src;
 				var svg;
@@ -341,7 +354,7 @@
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/loder.png" alt="">
+                    <img src="assets/img/logo/nakalaLOGO.png" alt="">
                 </div>
             </div>
         </div>
@@ -355,37 +368,44 @@
                     <div class="menu-wrapper d-flex align-items-center justify-content-between">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="index.jsp"><img src="assets/img/logo/logo.png" alt=""></a>
+                            <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
                         <!-- Main-menu -->
                         <div class="main-menu f-right d-none d-lg-block">
                             <nav>
                                 <ul id="navigation">
-                                    <li><a href="index.jsp">Home</a></li>
-                                    <li><a href="listing.html">Catagories</a></li> 
-                                    <li><a href="#">Pages</a>
+                                   <li><a href="blog.html">Ranking</a>
                                         <ul class="submenu">
-                                            <li><a href="directory_details.html">listing Details</a></li>
-                                            <li><a href="listing.html">Catagories</a></li> 
+                                            <li><a href="blog.html">Tech Stack</a></li>
+                                            <li><a href="blog.html">Position</a></li> 
+                                            <li><a href="blog.html">Job Type</a></li> 
                                         </ul>
                                     </li>
-                                    <li><a href="blog.html">Blog</a>
-                                        <ul class="submenu">
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="blog_details.html">Blog Details</a></li>
-                                            <li><a href="elements.html">Elements</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a href="contact.html">About Us</a></li>
                                 </ul>
                             </nav>
                         </div>          
-                        <!-- Header-btn -->
-                        <div class="header-btns d-none d-lg-block f-right">
-                            <a href="#" class="mr-40"><i class="ti-user"></i> Log in</a>
-                            <a href="#" class="btn">Add Listing</a>
-                        </div>
-                        <!-- Mobile Menu -->
+               			<div class="header-btns d-none d-lg-block f-right">
+                        <%if(rvo == null) {%>
+                            <a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
+                            <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
+                        <%}else{ %>	
+                        <!-- 로그인 이후 페이지 -->
+							<div class="main-menu f-right d-none d-lg-block">
+	                            <nav>
+	                                <ul id="navigation">
+	                                   <li><a href="logout.do" class="mr-40"> Log out</a></li>
+	                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>님</a>
+	                                        <ul class="submenu">
+	                                            <li><a href="myPage.jsp">MyPage</a></li>
+	                                            <li><a href="myScrap.jsp">Scrap</a></li> 
+	                                        </ul>
+	                                    </li>
+	                                </ul>
+	                            </nav>
+                        	</div>
+						<%} %>
+						</div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -394,7 +414,7 @@
             </div>
         </div>
         <!-- Header End -->
-     </header>
+    </header>
     <main>
         <!--? Hero Start -->
         <div class="slider-area2">
@@ -419,59 +439,7 @@
   			</div>
 		</div>
  		<!-- Table End -->
-        <!-- Want To work 02-->
-        <section class="wantToWork-area">
-            <div class="container">
-                <div class="wants-wrapper w-padding2">
-                    <div class="row justify-content-between">
-                        <div class="col-xl-8 col-lg-8 col-md-7">
-                            <div class="wantToWork-caption wantToWork-caption2">
-                                <img src="assets/img/logo/logo2_footer.png" alt="" class="mb-20">
-                                <p>Users and submit their own items. You can create different packages and by connecting with your
-                                    PayPal or Stripe account charge users for registration to your directory portal.</p>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-4 col-md-5">
-                            <div class="footer-social f-right sm-left">
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="https://bit.ly/sai4ull"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Want To work End -->
-        <!-- Want To work 01-->
-        <section class="wantToWork-area">
-            <div class="container">
-                <div class="wants-wrapper">
-                    <div class="row align-items-center justify-content-between">
-                        <div class="col-xl-7 col-lg-9 col-md-8">
-                            <div class="wantToWork-caption wantToWork-caption2">
-                                <div class="main-menu2">
-                                    <nav>
-                                        <ul>
-                                            <li><a href="index.jsp">Home</a></li>
-                                            <li><a href="explore.html">Explore</a></li> 
-                                            <li><a href="pages.html">Pages</a></li>
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="contact.html">Contact</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-2 col-lg-3 col-md-4">
-                            <a href="#" class="btn f-right sm-left">Add Listing</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Want To work End -->
+        
     </main>
     <footer>
         <div class="footer-wrapper pt-30">
@@ -482,9 +450,8 @@
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="col-xl-10 col-lg-9 ">
                                 <div class="footer-copy-right">
-                                   <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Nakala</p>
                                 </div>
                             </div>
                         </div>
