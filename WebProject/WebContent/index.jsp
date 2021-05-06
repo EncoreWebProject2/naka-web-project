@@ -379,15 +379,19 @@
 							if(title.length>24) title = title.substr(0,24)+"....";							
 							var str = '<div class="col-lg-3 col-md-6 col-sm-6" style="overflow:hidden;""><div class="single-location mb-30" name ="recruit"><div class="location-img">'+
 							'<img id="'+jsonObject[key].r_id+'" src="assets/img/logo/'+co_ids[jsonObject[key].c_id]+'" alt=""></div><div class="location-details"><p class="title">'+title+'</p>'+'<div class= "content"></div>'+
-	                        '<button style="float: right; margin-right:30px;" class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">비교함 추가</button> <div class="scrap-button" style="float: left; margin: 10px;"><svg></svg></div>'+
+	                        '<button style="float:right; margin-right:30px; z-index:6" class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">비교함 추가</button> <div class="scrap-button" style="float: left; margin: 10px;"><svg></svg></div>'+
 	                        '</div></div></div>';
 							$("#recruit_container div.row").append(str);
 							$('#'+jsonObject[key].r_id).data('info',jsonObject[key]);
 						}
 						
 						$("#recruit_container").trigger('create');
-	                	$('.single-location').click(function() {	   
+						$('.location-img').click(function() {	   
 	                		var id = $(this).find('img').attr('id');	
+	            			var win = window.open("recruit_detail.do?id="+id);	
+	        			});
+	                	$('.content').click(function() {	   
+	                		var id = $('.single-location').find('img').attr('id');	
 	            			var win = window.open("recruit_detail.do?id="+id);	
 	        			});
 					}

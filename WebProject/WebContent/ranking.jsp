@@ -145,6 +145,7 @@
 		var els = $(".rank-list li");
 		var values = ["tech","position","job_type"];		
 		loadData("tech");
+		$('.blog-head').html($(els[0]).text());
 		for(var i=0;i<3;i++){
 			$(els[i]).data("command",values[i]);
 			$(els[i]).on("click",function(e){ 
