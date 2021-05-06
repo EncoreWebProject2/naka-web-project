@@ -67,10 +67,11 @@ public class UserDAOImpl implements UserDAO {
 
 		
 	public void register(UserVO vo) throws SQLException, ParseException{
-				
-		Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(vo.getBirth_day());
-		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); 
-		//System.out.println("utilDate: "+utilDate);
+		java.sql.Date sqlDate = null;
+		if(vo.getBirth_day() != "") {		
+			Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(vo.getBirth_day());
+			sqlDate = new java.sql.Date(utilDate.getTime()); 
+		}
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try{
@@ -90,7 +91,8 @@ public class UserDAOImpl implements UserDAO {
 			ps.setDate(10,  sqlDate);
 			ps.setString(11, vo.getScrap());
 			ps.setString(12, vo.getSalt());
-
+			
+			System.out.println("ps: "+ps);
 			System.out.println(ps.executeUpdate()+"row가 삽입되었다.");
 		}finally{
 			closeAll(ps, conn);
@@ -205,6 +207,7 @@ public class UserDAOImpl implements UserDAO {
 		UserVO vo = null;
 		
 		try {
+			
 			conn = getConnection();
 			String query = "SELECT name, address, phone, status, email, job_field, education, birth_day FROM user WHERE u_id=?";
 			ps = conn.prepareStatement(query);
@@ -235,9 +238,14 @@ public class UserDAOImpl implements UserDAO {
 	public void changeUserInfo(UserVO vo) throws SQLException, ParseException {
 		Connection conn = null;
 		PreparedStatement ps = null;
+		java.sql.Date sqlDate = null;
+		if(vo.getBirth_day() != "") {		
+			Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(vo.getBirth_day());
+			sqlDate = new java.sql.Date(utilDate.getTime()); 
+		}
 		try{
 			conn=  getConnection();
-			String query = "UPDATE user SET name = ?, address=?, phone=?, status=?, email=?, job_field=?, education=? WHERE u_id = ?";
+			String query = "UPDATE user SET name = ?, address=?, phone=?, status=?, email=?, job_field=?, education=?, birth_day=? WHERE u_id = ?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement 생성됨...changeUserInfo");
 			ps.setString(1, vo.getName());
@@ -247,8 +255,10 @@ public class UserDAOImpl implements UserDAO {
 			ps.setString(5, vo.getEmail());
 			ps.setString(6, vo.getJob_field());
 			ps.setString(7, vo.getEducation());
-			ps.setString(8, vo.getU_id());
+			ps.setDate(8, sqlDate);
+			ps.setString(9, vo.getU_id());
 			
+			System.out.println("ps: "+ps);
 			System.out.println(ps.executeUpdate()+"row가 수정되었다.");
 		}finally{
 			closeAll(ps, conn);

@@ -153,7 +153,8 @@
 		 }
 	}
     
-    function register(){
+    $(function () {
+    	$("form").submit(function(){
     	
     	var flag = passReg() | checkPass() | checkId();
     	
@@ -177,7 +178,10 @@
 			alert("ID 또는 비밀번호를 다시 입력해주세요");
 		}
     	
-    }
+
+    });   
+        
+   });
     </script>
 </head>
 <body>
@@ -219,7 +223,7 @@
         <div class="mt-10">
            <input type="text" name="phone" placeholder="phone number"
               onfocus="this.placeholder = ''" onblur="this.placeholder = 'phone number'"
-              class="single-input">
+              class="single-input" required>
         </div>
         <div class="mt-10 radio">
            <span>구직상태</span>
@@ -235,7 +239,7 @@
         <div class="mt-10">
            <div class="default-select" id="default-select"">
               <select class="select"  name="jobField" id="jobField" >
-              <option value="선택 안함">분야</option>
+              <option value="">분야</option>
               <option value="서버">서버</option>
               <option value="프론트엔드">프론트엔드</option>
               <option value="Network">Network</option>
@@ -246,7 +250,7 @@
         <div class="mt-10">
            <div class="default-select" id="default-select"">
               <select class="select" name="education" id="education" >
-              <option value="선택 안함">최종학력</option>
+              <option value="">최종학력</option>
               <option value="고등학교 졸업">고등학교 졸업</option>
               <option value="대학교 졸업 예정">대학교 졸업 예정</option>
               <option value="대학교 졸업">대학교 졸업</option>
@@ -259,7 +263,7 @@
            <input type="date" name="birthday" placeholder="birthday" id="birthday">
         </div>
         <div class="mt-10">
-           <input type="button" class="genric-btn primary-border submit_btn login-signup-button" onclick="register();" value="회원가입">
+           <input type="submit" class="genric-btn primary-border submit_btn login-signup-button" value="회원가입">
         </div>
      </form> 
 		</div>

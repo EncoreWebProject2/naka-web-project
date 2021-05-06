@@ -170,9 +170,21 @@
 		
 		
 		.scrap-button svg {
+<<<<<<< HEAD
 			width:18px; height:18px;
 			object-fit: cover;
 			float: left;
+=======
+		background-image: url(assets/img/elements/heart-regular.svg);
+		width:18px; height:18px;
+		object-fit: cover;
+		float: left;
+		}
+
+		.scrap-button svg:hover{
+		background-image: url(assets/img/elements/heart-solid.svg);
+		
+>>>>>>> branch 'main' of https://github.com/EncoreWebProject2/naka-web-project.git
 		}
 		
 		.recruit-hover{margin-bottom:20px; font-size: large; font-weight:bold; float:left;}
@@ -490,7 +502,6 @@
 				},
 				success:function(data){
 					totalPageCount=(JSON.parse(data).pageCount/16);
-					pageCountModify();
 				}
 			});
 		}
@@ -507,7 +518,6 @@
 	   			pageNumber=1;
    				setTotalCount();
    				pageCountModify();
-   				addLoadedRecruits();
 	   		});	
 	   		
 	   		$("#keyword").keyup(function(e){
@@ -516,7 +526,6 @@
 	   				pageNumber=1;
 	   				setTotalCount();
 	   				pageCountModify();
-	   				addLoadedRecruits();
 	   			}
 	   		});
 		});

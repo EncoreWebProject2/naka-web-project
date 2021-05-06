@@ -15,11 +15,11 @@ public class RankController implements Controller{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		String command = request.getParameter("rank_command");
 //		String path = null;
 //		RankDAOImpl.getInstance().refreshRank();
 		
 		
+		String command = request.getParameter("rank_command");
 		response.setContentType("text/html;charset=utf-8");
 		String path = null;
 		ArrayList<RankVO> list = command.equals("tech")?RankDAOImpl.getInstance().getTechRank():command.equals("position")?

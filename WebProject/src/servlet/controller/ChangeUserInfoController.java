@@ -24,8 +24,8 @@ public class ChangeUserInfoController implements Controller {
 		String education = request.getParameter("education");
 		String birthday = request.getParameter("birthday");
 		String path = "";
-		
-		UserVO user = new UserVO(id, name, address, phone, status, email, jobField, education, jobField);
+		System.out.println("birthday: "+birthday);
+		UserVO user = new UserVO(id, name, address, phone, status, email, jobField, education, birthday);
 		
 		
 		try {
@@ -33,6 +33,12 @@ public class ChangeUserInfoController implements Controller {
 			UserDAOImpl.getInstance().changeUserInfo(user);
 			
 			UserVO rvo=UserDAOImpl.getInstance().updateInfo(id);
+			if(rvo.getBirth_day() == null) {
+				rvo.setBirth_day("");
+			}
+			if(rvo.getStatus() == null) {
+				rvo.setStatus("");
+			}
 			HttpSession session = request.getSession();
 			if(rvo!=null) {
 				session.setAttribute("rvo", user);
