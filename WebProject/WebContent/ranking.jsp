@@ -143,16 +143,14 @@
 	
 	$(function(){
 		var els = $(".rank-list li");
-		//alert($(els[1]).text());
 		var values = ["tech","position","job_type"];		
 		loadData("tech");
 		for(var i=0;i<3;i++){
 			$(els[i]).data("command",values[i]);
 			$(els[i]).on("click",function(e){ 
 				loadData($(this).data("command"));
-				var title = $(els[i]).text();
-				//alert(title);
-				$('.blog-head').html("...");
+				var title = $(this).text();
+				$('.blog-head').html(title);
 				});
 		}
 	});
