@@ -520,6 +520,12 @@
 	   				});
 	   			}
 	   		});
+	   		$("#searchBtn").click(function(){
+	   			pageNumber=1;
+	   			$.when(setTotalCount()).done(function(){
+					pageCountModify();
+				});
+	   		});
 		});
 		
 </script>
@@ -605,8 +611,7 @@
                                 </div>
                                 
                                 <div class="search-form">
-                                    <a href="#"><i class="ti-search"></i> Search</a>
-                                    
+                                    <a href="#" id="searchBtn"><i class="ti-search"></i> Search</a>                                    
                                 </div>	
                             </form>	
                             <div class="select-form">
@@ -645,18 +650,14 @@
         <!--? Popular Locations Start 01-->
         <div class="popular-location border-bottom section-padding40">
             <div id="recruit_container" class="container">
-            	<div id="page_num">pagenation</div>
-                <div class="row">                    
-                    
-                </div>
+            	<div id="page_num">Loading</div>
+                <div class="row"></div>
             </div>
         </div>
         <div class="compareFooter">
         	<div class="cartBox">
         		<div id="cartNum">0</div>
         		<div id="cartText">비교함에 담긴 공고 </div>
-        		
-        		
         	</div>
         	<div id="compareBox">
         		<span id="compareList">
