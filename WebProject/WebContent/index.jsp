@@ -189,10 +189,27 @@
 		}
 		
 		.pageBtn{		
-			background-color: #B367FF;
 			display:inline;
-			padding: 5px 10px;
-			margin : 10px;
+			padding: 5px 10px !important;
+			line-height: 30px !important;
+			font-size: .9em  !important;
+			margin-right: 4px;
+			border: solid #aa67ff !important;
+			color: #aa67ff !important;
+		}
+		.pageBtnA{
+			padding: 5px 10px !important;
+			line-height: 30px !important;
+			font-size: .9em  !important;
+			margin-right: 4px;
+			background: #aa67ff !important;
+			border: solid #aa67ff !important;
+			color: #fff !important;
+		}
+		.pageBtn:hover{
+			background: #aa67ff !important;
+			border: solid #aa67ff !important;
+			color: #fff !important;
 		}
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -474,7 +491,7 @@
 			}
 			$("#page_num").html(str);
 			$(".pageBtn").css("color","black");
-			$(".pageBtn:contains("+pageNumber+")").css("color","white");
+			$(".pageBtn:contains("+pageNumber+")").addClass("pageBtnA");
 			addLoadedRecruits();
 			$(document).off('click',".pageBtn",pageCountModify);
 			$(document).on('click',".pageBtn",pageCountModify);
