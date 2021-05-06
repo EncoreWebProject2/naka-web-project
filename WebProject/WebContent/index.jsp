@@ -459,7 +459,7 @@
 	            			var win = window.open("recruit_detail.do?id="+id);	
 	        			});
 	                	$('.content').click(function() {	   
-	                		var id = $('.single-location').find('img').attr('id');	
+	                		var id = $(this).parent().parent().find('img').attr('id');		         
 	            			var win = window.open("recruit_detail.do?id="+id);	
 	        			});
 					}
