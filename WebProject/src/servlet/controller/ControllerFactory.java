@@ -40,7 +40,7 @@ public class ControllerFactory {
 			controller = new DeleteAccountController();	
 		}else if(command.equals("compare.do")) {
 			controller = new CompareController();
-		}
+		} 
 		
 		return controller;
 	}
