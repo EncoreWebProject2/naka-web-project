@@ -401,7 +401,6 @@
        			success: function(result) {
        				str = result.split(",");
        				scrap_list = str.map(i=>Number(i));
-       				console.log(scrap_list);
    				}//callback
        		});//ajax
        		

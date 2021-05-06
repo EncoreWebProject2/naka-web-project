@@ -90,7 +90,6 @@
    			async: false,
    			success: function(result) {
    				scrap_list = result.split(",");
-				console.log(scrap_list);	
    			}//callback
    		});//ajax
    		
@@ -108,7 +107,6 @@
 		var src;
 		var svg;
 
-		console.log("${rvo.r_id}");
 		
 		if(scrapList.includes("${rvo.r_id}") == false){			
 			$('.scrap-button svg').css("background-image", "url(assets/img/elements/heart-regular.svg)");
