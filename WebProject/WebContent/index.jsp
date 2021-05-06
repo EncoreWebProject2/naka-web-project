@@ -170,16 +170,9 @@
 		
 		
 		.scrap-button svg {
-		background-image: url(assets/img/elements/heart-regular.svg);
-		width:18px; height:18px;
-		object-fit: cover;
-		float: left;
-		
-		}
-
-		.scrap-button svg:hover{
-		background-image: url(assets/img/elements/heart-solid.svg);
-		
+			width:18px; height:18px;
+			object-fit: cover;
+			float: left;
 		}
 		
 		.recruit-hover{margin-bottom:20px; font-size: large; font-weight:bold; float:left;}
@@ -309,8 +302,44 @@
 				alert("공고를 2개 이상 비교함에 넣어주세요.");
 			}
 		});
-      
-
+	
+		$('.row').on('click','.scrap-button', function() {
+			
+			var r_vo = '${rvo}';
+			var u_id = '${rvo.u_id}';
+			
+			if(u_id == ""){
+				alert("로그인이 필요한 서비스 입니다.");
+				return;
+			}
+			
+			var r_id = $(this).attr('id');
+			var s = $('a[id='+ r_id + "] svg").attr('id');
+			
+			if(s == "svg1"){
+				$('a[id='+ r_id + "] svg").css("background-image", "url(assets/img/elements/heart-solid.svg)");
+				$('a[id='+ r_id + "] svg").attr('id','svg2');
+				$.ajax({
+	       			type:'post',
+	       			url:'scrapadd.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+	       			data:'r_id=' + r_id+'&u_id='+u_id,
+	       			success: function(result) {
+	   				}//callback
+	       		});//ajax
+			}else{
+				$('a[id='+ r_id + "] svg").css("background-image", "url(assets/img/elements/heart-regular.svg)");
+				$('a[id='+ r_id + "] svg").attr('id','svg1');
+				$.ajax({
+	       			type:'post',
+	       			url:'scrapdelete.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+	       			data:'r_id=' + r_id+'&u_id='+u_id,
+	       			success: function(result) {
+	   				}//callback
+	       		});//ajax
+			}
+			
+			
+		});
 		});
 		
     function showCart() {
@@ -357,7 +386,22 @@
 			document.getElementById("cartNum").innerHTML = cnt;
 			
 		}
-	
+		var scrap_list = [];
+		function scrap(u_id){
+
+			$.ajax({
+       			type:'post',
+       			url:'scrap.do?u_id='+u_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+       			async: false,
+       			success: function(result) {
+       				str = result.split(",");
+       				scrap_list = str.map(i=>Number(i));
+       				console.log(scrap_list);
+   				}//callback
+       		});//ajax
+       		
+       		return scrap_list;
+		}
 		var totalPageCount=1;
 		var pageNumber=1;
 		
@@ -373,13 +417,32 @@
 				success:function(data){
 					var jsonObject = JSON.parse(data);
 					$("#recruit_container div.row").html('');
-					if(jsonObject.length>0){						
+					if(jsonObject.length>0){
+						var str="";
+						var scrapList = [];
+						var r_vo = '${rvo}';
+						var u_id = '${rvo.u_id}';
+						
+						if(u_id != ""){
+							scrapList = scrap(u_id);
+						}
+						
 						for(key in jsonObject){
+							var src;
+							var svg;
+							if(scrapList.includes(jsonObject[key].r_id) == false){
+								src = "url(assets/img/elements/heart-regular.svg)";
+								svg = "svg1";
+							}else{
+								src = "url(assets/img/elements/heart-solid.svg)";
+								svg = "svg2";
+							}
 							var title = jsonObject[key].title;
 							if(title.length>24) title = title.substr(0,24)+"....";							
 							var str = '<div class="col-lg-3 col-md-6 col-sm-6" style="overflow:hidden;""><div class="single-location mb-30" name ="recruit"><div class="location-img">'+
 							'<img id="'+jsonObject[key].r_id+'" src="assets/img/logo/'+co_ids[jsonObject[key].c_id]+'" alt=""></div><div class="location-details"><p class="title">'+title+'</p>'+'<div class= "content"></div>'+
-	                        '<button style="float:right; margin-right:30px; z-index:6" class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">비교함 추가</button> <div class="scrap-button" style="float: left; margin: 10px;"><svg></svg></div>'+
+	                        '<button style="float:right; margin-right:30px; z-index:6" class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">비교함 추가</button>' +
+	                        "<a class='scrap-button' id='" +jsonObject[key].r_id +"'><svg style='background-image:"+src+"' id='"+svg+"'></svg></a>"+
 	                        '</div></div></div>';
 							$("#recruit_container div.row").append(str);
 							$('#'+jsonObject[key].r_id).data('info',jsonObject[key]);

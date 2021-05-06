@@ -1,7 +1,7 @@
 <%@page import="com.naka.vo.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%  UserVO rvo = (UserVO)session.getAttribute("rvo"); %>
+    <%  UserVO vo = (UserVO)session.getAttribute("rvo"); %>
     
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
@@ -27,24 +27,95 @@
    <link rel="stylesheet" href="assets/css/nice-select.css">
    <link rel="stylesheet" href="assets/css/style.css">
    <style type="text/css">
-   
 
 	.scrap-button svg {
-		background-image: url(assets/img/elements/heart-regular.svg);
 		width:18px; height:18px;
 		object-fit: cover;
 		float: left;
 		
 	}
-
-	.scrap-button svg:hover{
-		background-image: url(assets/img/elements/heart-solid.svg);
-		
+	.scrap-button{
+		margin-right:10px;
+		border:none;
+		background-color: transparent !important;
 	}
    </style>
-   
-   
-   
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   <script type="text/javascript">
+   	$(function(){
+   		setScrap();
+   		
+   		$('.scrap-button').click(function() {
+			
+   			var u_id = '<%= vo.getU_id() %>';
+			
+			if(u_id == ""){
+				alert("로그인이 필요한 서비스 입니다.");
+				return;
+			}
+			
+			var r_id = '${rvo.r_id}'
+			var s = $('.scrap-button svg').attr('id');
+			if(s == "svg1"){
+				$('.scrap-button svg').css("background-image", "url(assets/img/elements/heart-solid.svg)");
+				$('.scrap-button svg').attr('id','svg2');
+				$.ajax({
+	       			type:'post',
+	       			url:'scrapadd.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+	       			data:'r_id=' + r_id+'&u_id='+u_id,
+	       			success: function(result) {
+	   				}//callback
+	       		});//ajax
+			}else{
+				$('.scrap-button svg').css("background-image", "url(assets/img/elements/heart-regular.svg)");
+				$('.scrap-button svg').attr('id','svg1');
+				$.ajax({
+	       			type:'post',
+	       			url:'scrapdelete.do?',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+	       			data:'r_id=' + r_id+'&u_id='+u_id,
+	       			success: function(result) {
+	   				}//callback
+	       		});//ajax
+			}
+			
+			
+		});
+   	});
+   	
+   	var scrap_list = [];
+   	function scrap(u_id){
+		$.ajax({
+   			type:'post',
+   			url:'scrap.do?u_id='+u_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+   			async: false,
+   			success: function(result) {
+   				str = result.split(",");
+   				scrap_list = str.map(i=>Number(i));
+				}//callback
+   		});//ajax
+   		
+   		return scrap_list;
+	}
+   	
+   	function setScrap() {
+   		var scrapList = [];
+		var u_id = '<%= vo.getU_id() %>';
+
+		if(u_id != ""){
+			scrapList = scrap(u_id);
+		}
+		
+		var src;
+		var svg;
+		if(scrapList.includes(${rvo.r_id}) == false){
+			$('.scrap-button svg').css("background-image", "url(assets/img/elements/heart-regular.svg)");
+			$('.scrap-button svg').attr('id','svg1');		
+		}else{
+			$('.scrap-button svg').css("background-image", "url(assets/img/elements/heart-solid.svg)");
+			$('.scrap-button svg').attr('id','svg2');
+		}
+	}
+   </script>
 </head>
 
 <body>
@@ -81,7 +152,7 @@
                       </div>          
                       <!-- Header-btn -->
                       <div class="header-btns d-none d-lg-block f-right">
-                          <%if(rvo == null) {%>
+                          <%if(vo == null) {%>
                             <a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
                             <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
                         <%}else{ %>	
@@ -90,7 +161,7 @@
 	                            <nav>
 	                                <ul id="navigation">
 	                                   <li><a href="logout.do" class="mr-40"> Log out</a></li>
-	                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>님</a>
+	                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= vo.getName() %>님</a>
 	                                        <ul class="submenu">
 	                                            <li><a href="myPage.jsp">MyPage</a></li>
 	                                            <li><a href="myScrap.jsp">Scrap</a></li> 
@@ -131,7 +202,7 @@
                           		
                            		<p>${rvo.title}</p>                      
                         	</div>   
-                             <div class='scrap-button' style="float: right; margin: 10px;"><svg></svg></div>
+                            <button class='scrap-button'><svg></svg></button>
                         	<a href="${rvo.link}" class="btn">지원하기</a>
                     	</div>
                   	</div> <!-- blog-author,회사 이름 -->
