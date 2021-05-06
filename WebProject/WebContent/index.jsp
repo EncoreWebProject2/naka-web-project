@@ -484,7 +484,7 @@
                         <div class="main-menu f-right d-none d-lg-block">
                             <nav>
                                 <ul id="navigation">
-                                   <li><a href="blog.html">Ranking</a></li>
+                                   <li><a href="ranking.jsp">Ranking</a></li>
                                    <li><a href="contact.html">About Us</a></li>
                                 </ul>
                             </nav>

@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.naka.model.RankDAOImpl;
-import com.naka.model.RecruitDAOImpl;
 import com.naka.vo.RankVO;
-import com.naka.vo.RecruitVO;
 
 public class RankController implements Controller{
 
