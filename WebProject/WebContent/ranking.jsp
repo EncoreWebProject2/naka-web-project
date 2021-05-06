@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@page import="com.naka.vo.UserVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%  UserVO rvo = (UserVO)session.getAttribute("rvo"); %>
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -54,7 +56,7 @@
 	function loadData(command){
 		var labels = [];
 		var input_data = [];
-		var types = {"tech":["bar","±â¼ú"],"position":["bar","Á÷±º"],"job_type":["doughnut","Ã¤¿ë À¯Çü"]}
+		var types = {"tech":["bar","ê¸°ìˆ "],"position":["bar","ì§êµ°"],"job_type":["doughnut","ì±„ìš© ìœ í˜•"]}
 		
 		$.ajax({
 			url:"ranking.do",
@@ -76,7 +78,7 @@
 				    data: {
 				        labels: labels,
 				        datasets: [{
-				            label: types[command][1]+'º° °ø°í¼ö',
+				            label: types[command][1]+'ë³„ ê³µê³ ìˆ˜',
 				            data: input_data,
 				            backgroundColor: [
 				                'rgba(181, 127, 179, 0.6)',
@@ -172,30 +174,69 @@
     </div>
     <!-- Preloader Start -->
    <header>
-        <!-- Header Start -->
         <div class="header-area header-transparent">
-            <div class="main-header header-sticky">
-                <div class="container-fluid">
-                    <div class="menu-wrapper d-flex align-items-center justify-content-between">
-                        <!-- Logo -->
-                        <div class="logo">
+          <div class="main-header header-sticky">
+              <div class="container-fluid">
+                  <div class="menu-wrapper d-flex align-items-center justify-content-between">
+                      <!-- Logo -->
+                      <div class="logo">
                             <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
-						<div id="logoutHeader">
-							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;</a>
-						</div>
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
+                      <!-- Main-menu -->
+                      <div class="main-menu f-right d-none d-lg-block" >
+                          <nav>
+                               <ul id="navigation">
+                                   <li><a href="ranking.jsp">Ranking</a></li>
+                                   <li><a href="contact.html">About Us</a></li>
+                                </ul>
+                          </nav>
+                      </div>          
+                      <!-- Header-btn -->
+                      <div class="header-btns d-none d-lg-block f-right">
+                          <%if(rvo == null) {%>
+                            <a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
+                            <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
+                        <%}else{ %>	
+							<!-- ë¡œê·¸ì¸ ì´í›„ í™”ë©´ -->
+							<div class="main-menu f-right d-none d-lg-block">
+	                            <nav>
+	                                <ul id="navigation">
+	                                   <li><a href="logout.do" class="mr-40"> Log out</a></li>
+	                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>ë‹˜</a>
+	                                        <ul class="submenu">
+	                                            <li><a href="myPage.jsp">MyPage</a></li>
+	                                            <li><a href="myScrap.jsp">Scrap</a></li> 
+	                                        </ul>
+	                                    </li>
+	                                </ul>
+	                            </nav>
+                        	</div> 
+						<%} %>                        
+                      </div>
+                      <!-- Mobile Menu -->
+                      <div class="col-12">
+                          <div class="mobile_menu d-block d-lg-none"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+        <!-- Header End -->
+    </header>
+    <main>
+        <!--? Hero Start -->
+         <div class="slider-area2">
+            <div class="slider-height3  hero-overly hero-bg4 d-flex align-items-center" style="max-height: 150px;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap2 pt-20 text-center">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Header End -->
-    </header>
-    <main>
-        <!--? Hero Start -->
         <div class="slider-area2">
             <div>
                 <div class="container">
@@ -235,13 +276,13 @@
                             <aside class="single_sidebar_widget post_category_widget">
                                 <ul class="list cat-list rank-list">
                                     <li> 
-                                        <p>ÇöÀç °¡Àå ¸¹ÀÌ ÇÊ¿ä·Î ÇÏ´Â ±â¼ú ½ºÅÃ ¼øÀ§</p>    
+                                        <p>í˜„ì¬ ê°€ì¥ ë§ì´ í•„ìš”ë¡œ í•˜ëŠ” ê¸°ìˆ  ìŠ¤íƒ ìˆœìœ„</p>    
                                     </li>
                                     <li>
-                                        <p>ÇöÀç °¡Àå ¸¹ÀÌ Ã¤¿ëÁßÀÎ Á÷±º ¼øÀ§</p>
+                                        <p>í˜„ì¬ ê°€ì¥ ë§ì´ ì±„ìš©ì¤‘ì¸ ì§êµ° ìˆœìœ„</p>
                                     </li>
                                     <li>
-                                       	<p>Ã¤¿ëÇüÅÂ ºñÀ²</p>
+                                       	<p>ì±„ìš©í˜•íƒœ ë¹„ìœ¨</p>
                                     </li> 
                               
                                 </ul>

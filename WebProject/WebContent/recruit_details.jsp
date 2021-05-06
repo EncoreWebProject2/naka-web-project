@@ -53,16 +53,16 @@
       <div class="preloader d-flex align-items-center justify-content-center">
           <div class="preloader-inner position-relative">
               <div class="preloader-circle"></div>
-              <div class="preloader-img pere-text">
-                  <img src="assets/img/logo/loder.png" alt="">
-              </div>
+                <div class="preloader-img pere-text">
+                    <img src="assets/img/logo/nakalaLOGO.png" alt="">
+                </div>
           </div>
       </div>
    </div>
    <!-- Preloader Start -->
    <header>
       <!-- Header Start -->
-      <div class="header-area header-transparent" style="background-color: #f0e9ff">
+      <div class="header-area header-transparent">
           <div class="main-header header-sticky">
               <div class="container-fluid">
                   <div class="menu-wrapper d-flex align-items-center justify-content-between">
@@ -113,7 +113,18 @@
    </header>
    <main>
       <!--? Hero Start  이미지... 여기에 공고 제목?-->
-      
+      <div class="slider-area2">
+            <div class="slider-height3  hero-overly hero-bg4 d-flex align-items-center" style="max-height: 150px;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap2 pt-20 text-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
       <!-- Hero End -->
       <!--? Blog Area Start -->
       <section class="blog_area single-post-area section-padding">
