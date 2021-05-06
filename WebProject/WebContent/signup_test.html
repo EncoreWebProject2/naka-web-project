@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Cocoon</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script type="text/javascript">
+  $(function () {
+	  $("form").submit(function(){
+		    //alert("Submitted");
+		    /*
+		    var formData = {
+		    		userID: $("#userID").val(),
+		    		password: $("#password").val(),
+		    		userName: $("#userName").val(),
+		    		birthday: $("#birthday").val(),
+		    		userEmail: $("#userEmail").val(),
+		    		userPhone: $("#userPhone").val(),
+		    		userAddress: $("#userAddress").val(),
+		    		jobField: $("#jobField").val(),
+		    		education: $("#education").val()
+		    };*/
+			
+		    var queryString = $("form[name=loginFormData]").serialize() ;
+
+		    
+		    $.ajax({
+				type: "post",
+				url: "register.do",
+				data: queryString,
+			    dataType: "json",
+			    encode: true,
+				success: function(result) {
+					console.log("result: "+result);
+					alert(result+"님 회원가입이 성공적으로 완료되었습니다.");
+					window.location.href = 'login.html'; 
+					
+				}
+			});	
+			
+		});
+	  
+	  
+  });
+  </script>
+</head>
+<body>
+  
+  <section>
+    <h1>회원가입 페이지</h1>
+  </section>
+  
+  <section>
+  <form name="loginFormData" action="" method="post">
+        <div class="mt-10">
+           <input type="text" name="id" placeholder="ID"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID'" required
+              class="single-input">
+        </div>
+        <div class="mt-10">
+           <input type="password" name="password" placeholder="password"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'" required
+              class="single-input">
+        </div>
+        <div class="mt-10">
+           <input type="password" name="password_check" placeholder="password check"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'password check'" required
+              class="single-input">
+        </div>
+        <div class="mt-10">
+           <input type="text" name="name" placeholder="name"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'name'" required
+              class="single-input">
+        </div>
+        <div class="mt-10">
+           <input type="text" name="address" placeholder="address"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'address'"
+              class="single-input">
+        </div>
+        <div class="mt-10">
+           <input type="text" name="phone" placeholder="phone number"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'phone number'"
+              class="single-input">
+        </div>
+        <div class="mt-10 radio">
+           <span>구직상태</span>
+           <span><input type="radio" name="status" value="1"> 학생</span>
+           <span><input type="radio" name="status" value="2"> 구직자</span>
+           <span><input type="radio" name="status" value="3"> 이직</span>
+        </div>
+        <div class="mt-10">
+           <input type="email" name="email" placeholder="email"
+              onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required
+              class="single-input">
+        </div>
+        <div class="mt-10">
+           <div class="default-select" id="default-select"">
+              <select class="select"  name="jobField" id="jobField" >
+              <option value="1">분야</option>
+              <option value="2">서버</option>
+              <option value="3">프론트엔드</option>
+              <option value="4">Newyork</option>
+              <option value="5">Islamabad</option>
+              </select>
+           </div>
+        </div>
+        <div class="mt-10">
+           <div class="default-select" id="default-select"">
+              <select class="select" name="education" id="education" >
+              <option value="1">최종학력</option>
+              <option value="2">고등학교 졸업</option>
+              <option value="3">대학교 졸업 예정</option>
+              <option value="4">대학교 졸업</option>
+              </select>
+           </div>
+        </div>
+        <div class="mt-10">
+           <div id="bir_text">birthday</div>
+           <input type="date" name="birthday" placeholder="birthday" id="birthday">
+        </div>
+        <div class="mt-10">
+           <input type="submit" class="genric-btn primary-border submit_btn">
+        </div>
+     </form>   
+  
+  <!-- 
+    <form name="loginFormData" action="" method="post">
+      아이디확인<br>
+      <input type="text" name="userID" placeholder="아이디 입력" >
+      <br>
+      비밀번호<br> 
+      <input type="password" name="password" value="123456"><br>
+      비밀번호 재확인<br> 
+      <input type="password" name="password2" value="123456">
+      <br><br>
+      이름<br>  <input type="text" name="userName" value=""> <br>
+      생년월일<br> 
+      <select name="year">
+        <option value="">-- 선택 --</option>
+        <option value="1995">1995</option>
+        <option value="1996">1996</option>
+        <option value="1997">1997</option>
+        <option value="1998">1998</option>
+        <option value="1999">1999</option>
+        <option value="2000">2000</option>
+      </select>
+      <select name="month">
+        <option value="">-- 선택 --</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+      </select>
+      <select name="day">
+        <option value="">-- 선택 --</option>
+        <option value="1">01</option>
+        <option value="2">02</option>
+        <option value="3">03</option>
+        <option value="4">04</option>
+        <option value="5">05</option>
+        <option value="6">06</option>
+        <option value="7">07</option>
+        <option value="8">08</option>
+        <option value="9">09</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+      </select>
+      <br><br>
+     
+      이메일<br><input type="email" name="userEmail" id="userEmail" placeholder="email@gmail.com"><br><br>
+      휴대전화<br>  
+      <input type="text" name="userPhone" id="userPhone" placeholder="010-****-****"><br><br>
+      주소<br>  
+      <input type="text" name="userAddress" id="userAddress" placeholder="서울시 "><br><br>
+      구직상태<br> 
+     <select name="jobStatus" id="jobStatus" >
+        <option value="">구직 중</option>
+        <option value="1">이직 준비 중</option>
+      </select><br><br>
+      
+      분야<br> 
+     <select name="jobField" id="jobField" >
+        <option value="">개발</option>
+        <option value="1">보안</option>
+        <option value="2">빅데이터</option>
+      </select><br><br>
+      
+      학력<br> 
+     <select name="education" id="education" >
+        <option value="">고등학교 졸업</option>
+        <option value="1">대학교 졸업</option>
+        <option value="2">대학원 졸업</option>
+      </select><br><br>
+      
+      <input type="submit" name="" value="제출">
+    </form>
+    -->
+  </section>
+  
+  
+</body>
+</html>

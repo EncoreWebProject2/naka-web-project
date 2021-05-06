@@ -26,7 +26,8 @@ public class DispatcherServlet extends HttpServlet {
 		String contextPath = request.getContextPath();
 		String command = requestURI.substring(contextPath.length()+1);
 
-		String path = "index.html";
+
+		String path = "index.jsp";
 		
 		Controller controller = ControllerFactory.getInstance().createController(command);
 		
