@@ -378,8 +378,9 @@
 						}
 						
 						$("#recruit_container").trigger('create');
-	                	$('.single-location img').click(function() {	                		
-	            			var win = window.open("recruit_detail.do?id="+$(this).attr('id'));	
+	                	$('.single-location').click(function() {	   
+	                		var id = $(this).find('img').attr('id');	
+	            			var win = window.open("recruit_detail.do?id="+id);	
 	        			});
 					}
 					else
