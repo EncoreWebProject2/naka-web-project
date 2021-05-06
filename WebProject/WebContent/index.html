@@ -423,6 +423,10 @@
 			setTotalCount();
 			addLoadedRecruits();
 			
+			$('form input').on('keypress', function(e) {
+			    return e.which !== 13;
+			});
+			
 	   		$('select').change(function(){
 	   			pageNumber=1;
    				setTotalCount();
@@ -432,6 +436,7 @@
 	   		
 	   		$("#keyword").keyup(function(e){
 	   			if(e.keyCode==13){
+	   				e.preventDefault();
 	   				pageNumber=1;
 	   				setTotalCount();
 	   				pageCountModify();

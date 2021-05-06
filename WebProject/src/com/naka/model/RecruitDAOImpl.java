@@ -120,14 +120,14 @@ public class RecruitDAOImpl implements RecruitDAO {
 		Connection con =null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String[][] inputs = new String[][] {{"position",position},{"job_type",job_type},{"education",education},{"title",keyword}};
+		String[][] inputs = new String[][] {{"position",position},{"job_type",job_type},{"education",education},{"title"}};
 		
 		ArrayList<RecruitVO> list = new ArrayList<RecruitVO>();
 		try {
 			con = getConnection();
 			String query = "select count(*) from recruit ";
 			boolean flag=false;
-			for(int i=0;i<4;i++) {
+			for(int i=0;i<3;i++) {
 				if(inputs[i][1]!=null&&!inputs[i][1].equals("")) {
 					if(!flag) {
 						query+="where ";
@@ -139,6 +139,23 @@ public class RecruitDAOImpl implements RecruitDAO {
 					query+=inputs[i][0]+" like '%"+inputs[i][1]+"%' ";
 				}
 			}
+			
+			if(keyword!=null&&!keyword.equals("")) {
+				if(!flag) {
+					query+="where ";
+					flag=true;
+				}else {
+					query+="and ";
+				}
+				query+="(";
+				for(int i=0;i<4;i++) {
+					query+= inputs[0][0]+" like '%"+keyword+"%' ";
+					if(i<3)
+						query+="or ";
+				}
+				query+=")";				
+			}
+			
 			
 			if(scrap!=null&&!scrap.equals("")) {
 				if(!flag) query+="where ";
@@ -222,14 +239,14 @@ public class RecruitDAOImpl implements RecruitDAO {
 		Connection con =null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String[][] inputs = new String[][] {{"position",position},{"job_type",job_type},{"education",education},{"title",keyword}};
+		String[][] inputs = new String[][] {{"position",position},{"job_type",job_type},{"education",education},{"title"}};
 		
 		ArrayList<RecruitVO> list = new ArrayList<RecruitVO>();
 		try {
 			con = getConnection();
 			String query = "select R.* from (select * from recruit ";
 			boolean flag=false;
-			for(int i=0;i<4;i++) {
+			for(int i=0;i<3;i++) {
 				if(inputs[i][1]!=null&&!inputs[i][1].equals("")) {
 					if(!flag) {
 						query+="where ";
@@ -242,6 +259,24 @@ public class RecruitDAOImpl implements RecruitDAO {
 				}
 			}
 			
+			
+			if(keyword!=null&&!keyword.equals("")) {
+				if(!flag) {
+					query+="where ";
+					flag=true;
+				}else {
+					query+="and ";
+				}
+				query+="(";
+				for(int i=0;i<4;i++) {
+					query+= inputs[i][0]+" like '%"+keyword+"%' ";
+					if(i<3)
+						query+="or ";
+				}
+				query+=")";
+				
+			}
+			
 			if(scrap!=null&&!scrap.equals("")) {
 				if(!flag) query+="where ";
 				query+= "scrap in (";
@@ -250,10 +285,8 @@ public class RecruitDAOImpl implements RecruitDAO {
 					query+= "'"+s[i]+(i!=s.length-1?"',":"')");
 				}
 			}
-			
-			
 			query+=")R limit ?,?";
-			
+			System.out.println(query);
 			ps = con.prepareStatement(query);
 			ps.setInt(1, 4*4*(pageNumber-1));
 			ps.setInt(2, 4*4);
