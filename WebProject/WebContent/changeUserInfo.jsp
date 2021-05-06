@@ -242,7 +242,7 @@
 							                	<div>
 							                		<p><%=rvo.getJob_field() %></p>
 							                		<p> <select class="select"  name="jobField" id="jobField" >
-							                			  <option value="선택 안함" <% if(rvo.getJob_field().equals("선택 안함")){%> selected <%} %>>분야</option>
+							                			  <option value="" <% if(rvo.getJob_field().equals("")){%> selected <%} %>>분야</option>
 											              <option value="서버" <% if(rvo.getJob_field().equals("서버")){%> selected <%} %>>서버</option>
 											              <option value="프론트엔드" <% if(rvo.getJob_field().equals("프론트엔드")){%> selected <%} %>>프론트엔드</option>
 											              <option value="Network" <% if(rvo.getJob_field().equals("Network")){%> selected <%} %>>Network</option>
@@ -257,7 +257,7 @@
 							                	<div>
 							                		<p><%=rvo.getEducation() %></p>
 							                		<p><select class="select" name="education" id="education" >
-							                		  <option value="선택 안함" <% if(rvo.getEducation().equals("선택 안함")){%> selected <%} %>>최종학력</option>
+							                		  <option value="" <% if(rvo.getEducation().equals("")){%> selected <%} %>>최종학력</option>
 										              <option value="고등학교 졸업" <% if(rvo.getEducation().equals("고등학교 졸업")){%> selected <%} %>>고등학교 졸업</option>
 										              <option value="대학교 졸업 예정" <% if(rvo.getEducation().equals("대학교 졸업 예정")){%> selected <%} %>>대학교 졸업 예정</option>
 										              <option value="대학교 졸업" <% if(rvo.getEducation().equals("대학교 졸업")){%> selected <%} %>>대학교 졸업</option>
@@ -271,7 +271,8 @@
 							                <td>
 							                	<div>
 							                		<p><%=rvo.getBirth_day() %></p>
-							                		<p><input type="hidden" name="birthday" value="<%=rvo.getBirth_day() %>"></p>
+							                		<p><input type="date" name="birthday" value="<%=rvo.getBirth_day() %>"></p>
+							                		
 							                	</div>
 							                </td>
 							            </tr>							         

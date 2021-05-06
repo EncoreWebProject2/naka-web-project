@@ -104,8 +104,13 @@
 			})
 	
 	};//click
-	
-
+	$(function () {
+		$('#login-form').keypress(function(e){
+			if(e.keyCode === 13){
+				loginbtn_click();
+			}
+		});
+	});
 	</script>
 
 </head>

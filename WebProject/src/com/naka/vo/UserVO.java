@@ -53,7 +53,8 @@ public class UserVO {
 		this.education = education;
 		this.birth_day = birth_day;
 	}
-
+	
+	
 
 	public UserVO(String u_id, String password, String name, String address, String phone, String status, String email,
 			String job_field, String education, String birth_day, String scrap, String salt) {

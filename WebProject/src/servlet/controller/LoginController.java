@@ -17,7 +17,12 @@ public class LoginController implements Controller{
 		String path = "login.jsp";
 		try {
 			UserVO rvo=UserDAOImpl.getInstance().login(id, password);
-			
+			if(rvo.getBirth_day() == null) {
+				rvo.setBirth_day("");
+			}
+			if(rvo.getStatus() == null) {
+				rvo.setStatus("");
+			}
 			HttpSession session = request.getSession();
 			if(rvo!=null) {
 				session.setAttribute("rvo", rvo);

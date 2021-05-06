@@ -37,12 +37,9 @@ public class RegisterController implements Controller {
 		String birthday = request.getParameter("birthday");
 		String scrap = "";
 		
-		
-		
 		String salt = SHA256Util.generateSalt();
         String newPassword = SHA256Util.getEncrypt(request.getParameter("password"), salt);
         
-        System.out.println("birthday: "+birthday);
 
         UserVO vo = new UserVO(id, newPassword, name, address, phone, status, email, jobField, education, birthday, scrap, salt);
         try {
