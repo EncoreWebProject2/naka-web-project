@@ -69,11 +69,10 @@ public class RankDAOImpl implements RankDAO {
 	}
 
 	@Override
-	public ArrayList<RankVO> getTechRank(String name, int value) {
+	public ArrayList<RankVO> getTechRank() {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-
 		ArrayList<RankVO> list = new ArrayList<RankVO>();
 		try {
 			con = getConnection();
@@ -82,17 +81,11 @@ public class RankDAOImpl implements RankDAO {
 
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				if (rs.getString("name") != "") {
-					list.add(new RankVO(rs.getString("name"), rs.getInt("value")));
-
-				} else {
-
-					continue;
-				}
+				list.add(new RankVO(rs.getString("name"), rs.getInt("value")));	
 			}
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		} finally {
 			closeAll(rs, ps, con);
 		}
@@ -117,7 +110,7 @@ public class RankDAOImpl implements RankDAO {
 			}
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		} finally {
 			closeAll(rs, ps, con);
 		}
@@ -141,7 +134,7 @@ public class RankDAOImpl implements RankDAO {
 			}
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		} finally {
 			closeAll(rs, ps, con);
 		}
@@ -161,12 +154,15 @@ public class RankDAOImpl implements RankDAO {
 			list = RecruitDAOImpl.getInstance().getRecruits(i);
 			for (RecruitVO vo : list) {
 				for (String s : vo.getTech().split(", ")) {
+					if(s.equals(""))continue;
 					tech_map.put(s, tech_map.getOrDefault(s, 0) + 1);
 				}
 				for (String s : vo.getPosition().split(", ")) {
+					if(s.equals(""))continue;
 					position_map.put(s, position_map.getOrDefault(s, 0) + 1);
 				}
 				for (String s : vo.getJob_type().split("/")) {
+					if(s.equals(""))continue;
 					job_type_map.put(s, job_type_map.getOrDefault(s, 0) + 1);
 				}
 			}

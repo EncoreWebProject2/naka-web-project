@@ -48,11 +48,80 @@
 		}
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script type="text/javascript">
+	var myChart = null;
+	function loadData(command){
+		var labels = [];
+		var input_data = [];
+		var types = {"tech":["bar","기술"],"position":["bar","직군"],"job_type":["doughnut","채용 유형"]}
+		
+		$.ajax({
+			url:"ranking.do",
+			type:"post",
+			data:{rank_command:command},
+			success:function(data){
+				var jsonObject = JSON.parse(data);
+				for(key in jsonObject){
+					labels.push(jsonObject[key].name);
+					input_data.push(jsonObject[key].value);
+				}
+				var ctx = document.getElementById('myChart');
+				if(myChart!=null){
+					myChart.destroy();
+				}
+				
+				myChart = new Chart(ctx, {
+				    type: types[command][0],
+				    data: {
+				        labels: labels,
+				        datasets: [{
+				            label: types[command][1]+'별 공고수',
+				            data: input_data,
+				            backgroundColor: [
+				                'rgba(255, 99, 132, 0.2)',
+				                'rgba(54, 162, 235, 0.2)',
+				                'rgba(255, 206, 86, 0.2)',
+				                'rgba(75, 192, 192, 0.2)',
+				                'rgba(153, 102, 255, 0.2)',
+				                'rgba(255, 159, 64, 0.2)'
+				            ],
+				            borderColor: [
+				                'rgba(255, 99, 132, 1)',
+				                'rgba(54, 162, 235, 1)',
+				                'rgba(255, 206, 86, 1)',
+				                'rgba(75, 192, 192, 1)',
+				                'rgba(153, 102, 255, 1)',
+				                'rgba(255, 159, 64, 1)'
+				            ],
+				            borderWidth: 1
+				        }]
+				    },
+				    options: {
+				        scales: {
+				            y: {
+				                beginAtZero: true
+				            }
+				        }
+				    }
+				});
+				
+			}
+		});
+	}
 	
+	
+	$(function(){
+		var els = $(".rank-list li")
+		var values = ["tech","position","job_type"];
+		loadData("tech");
+		for(var i=0;i<3;i++){
+			$(els[i]).data("command",values[i]);
+			$(els[i]).on("click",function(e){ loadData($(this).data("command"))});
+		}
+	});
 	
 	</script>
-
 </head>
 <body>
     <!--? Preloader Start -->
@@ -119,61 +188,8 @@
                                         <h2 class="blog-head" style="color: #2d2d2d;">Ranking</h2>
                                     </a>
                                    	<div style="width:800px">
-    								<canvas id="myChart"></canvas>
-									<script>
-										let name = [];
-										let value = [];								
+    								<canvas id="myChart" width="400" height="400"></canvas>
 									
-										var ctx = document.getElementById("myChart");
-										
-										try{
-											data.map((item) => {
-												value.push(item.value);
-												name.push(item.name);
-											});
-										
-										var myChart = new Chart(ctx, {	
-											type: 'bar',
-											data: {
-												labels: [...name],
-												datasets: [{
-													label: 'name',
-													data: [...value],
-													backgroundColor: [
-													  'rgba(255, 99, 132, 0.2)',
-											          'rgba(54, 162, 235, 0.2)',
-											          'rgba(255, 206, 86, 0.2)',
-											          'rgba(75, 192, 192, 0.2)',
-											          'rgba(153, 102, 255, 0.2)',
-											          'rgba(255, 159, 64, 0.2)'
-											        ],
-											        borderColor: [
-											          'rgba(255, 99, 132, 1)',
-											          'rgba(54, 162, 235, 1)',
-											          'rgba(255, 206, 86, 1)',
-											          'rgba(75, 192, 192, 1)',
-											          'rgba(153, 102, 255, 1)',
-											          'rgba(255, 159, 64, 1)'
-											        ],
-											        borderWidth: 1
-											      }]
-											    },
-											    options: {
-											      scales: {
-											        yAxes: [{
-											          ticks: {
-											            beginAtZero: true
-											          }
-											        }]
-											      }
-											    }
-											  });
-
-											} catch (error) {
-											  console.log(error);
-											}
-		
-									</script>
 									</div>
                                 </div>
                             </article>
@@ -182,21 +198,15 @@
                     <div class="col-lg-4">
                         <div class="blog_right_sidebar">
                             <aside class="single_sidebar_widget post_category_widget">
-                                <ul class="list cat-list">
-                                    <li>
-                                        <a href="#" class="d-flex">
-                                            <p>현재 가장 많이 필요로 하는 기술 스택 순위</p>
-                                        </a>
+                                <ul class="list cat-list rank-list">
+                                    <li> 
+                                        <p>현재 가장 많이 필요로 하는 기술 스택 순위</p>    
                                     </li>
                                     <li>
-                                        <a href="#" class="d-flex">
-                                            <p>현재 가장 많이 채용중인 직군 순위</p>
-                                        </a>
+                                        <p>현재 가장 많이 채용중인 직군 순위</p>
                                     </li>
                                     <li>
-                                        <a href="#" class="d-flex">
-                                            <p>채용형태 비율</p>
-                                        </a>
+                                       	<p>채용형태 비율</p>
                                     </li> 
                               
                                 </ul>
@@ -273,9 +283,5 @@
       <!-- Jquery Plugins, main Jquery -->	
       <script src="./assets/js/plugins.js"></script>
       <script src="./assets/js/main.js"></script>
-
-	  <!-- chart js -->
-	  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
-
     </body>
 </html>

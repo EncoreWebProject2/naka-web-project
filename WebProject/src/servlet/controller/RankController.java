@@ -17,25 +17,22 @@ public class RankController implements Controller{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-//		String command = request.getParameter("rank_command");
+		String command = request.getParameter("rank_command");
 //		String path = null;
-//		if(command.equals("tech")) {
-//			RankDAOImpl.getInstance().refreshRank();
-//		RankDAOImpl.getInstance().getTechRank();
-//		}
-//		else
-//			path = "ranking.jsp";
+//		RankDAOImpl.getInstance().refreshRank();
 		
-		response.setContentType("text/html);charset=utf-8");
+		
+		response.setContentType("text/html;charset=utf-8");
 		String path = null;
-		ArrayList<RankVO> list = RankDAOImpl.getInstance().getTechRank(request.getParameter("name"), Integer.parseInt(request.getParameter("value")));
+		ArrayList<RankVO> list = command.equals("tech")?RankDAOImpl.getInstance().getTechRank():command.equals("position")?
+				RankDAOImpl.getInstance().getPositionRank():RankDAOImpl.getInstance().getTypeRate();
 		try {
 			PrintWriter pw = response.getWriter();
 			Gson gson = new Gson();
 			pw.write(gson.toJson(list));
 			pw.flush();
 		}catch(IOException e) {
-			
+			e.printStackTrace();
 		}
 		
 		return path;	
