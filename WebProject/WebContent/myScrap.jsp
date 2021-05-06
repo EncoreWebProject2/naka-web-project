@@ -124,7 +124,7 @@
 			scrapList = scrap('${rvo.u_id}');
 			if(scrap_list[0] == 0){
 				$('#scrap_info').html("<p align='center'>스크랩이 존재하지 않습니다.</p>");
-				$('.pageBtn').remove();
+				$('.pageBtnA').remove();
 				return;
 			}
 			var len = scrapList.length-1;
