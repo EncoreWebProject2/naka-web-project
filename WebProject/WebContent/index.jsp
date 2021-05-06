@@ -174,7 +174,6 @@
 			object-fit: cover;
 			float: left;
 		}
-
 		.scrap-button svg:hover{
 		background-image: url(assets/img/elements/heart-solid.svg);
 		
@@ -256,7 +255,6 @@
 	            showCart();
 	            arrLengthCheck();
 			});
-
       
       	$('.row').on('click','button[name=addItemCart]',function () {
 				//로컬 스토리지에 저장 setItem()		
@@ -377,7 +375,6 @@
 	           $(name).html(html);
 	        }   
 		}
-
     
 		arrLengthCheck = function (){
 			var cnt = 0;
@@ -393,7 +390,6 @@
 		}
 		var scrap_list = [];
 		function scrap(u_id){
-
 			$.ajax({
        			type:'post',
        			url:'scrap.do?u_id='+u_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
@@ -486,7 +482,7 @@
 		}
 		
 		function setTotalCount(){
-			$.ajax({
+			return $.ajax({
 				url:"recruit.do",
 				type:"post",
 				data:{position:$("#select1").val(), job_type:$("#select2").val(), education:$("#select3").val(),
@@ -494,13 +490,15 @@
 				},
 				success:function(data){
 					totalPageCount=(JSON.parse(data).pageCount/16);
+					if(totalPageCount<1) totalPageCount++;
 				}
 			});
 		}
 		
 		$(function () {
-			setTotalCount();
-			addLoadedRecruits();
+			$.when(setTotalCount()).done(function(){
+				pageCountModify();
+			});
 			
 			$('form input').on('keypress', function(e) {
 			    return e.which !== 13;
@@ -508,21 +506,22 @@
 			
 	   		$('select').change(function(){
 	   			pageNumber=1;
-   				setTotalCount();
-   				pageCountModify();
+	   			$.when(setTotalCount()).done(function(){
+					pageCountModify();
+				});
 	   		});	
 	   		
 	   		$("#keyword").keyup(function(e){
 	   			if(e.keyCode==13){
 	   				e.preventDefault();
 	   				pageNumber=1;
-	   				setTotalCount();
-	   				pageCountModify();
+	   				$.when(setTotalCount()).done(function(){
+	   					pageCountModify();
+	   				});
 	   			}
 	   		});
 		});
 		
-
 </script>
 </head>
 <body>
