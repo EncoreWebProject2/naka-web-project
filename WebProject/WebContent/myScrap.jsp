@@ -96,6 +96,10 @@
 		#supoortBtn:hover{
 			color: #170B3B !important;
 		}
+		
+		.title:hover{
+			color: #8B00FF;
+		}
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
@@ -124,7 +128,7 @@
 			scrapList = scrap('${rvo.u_id}');
 			if(scrap_list[0] == 0){
 				$('#scrap_info').html("<p align='center'>스크랩이 존재하지 않습니다.</p>");
-				$('.pageBtn').remove();
+				$('.pageBtnA').remove();
 				return;
 			}
 			var len = scrapList.length-1;
@@ -158,7 +162,7 @@
 	       				var json = JSON.parse(result);
 	       				html += '<div class="blog-author"><div class="media align-items-center">';
 	    		        html += '<img src="'+ json.logo_img +'" alt="">';
-	    		        html += '<div class="media-body"><a href="recruit_detail.do?id='+json.r_id+'"><h4>'+json.title+'</h4></a>';
+	    		        html += '<div class="media-body"><a href="recruit_detail.do?id='+json.r_id+'"><h4 class="title">'+json.title+'</h4></a>';
 	    		        html += '<p>'+json.tech+'</p></div>';
 	    		        html += '<a href="'+json.link+'" class="genric-btn primary login-signup-button" id="supoortBtn">지원하기</a>';
 	    		        html += '<svg class="delete" id='+json.r_id+' name='+i+'></svg></div></div>'
