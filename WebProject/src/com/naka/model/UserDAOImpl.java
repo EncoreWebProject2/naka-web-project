@@ -275,36 +275,6 @@ public class UserDAOImpl implements UserDAO {
 		}
 		
 	}
-
-	@Override
-	public String[] checkPassword(String id) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		String salt="";
-		String password="";
-		String[] arr= new String[2];
-		try{
-			conn=  getConnection();
-			String query = "SELECT password, salt FROM user WHERE u_id=?";
-			ps = conn.prepareStatement(query);
-			System.out.println("PreparedStatement 생성됨...registerMember");
-			ps.setString(1, id);
-			rs = ps.executeQuery();
-			System.out.println("rs: "+rs);
-			
-			if(rs.next()) {
-				password = rs.getString("password");
-				salt = rs.getString("salt");
-				arr[0]=password;
-				arr[1]= salt;
-				System.out.println("array: "+arr);
-			}
-		}finally{
-			closeAll(ps, conn);
-		}
-		return arr;
-	}
 	
 	@Override
 	public boolean deleteAccount(String id, String password) throws SQLException {

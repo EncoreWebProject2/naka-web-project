@@ -235,7 +235,7 @@
 						
 						$.ajax({
 							type: "post",
-							url: "CompareServlet",
+							url: "compare.do",
 							data: "id=" + id,
 							
 							success: function(result) {

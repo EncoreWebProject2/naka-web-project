@@ -1,6 +1,6 @@
 <%@page import="com.naka.vo.UserVO"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <%  UserVO rvo = (UserVO)session.getAttribute("rvo"); %>
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -86,52 +86,90 @@
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
-	 $(function(){	
-		 $('input[name=newPasswordConfirm]').keyup(function() {
-	    		
-	   			if($(this).val() == $('input[name=newPassword]').val()){
-	   				$('#check_pass').html("ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù.");
-	   				$( "#check_pass" ).css( "color", "green" );
-	   			}else{
-	   				$('#check_pass').html("ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
-	   				$( "#check_pass" ).css( "color", "red" );
-	   			}
-	   				
-			});
-		
-	 });
+	 
+	 function checkPass() {
+	    	
+    	if($('input[name=newPasswordConfirm]').val() != ""){
+    		if($('input[name=newPasswordConfirm]').val() == $('input[name=newPassword]').val()){
+				$('#check_pass').html("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•©ë‹ˆë‹¤.");
+				$( "#check_pass" ).css( "color", "green" );
+				return 0;
+			}else{
+				$('#check_pass').html("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+				$( "#check_pass" ).css( "color", "red" );
+				return 1;
+			}
+    	}else{
+    		$('#check_pass').html("");
+    		return 1;
+    	}
+	}
+	 
+	 
+    function passReg() {
+    	 var pw = $('input[name=newPassword]').val();
+		 var num = pw.search(/[0-9]/g);
+		 var eng = pw.search(/[a-z]/ig);
+		 var spe = pw.search(/[`~!@@#$%^&*|â‚©â‚©â‚©'â‚©";:â‚©/?]/gi);
+
+		 if(pw.length < 8 || pw.length > 20){
+			$('#passreg').html("8ìë¦¬ ~ 20ìë¦¬ ì´ë‚´ë¡œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+			$("#passreg").css( "color", "red" );
+			return 1;
+		 }else if(pw.search(/\s/) != -1){
+		  	$('#passreg').html("ë¹„ë°€ë²ˆí˜¸ëŠ” ê³µë°± ì—†ì´ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+			$("#passreg").css( "color", "red" );
+			return 1;
+		 }else if(num < 0 || eng < 0 || spe < 0 ){
+			$('#passreg').html("ì˜ë¬¸,ìˆ«ì, íŠ¹ìˆ˜ë¬¸ìë¥¼ í˜¼í•©í•˜ì—¬ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+			$("#passreg").css( "color", "red" );
+			return 1;
+		 }else if($('input[name=oldPassword]').val() == $('input[name=newPassword]').val()){
+				$('#passreg').html("í˜„ì¬ ë¹„ë°€ë²ˆí˜¸ì™€ ë™ì¼í•©ë‹ˆë‹¤.");
+				$( "#passreg" ).css( "color", "red" );
+				return 1;
+		 }else {
+			$('#passreg').html("ì‚¬ìš© ê°€ëŠ¥í•œ ë¹„ë°€ë²ˆí˜¸ ì…ë‹ˆë‹¤.");
+			$("#passreg").css( "color", "green" );
+			return 0;
+		 }
+	}
 	 
 	 function changePass(){
-		 var queryString = $("form[name=changePassword]").serialize();
-		 var name = $('#name').val();
-		 $.ajax({
-				type: "post",
-				url: "checkPassword.do",
-				data: "id="+$('#id').val()+"&password="+$('#password').val(),
-			    encode: true,
-				success: function(result) {
-					if(result){
-						$.ajax({
-							type: "post",
-							url: "changePassword.do",
-							data: queryString,
-						    encode: true,
-							success: function(result) {
-								if(result){
-									alert(name+"´ÔÀÇ ºñ¹Ğ¹øÈ£°¡ ¼º°øÀûÀ¸·Î º¯°æµÇ¾ú½À´Ï´Ù.");
-									window.location.href = 'index.jsp'; 
+		 var flag = checkPass() | passReg();
+		 
+		 if(flag == 0){
+			 var queryString = $("form[name=changePassword]").serialize();
+			 var name = $('#name').val();
+			 $.ajax({
+					type: "post",
+					url: "passcheck.do",
+					data: "id="+$('#id').val()+"&password="+$('#oldPassword').val(),
+					success: function(result) {
+						if(result=="true"){
+							$.ajax({
+								type: "post",
+								url: "changePassword.do",
+								data: queryString,
+							    encode: true,
+								success: function(result) {
+									if(result){
+										alert(name+"ë‹˜ì˜ ë¹„ë°€ë²ˆí˜¸ê°€ ì„±ê³µì ìœ¼ë¡œ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.");
+										window.location.href = 'index.jsp'; 
+									}		
 								}
-								
-								
-							}
-						});	
-						
-					}else{
-						alert("ºñ¹Ğ¹øÈ£°¡ Æ²·È½À´Ï´Ù.");
-						
-					}		
-				}
-			});	
+							});	
+							
+						}else{
+							alert("ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë ¸ìŠµë‹ˆë‹¤.");
+							
+						}		
+					}
+				});	
+		 }else{
+			 alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”");
+		 }
+		
 		    
 	 }
 	
@@ -165,7 +203,7 @@
                             <nav>
                                 <ul id="navigation">
                                    <li><a href="logout.do" class="mr-40"> Log out</a></li>
-                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>´Ô</a>
+                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>ë‹˜</a>
                                         <ul class="submenu">
                                             <li><a href="myPage.jsp">MyPage</a></li>
                                             <li><a href="myScrap.jsp">Scrap</a></li> 
@@ -200,7 +238,7 @@
         </div>
         <!-- Hero End -->
        <div class="myPage"> 
-        <!-- °¡Á®¿Â È¸¿øÁ¤º¸¸¦ Ãâ·ÂÇÑ´Ù. -->
+        <!-- ê°€ì ¸ì˜¨ íšŒì›ì •ë³´ë¥¼ ì¶œë ¥í•œë‹¤. -->
         <section class="blog_area section-padding">
             <div class="container">
                 <div class="row">
@@ -209,12 +247,12 @@
                             <article class="blog_item">
                                 <div class="blog_details">
                                     <a class="d-inline-block" href="blog_details.html">
-                                        <h2 class="blog-head" style="color: #2d2d2d;">ºñ¹Ğ¹øÈ£ ¼öÁ¤</h2>
+                                        <h2 class="blog-head" style="color: #2d2d2d;">ë¹„ë°€ë²ˆí˜¸ ìˆ˜ì •</h2>
                                     </a>
                                     <form name="changePassword" action="" method="post">
                                    <table>
 							            <tr>
-							                <td class="table-name" id="title" style="vertical-align:top">ÇöÀç ºñ¹Ğ¹øÈ£</td>
+							                <td class="table-name" id="title" style="vertical-align:top">í˜„ì¬ ë¹„ë°€ë²ˆí˜¸</td>
 							                <td>
 							                	<div>
 							                		<p><input type="password" id="oldPassword" name="oldPassword"></p>
@@ -224,18 +262,19 @@
 							                </td>
 							            </tr>
 							            <tr>
-							                <td class="table-name" id="title">»õ·Î¿î ºñ¹Ğ¹øÈ£</td>
+							                <td class="table-name" id="title">ìƒˆë¡œìš´ ë¹„ë°€ë²ˆí˜¸</td>
 							                <td>
 							                	<div>
-							                		<p><input type="password" id="newPassword" name="newPassword"></p>
+							                		<p><input type="password" id="newPassword" name="newPassword" onkeyup="passReg()"></p>
+							                		<p id="passreg"></p>
 							                	</div>
 							                </td>
 							            </tr>
 							            <tr>
-							                <td class="table-name" id="title">ºñ¹Ğ¹øÈ£ È®ÀÎ</td>
+							                <td class="table-name" id="title">ë¹„ë°€ë²ˆí˜¸ í™•ì¸</td>
 							                <td>
 							                	<div>
-							                		<p><input type="password" name="newPasswordConfirm"></p>
+							                		<p><input type="password" name="newPasswordConfirm" onkeyup="checkPass()"></p>
 							                		<p id="check_pass"></p>
 							                	</div>
 							                </td>
@@ -243,7 +282,7 @@
 							        </table>
 							        <div class="mt-10">
 							        <br>
-							           <input type="button" class="genric-btn primary-border submit_btn login-signup-button" onclick="changePass();" value="ºñ¹Ğº¯È£ º¯°æ">
+							           <input type="button" class="genric-btn primary-border submit_btn login-signup-button" onclick="changePass();" value="ë¹„ë°€ë³€í˜¸ ë³€ê²½">
 							        </div>
     							 </form> 
                                 </div>
@@ -256,22 +295,22 @@
                                 <ul class="list cat-list">
                                     <li>
                                         <a href="myPage.jsp" class="d-flex">
-                                            <p>È¸¿ø Á¤º¸ º¸±â</p>
+                                            <p>íšŒì› ì •ë³´ ë³´ê¸°</p>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="changeUserInfo.jsp" class="d-flex">
-                                            <p>È¸¿ø Á¤º¸ ¼öÁ¤</p>
+                                            <p>íšŒì› ì •ë³´ ìˆ˜ì •</p>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="changePassword.jsp" class="d-flex">
-                                            <p>ºñ¹Ğ¹øÈ£ ¼öÁ¤</p>
+                                            <p>ë¹„ë°€ë²ˆí˜¸ ìˆ˜ì •</p>
                                         </a>
                                     </li> 
                                     <li>
                                         <a href="deleteAccount.jsp" class="d-flex">
-                                            <p>È¸¿ø Å»Åğ</p>
+                                            <p>íšŒì› íƒˆí‡´</p>
                                         </a>
                                     </li>
                                 </ul>

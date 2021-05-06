@@ -95,7 +95,7 @@
 				data: queryString,
 			    encode: true,
 				success: function(result) {
-					alert(<%=rvo.getName() %>+"님의 회원정보가 성공적으로 수정되었습니다");
+					alert('<%=rvo.getName() %>'+"님의 회원정보가 성공적으로 수정되었습니다");
 					window.location.href = 'myPage.jsp'; 
 		
 				}

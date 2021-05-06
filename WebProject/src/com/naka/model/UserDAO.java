@@ -27,6 +27,5 @@ public interface UserDAO {
 	public void changeUserInfo(UserVO vo) throws SQLException, ParseException;
 	UserVO updateInfo(String id) throws SQLException;
 	public void changePassword(String id, String newPassword, String salt) throws SQLException;
-	public String[] checkPassword(String id) throws SQLException;
 	public boolean deleteAccount(String id, String password) throws SQLException;
 }
