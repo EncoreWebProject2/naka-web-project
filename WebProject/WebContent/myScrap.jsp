@@ -75,9 +75,18 @@
 			padding: 0px 10px !important;
 			line-height: 30px !important;
 			font-size: .9em  !important;
-			margin-left: 2px;
+			margin-right: 4px;
 			border: solid #aa67ff !important;
 			color: #aa67ff !important;
+		}
+		.pageBtnA{
+			padding: 0px 10px !important;
+			line-height: 30px !important;
+			font-size: .9em  !important;
+			margin-right: 4px;
+			background: #aa67ff !important;
+			border: solid #aa67ff !important;
+			color: #fff !important;
 		}
 		.pageBtn:hover{
 			background: #aa67ff !important;
@@ -86,6 +95,10 @@
 		}
 		#supoortBtn:hover{
 			color: #170B3B !important;
+		}
+		
+		.title:hover{
+			color: #8B00FF;
 		}
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -115,7 +128,7 @@
 			scrapList = scrap('${rvo.u_id}');
 			if(scrap_list[0] == 0){
 				$('#scrap_info').html("<p align='center'>스크랩이 존재하지 않습니다.</p>");
-				$('.pageBtn').remove();
+				$('.pageBtnA').remove();
 				return;
 			}
 			var len = scrapList.length-1;
@@ -125,13 +138,18 @@
 			if(len % 10 == 0) pageNum--; 
 			var html2 = "";
 			for(var i=0;i<pageNum;i++){
-				html2 += '<a href="#" class="genric-btn primary-border pageBtn" onclick="refresh('+i+')">'+(i+1)+'</a>'
+				if(i == index){
+					html2 += '<a href="#" class="genric-btn primary-border pageBtnA" onclick="refresh('+i+')">'+(i+1)+'</a>'
+				}else{
+					html2 += '<a href="#" class="genric-btn primary-border pageBtn" onclick="refresh('+i+')">'+(i+1)+'</a>'
+				}
+				
 			}
 			
 			$('.indexing').html(html2);
 			
 			if((len-(index*10)) > 10){
-				len1 = 10;
+				len = (index + 1) * 10;
 			}
 			
 			html = "";
@@ -144,7 +162,7 @@
 	       				var json = JSON.parse(result);
 	       				html += '<div class="blog-author"><div class="media align-items-center">';
 	    		        html += '<img src="'+ json.logo_img +'" alt="">';
-	    		        html += '<div class="media-body"><a href="#"><h4>'+json.title+'</h4></a>';
+	    		        html += '<div class="media-body"><a href="recruit_detail.do?id='+json.r_id+'"><h4 class="title">'+json.title+'</h4></a>';
 	    		        html += '<p>'+json.tech+'</p></div>';
 	    		        html += '<a href="'+json.link+'" class="genric-btn primary login-signup-button" id="supoortBtn">지원하기</a>';
 	    		        html += '<svg class="delete" id='+json.r_id+' name='+i+'></svg></div></div>'
@@ -164,7 +182,6 @@
        			success: function(result) {
        				str = result.split(",");
        				scrap_list = str.map(i=>Number(i));
-       				console.log(scrap_list);
    				}//callback
        		});//ajax
        		
@@ -199,14 +216,8 @@
                       <div class="main-menu f-right d-none d-lg-block">
                             <nav>
                                 <ul id="navigation">
-                                   <li><a href="blog.html">Ranking</a>
-                                        <ul class="submenu">
-                                            <li><a href="blog.html">Tech Stack</a></li>
-                                            <li><a href="blog.html">Position</a></li> 
-                                            <li><a href="blog.html">Job Type</a></li> 
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">About Us</a></li>
+                                   <li><a href="ranking.jsp">Ranking</a></li>
+                                   <li><a href="contact.html">About Us</a></li>
                                 </ul>
                             </nav>
                         </div>          

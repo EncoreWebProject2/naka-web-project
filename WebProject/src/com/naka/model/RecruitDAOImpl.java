@@ -117,40 +117,30 @@ public class RecruitDAOImpl implements RecruitDAO {
 	
 	@Override
 	public int getSearchCount(String position, String job_type, String education, String keyword,String scrap) {
+		int result=0;
 		Connection con =null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String[][] inputs = new String[][] {{"position",position},{"job_type",job_type},{"education",education},{"title"}};
+		String[][] inputs = new String[][] {{"position",position},{"job_type",job_type},{"education",education},{"title"},{"tech"},{"company_name"}};
 		
 		ArrayList<RecruitVO> list = new ArrayList<RecruitVO>();
 		try {
 			con = getConnection();
-			String query = "select count(*) from recruit ";
+			String query = "select count(*) from  recruit r ,company c  where r.c_id = c.c_id  ";
 			boolean flag=false;
 			for(int i=0;i<3;i++) {
 				if(inputs[i][1]!=null&&!inputs[i][1].equals("")) {
-					if(!flag) {
-						query+="where ";
-						flag=true;
-					}
-					else {
-						query+="and ";
-					}
+						query+="and ";		
 					query+=inputs[i][0]+" like '%"+inputs[i][1]+"%' ";
 				}
 			}
 			
-			if(keyword!=null&&!keyword.equals("")) {
-				if(!flag) {
-					query+="where ";
-					flag=true;
-				}else {
-					query+="and ";
-				}
+			if(keyword!=null&&!keyword.equals("")) {	
+				query+="and ";				
 				query+="(";
-				for(int i=0;i<4;i++) {
-					query+= inputs[0][0]+" like '%"+keyword+"%' ";
-					if(i<3)
+				for(int i=0;i<6;i++) {
+					query+= inputs[i][0]+" like '%"+keyword+"%' ";
+					if(i<5)
 						query+="or ";
 				}
 				query+=")";				
@@ -158,7 +148,6 @@ public class RecruitDAOImpl implements RecruitDAO {
 			
 			
 			if(scrap!=null&&!scrap.equals("")) {
-				if(!flag) query+="where ";
 				query+= "scrap in (";
 				String[] s = scrap.split(",");
 				for(int i=0;i<s.length;i++) {
@@ -168,13 +157,14 @@ public class RecruitDAOImpl implements RecruitDAO {
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
 			if(rs.next()) {
-				return rs.getInt(1);
-			}
-			
+				result= rs.getInt(1);
+			}			
 		}catch(Exception e) {
 			e.printStackTrace();
+		}finally {
+			closeAll(rs,ps, con);
 		}
-		return 0;	
+		return result;	
 	}
 
 	@Override
@@ -239,38 +229,26 @@ public class RecruitDAOImpl implements RecruitDAO {
 		Connection con =null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String[][] inputs = new String[][] {{"position",position},{"job_type",job_type},{"education",education},{"title"}};
+		String[][] inputs = new String[][] {{"position",position},{"job_type",job_type},{"education",education},{"title"},{"tech"},{"company_name"}};
 		
 		ArrayList<RecruitVO> list = new ArrayList<RecruitVO>();
 		try {
 			con = getConnection();
-			String query = "select R.* from (select * from recruit ";
-			boolean flag=false;
+			String query = "select * from (select r.*  from recruit r inner join company c on (c.c_id = r.c_id) where r.c_id = c.c_id ";
 			for(int i=0;i<3;i++) {
 				if(inputs[i][1]!=null&&!inputs[i][1].equals("")) {
-					if(!flag) {
-						query+="where ";
-						flag=true;
-					}
-					else {
-						query+="and ";
-					}
+					query+="and ";					
 					query+=inputs[i][0]+" like '%"+inputs[i][1]+"%' ";
 				}
 			}
 			
 			
 			if(keyword!=null&&!keyword.equals("")) {
-				if(!flag) {
-					query+="where ";
-					flag=true;
-				}else {
-					query+="and ";
-				}
+				query+="and ";				
 				query+="(";
-				for(int i=0;i<4;i++) {
+				for(int i=0;i<6;i++) {
 					query+= inputs[i][0]+" like '%"+keyword+"%' ";
-					if(i<3)
+					if(i<5)
 						query+="or ";
 				}
 				query+=")";
@@ -278,19 +256,18 @@ public class RecruitDAOImpl implements RecruitDAO {
 			}
 			
 			if(scrap!=null&&!scrap.equals("")) {
-				if(!flag) query+="where ";
 				query+= "scrap in (";
 				String[] s = scrap.split(",");
 				for(int i=0;i<s.length;i++) {
 					query+= "'"+s[i]+(i!=s.length-1?"',":"')");
 				}
 			}
-			query+=")R limit ?,?";
-			System.out.println(query);
+			query+=") T limit ?,?";
 			ps = con.prepareStatement(query);
 			ps.setInt(1, 4*4*(pageNumber-1));
 			ps.setInt(2, 4*4);
 			rs = ps.executeQuery();
+			System.out.println(query);
 			while(rs.next()) {
 				list.add(new RecruitVO(rs.getInt("r_id"), rs.getString("position"), rs.getString("tech"),
 						rs.getString("job_type"), rs.getString("education"), rs.getString("img"), rs.getString("link"), 

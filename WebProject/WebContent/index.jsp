@@ -170,12 +170,10 @@
 		
 		
 		.scrap-button svg {
-		background-image: url(assets/img/elements/heart-regular.svg);
-		width:18px; height:18px;
-		object-fit: cover;
-		float: left;
+			width:18px; height:18px;
+			object-fit: cover;
+			float: left;
 		}
-
 		.scrap-button svg:hover{
 		background-image: url(assets/img/elements/heart-solid.svg);
 		
@@ -191,10 +189,27 @@
 		}
 		
 		.pageBtn{		
-			background-color: #B367FF;
 			display:inline;
-			padding: 5px 10px;
-			margin : 10px;
+			padding: 5px 10px !important;
+			line-height: 30px !important;
+			font-size: .9em  !important;
+			margin-right: 4px;
+			border: solid #aa67ff !important;
+			color: #aa67ff !important;
+		}
+		.pageBtnA{
+			padding: 5px 10px !important;
+			line-height: 30px !important;
+			font-size: .9em  !important;
+			margin-right: 4px;
+			background: #aa67ff !important;
+			border: solid #aa67ff !important;
+			color: #fff !important;
+		}
+		.pageBtn:hover{
+			background: #aa67ff !important;
+			border: solid #aa67ff !important;
+			color: #fff !important;
 		}
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -257,7 +272,6 @@
 	            showCart();
 	            arrLengthCheck();
 			});
-
       
       	$('.row').on('click','button[name=addItemCart]',function () {
 				//로컬 스토리지에 저장 setItem()		
@@ -308,8 +322,44 @@
 				alert("공고를 2개 이상 비교함에 넣어주세요.");
 			}
 		});
-      
-
+	
+		$('.row').on('click','.scrap-button', function() {
+			
+			var r_vo = '${rvo}';
+			var u_id = '${rvo.u_id}';
+			
+			if(u_id == ""){
+				alert("로그인이 필요한 서비스 입니다.");
+				return;
+			}
+			
+			var r_id = $(this).attr('id');
+			var s = $('a[id='+ r_id + "] svg").attr('id');
+			
+			if(s == "svg1"){
+				$('a[id='+ r_id + "] svg").css("background-image", "url(assets/img/elements/heart-solid.svg)");
+				$('a[id='+ r_id + "] svg").attr('id','svg2');
+				$.ajax({
+	       			type:'post',
+	       			url:'scrapadd.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+	       			data:'r_id=' + r_id+'&u_id='+u_id,
+	       			success: function(result) {
+	   				}//callback
+	       		});//ajax
+			}else{
+				$('a[id='+ r_id + "] svg").css("background-image", "url(assets/img/elements/heart-regular.svg)");
+				$('a[id='+ r_id + "] svg").attr('id','svg1');
+				$.ajax({
+	       			type:'post',
+	       			url:'scrapdelete.do',/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+	       			data:'r_id=' + r_id+'&u_id='+u_id,
+	       			success: function(result) {
+	   				}//callback
+	       		});//ajax
+			}
+			
+			
+		});
 		});
 		
     function showCart() {
@@ -342,7 +392,6 @@
 	           $(name).html(html);
 	        }   
 		}
-
     
 		arrLengthCheck = function (){
 			var cnt = 0;
@@ -356,7 +405,20 @@
 			document.getElementById("cartNum").innerHTML = cnt;
 			
 		}
-	
+		var scrap_list = [];
+		function scrap(u_id){
+			$.ajax({
+       			type:'post',
+       			url:'scrap.do?u_id='+u_id,/*응답하는 데이터 타입이 객체일 때 json 이라고 지정*/
+       			async: false,
+       			success: function(result) {
+       				str = result.split(",");
+       				scrap_list = str.map(i=>Number(i));
+   				}//callback
+       		});//ajax
+       		
+       		return scrap_list;
+		}
 		var totalPageCount=1;
 		var pageNumber=1;
 		
@@ -372,13 +434,32 @@
 				success:function(data){
 					var jsonObject = JSON.parse(data);
 					$("#recruit_container div.row").html('');
-					if(jsonObject.length>0){						
+					if(jsonObject.length>0){
+						var str="";
+						var scrapList = [];
+						var r_vo = '${rvo}';
+						var u_id = '${rvo.u_id}';
+						
+						if(u_id != ""){
+							scrapList = scrap(u_id);
+						}
+						
 						for(key in jsonObject){
+							var src;
+							var svg;
+							if(scrapList.includes(jsonObject[key].r_id) == false){
+								src = "url(assets/img/elements/heart-regular.svg)";
+								svg = "svg1";
+							}else{
+								src = "url(assets/img/elements/heart-solid.svg)";
+								svg = "svg2";
+							}
 							var title = jsonObject[key].title;
 							if(title.length>24) title = title.substr(0,24)+"....";							
 							var str = '<div class="col-lg-3 col-md-6 col-sm-6" style="overflow:hidden;""><div class="single-location mb-30" name ="recruit"><div class="location-img">'+
 							'<img id="'+jsonObject[key].r_id+'" src="assets/img/logo/'+co_ids[jsonObject[key].c_id]+'" alt=""></div><div class="location-details"><p class="title">'+title+'</p>'+'<div class= "content"></div>'+
-	                        '<button style="float:right; margin-right:30px; z-index:6" class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">비교함 추가</button> <div class="scrap-button" style="float: left; margin: 10px;"><svg></svg></div>'+
+	                        '<button style="float:right; margin-right:30px; z-index:6" class="location-btn" id="'+jsonObject[key].r_id+'" name="addItemCart" value="'+jsonObject[key].r_id+'">비교함 추가</button>' +
+	                        "<a class='scrap-button' id='" +jsonObject[key].r_id +"'><svg style='background-image:"+src+"' id='"+svg+"'></svg></a>"+
 	                        '</div></div></div>';
 							$("#recruit_container div.row").append(str);
 							$('#'+jsonObject[key].r_id).data('info',jsonObject[key]);
@@ -390,7 +471,7 @@
 	            			var win = window.open("recruit_detail.do?id="+id);	
 	        			});
 	                	$('.content').click(function() {	   
-	                		var id = $('.single-location').find('img').attr('id');	
+	                		var id = $(this).parent().parent().find('img').attr('id');		         
 	            			var win = window.open("recruit_detail.do?id="+id);	
 	        			});
 					}
@@ -410,7 +491,7 @@
 			}
 			$("#page_num").html(str);
 			$(".pageBtn").css("color","black");
-			$(".pageBtn:contains("+pageNumber+")").css("color","white");
+			$(".pageBtn:contains("+pageNumber+")").addClass("pageBtnA");
 			addLoadedRecruits();
 			$(document).off('click',".pageBtn",pageCountModify);
 			$(document).on('click',".pageBtn",pageCountModify);
@@ -418,7 +499,7 @@
 		}
 		
 		function setTotalCount(){
-			$.ajax({
+			return $.ajax({
 				url:"recruit.do",
 				type:"post",
 				data:{position:$("#select1").val(), job_type:$("#select2").val(), education:$("#select3").val(),
@@ -426,13 +507,15 @@
 				},
 				success:function(data){
 					totalPageCount=(JSON.parse(data).pageCount/16);
+					if(totalPageCount<1) totalPageCount++;
 				}
 			});
 		}
 		
 		$(function () {
-			setTotalCount();
-			addLoadedRecruits();
+			$.when(setTotalCount()).done(function(){
+				pageCountModify();
+			});
 			
 			$('form input').on('keypress', function(e) {
 			    return e.which !== 13;
@@ -440,21 +523,28 @@
 			
 	   		$('select').change(function(){
 	   			pageNumber=1;
-   				setTotalCount();
-   				pageCountModify();
+	   			$.when(setTotalCount()).done(function(){
+					pageCountModify();
+				});
 	   		});	
 	   		
 	   		$("#keyword").keyup(function(e){
 	   			if(e.keyCode==13){
 	   				e.preventDefault();
 	   				pageNumber=1;
-	   				setTotalCount();
-	   				pageCountModify();
+	   				$.when(setTotalCount()).done(function(){
+	   					pageCountModify();
+	   				});
 	   			}
+	   		});
+	   		$("#searchBtn").click(function(){
+	   			pageNumber=1;
+	   			$.when(setTotalCount()).done(function(){
+					pageCountModify();
+				});
 	   		});
 		});
 		
-
 </script>
 </head>
 <body>
@@ -538,8 +628,7 @@
                                 </div>
                                 
                                 <div class="search-form">
-                                    <a href="#"><i class="ti-search"></i> Search</a>
-                                    
+                                    <a href="#" id="searchBtn"><i class="ti-search"></i> Search</a>                                    
                                 </div>	
                             </form>	
                             <div class="select-form">
@@ -578,18 +667,14 @@
         <!--? Popular Locations Start 01-->
         <div class="popular-location border-bottom section-padding40">
             <div id="recruit_container" class="container">
-            	<div id="page_num">pagenation</div>
-                <div class="row">                    
-                    
-                </div>
+            	<div id="page_num">Loading</div>
+                <div class="row"></div>
             </div>
         </div>
         <div class="compareFooter">
         	<div class="cartBox">
         		<div id="cartNum">0</div>
         		<div id="cartText">비교함에 담긴 공고 </div>
-        		
-        		
         	</div>
         	<div id="compareBox">
         		<span id="compareList">
