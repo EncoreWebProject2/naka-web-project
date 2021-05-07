@@ -100,6 +100,10 @@
 		.title:hover{
 			color: #8B00FF;
 		}
+		
+		.slider-height3 {
+		    height: 200px;
+		}
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>

@@ -1,5 +1,7 @@
+<%@page import="com.naka.vo.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%  UserVO rvo = (UserVO)session.getAttribute("rvo"); %>
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -29,15 +31,22 @@
 		    min-height: 50px !important;
 		}
 		
+		.slider-height3 {
+		    height: 200px;
+		}
+		
 		.section-padding {
 		     padding-top: 0px !important; 
 		     padding-bottom: 0px !important; 
 		}
 		
-		#logoutHeader{
-			color: rgb(112, 48, 160) !important;
+		.mr-40{
+			color: #fff !important;
 			z-index: 2;
 		}		
+		.header-area .menu-wrapper .main-menu ul ul.submenu{
+			background: rgba(179,103,255,0.8) !important; 
+		}	
 		a, button {
 		    color: rgb(112, 48, 160);
 		    outline: medium none;
@@ -181,9 +190,34 @@
                         <div class="logo">
                             <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
-						<div id="logoutHeader">
-							<a href="logout.do" class="mr-40"> Log out</a>
-							<a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;</a>
+						<div class="main-menu f-right d-none d-lg-block">
+                            <nav>
+                                <ul id="navigation">
+                                   <li><a href="ranking.jsp">Ranking</a></li>
+                                   <li><a href="contact.html">About Us</a></li>
+                                </ul>
+                            </nav>
+                        </div>          
+               			<div class="header-btns d-none d-lg-block f-right">
+                        <%if(rvo == null) {%>
+                            <a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
+                            <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
+                        <%}else{ %>	
+							<!-- 로그인 이후 화면 -->
+							<div class="main-menu f-right d-none d-lg-block">
+	                            <nav>
+	                                <ul id="navigation">
+	                                   <li><a href="logout.do" class="mr-40"> Log out</a></li>
+	                                   <li><a href="#" class="mr-40"><i class="ti-user"></i>&nbsp;&nbsp;<%= rvo.getName() %>님</a>
+	                                        <ul class="submenu">
+	                                            <li><a href="myPage.jsp">MyPage</a></li>
+	                                            <li><a href="myScrap.jsp">Scrap</a></li> 
+	                                        </ul>
+	                                    </li>
+	                                </ul>
+	                            </nav>
+                        	</div> 
+						<%} %>
 						</div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
@@ -197,18 +231,18 @@
     <main>
         <!--? Hero Start -->
         <div class="slider-area2">
-            <div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="hero-cap2 pt-20 text-center">
-                                <h2></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+         <div class="slider-height3  hero-overly hero-bg4 d-flex align-items-center">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-xl-12">
+                           <div class="hero-cap2 pt-20 text-center">
+                              <h2>Ranking</h2>
+                           </div>
+                     </div>
+                  </div>
+               </div>
+         </div>
+      </div>
         <!-- Hero End -->
        <div class="ranking"> 
         <!--  -->

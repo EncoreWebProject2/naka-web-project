@@ -619,7 +619,7 @@
                             <!-- Hero Caption -->
                             <div class="hero__caption pt-100">
                                 <h1>Look for Jobs</h1>
-                                <p>Let's find the pefect matching job for you.</p>
+                                <p>Let's find the perfect matching job for you.</p>
                             </div>
                             <!--Hero form -->
                             <form action="#" class="search-box" style="margin: 10px;">
