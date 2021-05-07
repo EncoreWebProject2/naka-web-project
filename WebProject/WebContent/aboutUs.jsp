@@ -129,7 +129,7 @@
                             <article class="blog_item">
                                 <div class="blog_details">
                                         <h1 class="blog-head" style="color: #2d2d2d;">Nakala</h1><br>
-                                  		<p>큰 테크 기업에 취직을 원하는 구직자들이 채용사이트를 매번 체크해야하는 수고로움을 덜어주기 위해 기업별 채용 공고를 직관적으로 비교할 수 있게 모아놓고 동시에 트렌드를 확인할 수 있는 웹사이트이다.</p>
+                                  		<p>큰 테크 기업에 취직을 원하는 구직자들이 채용사이트를 매번 확인하고 비교해야하는 수고로움을 덜어주기 위해 기업별 채용 공고를 직관적으로 비교할 수 있게 모아놓고 동시에 트렌드를 확인할 수 있는 웹사이트이다.</p>
                                   		<p>다른 구직 사이트들과 비교했을때 공고 간 직관적인 비교가 가능하다는 차별점을 가지고 있다. </p>
                                   		<img id="about-us-img" src="assets/img/elements/compareExample.png" alt="">
                                 </div>
