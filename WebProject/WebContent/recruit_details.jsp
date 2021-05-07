@@ -1,5 +1,5 @@
-<%@page import="com.naka.vo.RecruitVO"%>
 <%@page import="com.naka.vo.UserVO"%>
+<%@page import="com.naka.vo.RecruitVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%  UserVO vo = (UserVO)session.getAttribute("rvo"); %>
@@ -9,7 +9,7 @@
 <head>
    <meta charset="utf-8">
    <meta http-equiv="x-ua-compatible" content="ie=edge">
-   <title>DirectoryListing</title>
+   <title>Nakara</title>
    <meta name="description" content="">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
@@ -34,13 +34,16 @@
 		float: left;
 		
 	}
+
 	.scrap-button{
 		margin-right:10px;
 		border:none;
 		background-color: transparent !important;
 	}
+	
    </style>
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <script type="text/javascript">
    	$(function(){
    		setScrap();
@@ -117,6 +120,7 @@
 		}
 	}
    </script>
+
 </head>
 
 <body>
@@ -125,9 +129,9 @@
       <div class="preloader d-flex align-items-center justify-content-center">
           <div class="preloader-inner position-relative">
               <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/nakalaLOGO.png" alt="">
-                </div>
+              <div class="preloader-img pere-text">
+                  <img src="assets/img/logo/nakalaLOGO.png" alt="">
+              </div>
           </div>
       </div>
    </div>
