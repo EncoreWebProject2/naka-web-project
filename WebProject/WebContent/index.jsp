@@ -211,6 +211,11 @@
 			border: solid #aa67ff !important;
 			color: #fff !important;
 		}
+		.slider-area form.search-box .input-form {
+		    width: 77% !important;
+		    overflow: hidden;
+		}
+		
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -575,7 +580,7 @@
                             <nav>
                                 <ul id="navigation">
                                    <li><a href="ranking.jsp">Ranking</a></li>
-                                   <li><a href="contact.html">About Us</a></li>
+                                   <li><a href="aboutUs.jsp">About Us</a></li>
                                 </ul>
                             </nav>
                         </div>          

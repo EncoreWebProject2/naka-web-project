@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
-    <!-- CSS here -->
+   <!-- CSS here -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/slicknav.css">
@@ -25,149 +25,24 @@
     <link rel="stylesheet" href="assets/css/slick.css">
     <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
     <style>
     	.slider-height3 {
-		    min-height: 50px !important;
-		}
-		
-		.slider-height3 {
 		    height: 200px;
 		}
 		
+		#about-us-img{
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 700px;
+		}
+		
 		.section-padding {
-		     padding-top: 0px !important; 
-		     padding-bottom: 0px !important; 
-		}
-		
-		.mr-40{
-			color: #fff !important;
-			z-index: 2;
-		}		
-		.header-area .menu-wrapper .main-menu ul ul.submenu{
-			background: rgba(179,103,255,0.8) !important; 
-		}	
-		a, button {
-		    color: rgb(112, 48, 160);
-		    outline: medium none;
-		}
-		
-		.table-name{
-    		width: 80px;
+		    padding-top: 20px !important;
+		    padding-bottom: 120px;
 		}
     </style>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script type="text/javascript">
-	var myChart = null;
-	function loadData(command){
-		var labels = [];
-		var input_data = [];
-		var types = {"tech":["bar","기술"],"position":["bar","직군"],"job_type":["doughnut","채용 유형"]}
-		
-		$.ajax({
-			url:"ranking.do",
-			type:"post",
-			data:{rank_command:command},
-			success:function(data){
-				var jsonObject = JSON.parse(data);
-				for(key in jsonObject){
-					labels.push(jsonObject[key].name);
-					input_data.push(jsonObject[key].value);
-				}
-				var ctx = document.getElementById('myChart');
-				if(myChart!=null){
-					myChart.destroy();
-				}
-				
-				myChart = new Chart(ctx, {
-				    type: types[command][0],
-				    data: {
-				        labels: labels,
-				        datasets: [{
-				            label: types[command][1]+'별 공고수',
-				            data: input_data,
-				            backgroundColor: [
-				                'rgba(181, 127, 179, 0.6)',
-				                'rgba(103, 58, 183, 0.6)',
-				                'rgba(0, 150, 100, 0.6)',
-				                'rgba(0, 188, 212, 0.6)',
-				                'rgba(205, 220, 57, 0.6)',
-				                'rgba(139, 195, 74, 0.6)',
-				                'rgba(76, 175, 80, 0.6)',
-				                'rgba(63, 81, 181, 0.6)',
-				                'rgba(255, 152, 0, 0.6)',
-				                'rgba(255, 193, 7, 0.6)',
-				                'rgba(255, 255, 59, 0.6)',
-				                'rgba(233, 30, 99, 0.6)',
-				                'rgba(244, 67, 54, 0.6)',
-				                'rgba(252, 71, 20, 0.6)',
-				                'rgba(51, 153, 102, 0.6)',
-				                'rgba(250, 128, 114, 0.6)',
-				                'rgba(238, 66, 102, 0.6)',
-				                'rgba(199, 21, 133, 0.6)',
-				                'rgba(137, 165, 234, 0.6)',
-				                'rgba(255, 203, 107, 0.6)',
-				                'rgba(203, 138, 144, 0.6)'
-				            ],
-				            borderColor: [
-				            	  'rgba(181, 127, 179, 1)',
-					                'rgba(103, 58, 183, 1)',
-					                'rgba(0, 150, 100,1)',
-					                'rgba(0, 188, 212, 1)',
-					                'rgba(205, 220, 57, 1)',
-					                'rgba(139, 195, 74, 1)',
-					                'rgba(76, 175, 80, 1)',
-					                'rgba(63, 81, 181,1)',
-					                'rgba(255, 152, 0, 1)',
-					                'rgba(255, 193, 7, 1)',
-					                'rgba(255, 255, 59, 1)',
-					                'rgba(233, 30, 99, 1)',
-					                'rgba(244, 67, 54, 1)',
-					                'rgba(252, 71, 20, 1 )',
-					                'rgba(51, 153, 102, 1)',
-					                'rgba(250, 128, 114,1)',
-					                'rgba(238, 66, 102, 1)',
-					                'rgba(199, 21, 133, 1)',
-					                'rgba(137, 165, 234, 1)',
-					                'rgba(255, 203, 107, 1)',
-					                'rgba(203, 138, 144, 1)'
-				            ],
-				            borderWidth: 1
-				        }]
-				    },
-				    options: {
-				        scales: {
-				            y: {
-				                beginAtZero: true
-				            }
-				        }
-				    }
-				});
-				
-			}
-		});
-	}
-	
-	
-	$(function(){
-		var els = $(".rank-list li");
-		var values = ["tech","position","job_type"];		
-		loadData("tech");
-		$('.blog-head').html($(els[0]).text());
-		for(var i=0;i<3;i++){
-			$(els[i]).data("command",values[i]);
-			$(els[i]).on("click",function(e){ 
-				loadData($(this).data("command"));
-				var title = $(this).text();
-				$('.blog-head').html(title);
-				});
-		}
-	});
-	
-	</script>
 </head>
-<body>
     <!--? Preloader Start -->
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
@@ -180,7 +55,7 @@
         </div>
     </div>
     <!-- Preloader Start -->
-   <header>
+    <header>
         <!-- Header Start -->
         <div class="header-area header-transparent">
             <div class="main-header header-sticky">
@@ -190,15 +65,15 @@
                         <div class="logo">
                             <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
-						<div class="main-menu f-right d-none d-lg-block">
+                       <div class="main-menu f-right d-none d-lg-block">
                             <nav>
                                 <ul id="navigation">
                                    <li><a href="ranking.jsp">Ranking</a></li>
-                                   <li><a href="aboutUs.jsp">About Us</a></li>
+                                   <li><a href="aboutUs.html">About Us</a></li>
                                 </ul>
                             </nav>
-                        </div>          
-               			<div class="header-btns d-none d-lg-block f-right">
+                        </div>     
+                       <div class="header-btns d-none d-lg-block f-right">
                         <%if(rvo == null) {%>
                             <a href="register.html" class="mr-40">&nbsp;&nbsp;Sign up</a>
                             <a href="login.jsp" class="mr-40"><i class="ti-user"></i> Log in</a>
@@ -219,6 +94,7 @@
                         	</div> 
 						<%} %>
 						</div>
+                        <!-- Mobile Menu -->
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -227,69 +103,49 @@
             </div>
         </div>
         <!-- Header End -->
-    </header>
+     </header>
     <main>
         <!--? Hero Start -->
         <div class="slider-area2">
-         <div class="slider-height3  hero-overly hero-bg4 d-flex align-items-center">
-               <div class="container">
-                  <div class="row">
-                     <div class="col-xl-12">
-                           <div class="hero-cap2 pt-20 text-center">
-                              <h2>Ranking</h2>
-                           </div>
-                     </div>
-                  </div>
-               </div>
-         </div>
-      </div>
-        <!-- Hero End -->
-       <div class="ranking"> 
-        <!--  -->
+            <div class="slider-height3  hero-overly hero-bg4 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap2 pt-20 text-center">
+                                <h2>About Us</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="myPage"> 
+        <!-- 가져온 회원정보를 출력한다. -->
         <section class="blog_area section-padding">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 mb-5 mb-lg-0">
+                    <div class="col-lg-12 mb-5 mb-lg-0">
                         <div class="blog_left_sidebar">
                             <article class="blog_item">
                                 <div class="blog_details">
-                                   
-                                        <h2 class="blog-head" style="color: #2d2d2d;">Ranking</h2>
-                                    
-                                   	<div style="overflow:auto; padding: 20px;">
-    								<canvas id="myChart" width="400" height="400"></canvas>
-									
-									</div>
+                                        <h1 class="blog-head" style="color: #2d2d2d;">Nakala</h1><br>
+                                  		<p>큰 테크 기업에 취직을 원하는 구직자들이 채용사이트를 매번 체크해야하는 수고로움을 덜어주기 위해 기업별 채용 공고를 직관적으로 비교할 수 있게 모아놓고 동시에 트렌드를 확인할 수 있는 웹사이트이다.</p>
+                                  		<p>다른 구직 사이트들과 비교했을때 공고 간 직관적인 비교가 가능하다는 차별점을 가지고 있다. </p>
+                                  		<img id="about-us-img" src="assets/img/elements/compareExample.png" alt="">
                                 </div>
                             </article>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="blog_right_sidebar">
-                            <aside class="single_sidebar_widget post_category_widget">
-                                <ul class="list cat-list rank-list">
-                                    <li> 
-                                        <p>현재 가장 많이 필요로 하는 기술 스택 순위</p>    
-                                    </li>
-                                    <li>
-                                        <p>현재 가장 많이 채용중인 직군 순위</p>
-                                    </li>
-                                    <li>
-                                       	<p>채용형태 비율</p>
-                                    </li> 
-                              
-                                </ul>
-                            </aside>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </section>
         <!-- Blog Area End -->
         
        </div>
+    
     </main>
-     <footer>
+    <footer>
         <div class="footer-wrapper pt-30">
             <!-- footer-bottom -->
             <div class="footer-bottom-area">
@@ -352,5 +208,7 @@
       <!-- Jquery Plugins, main Jquery -->	
       <script src="./assets/js/plugins.js"></script>
       <script src="./assets/js/main.js"></script>
+
+     
     </body>
 </html>
