@@ -24,7 +24,7 @@ public class ChangeUserInfoController implements Controller {
 		String education = request.getParameter("education");
 		String birthday = request.getParameter("birthday");
 		String path = "";
-		System.out.println("birthday: "+birthday);
+		
 		UserVO user = new UserVO(id, name, address, phone, status, email, jobField, education, birthday);
 		
 		

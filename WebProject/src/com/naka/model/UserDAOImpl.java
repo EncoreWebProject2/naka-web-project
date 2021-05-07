@@ -246,7 +246,7 @@ public class UserDAOImpl implements UserDAO {
 			conn=  getConnection();
 			String query = "UPDATE user SET name = ?, address=?, phone=?, status=?, email=?, job_field=?, education=?, birth_day=? WHERE u_id = ?";
 			ps = conn.prepareStatement(query);
-			System.out.println("PreparedStatement 생성됨...changeUserInfo");
+			
 			ps.setString(1, vo.getName());
 			ps.setString(2, vo.getAddress());
 			ps.setString(3, vo.getPhone());
