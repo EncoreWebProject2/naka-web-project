@@ -138,20 +138,7 @@
                             <a href="index.jsp"><img src="assets/img/logo/nakalaLOGO.png" alt=""></a>
                         </div>
                         <!-- Main-menu -->
-                        <div class="main-menu f-right d-none d-lg-block">
-                            <nav>
-                                <ul id="navigation">
-                                   <li><a href="#">Ranking</a>
-                                        <ul class="submenu">
-                                            <li><a href="blog.html">Tech Stack</a></li>
-                                            <li><a href="blog.html">Position</a></li> 
-                                            <li><a href="blog.html">Job Type</a></li> 
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">About Us</a></li>
-                                </ul>
-                            </nav>
-                        </div>          
+                                
                         <!-- Header-btn -->
                         <div class="header-btns d-none d-lg-block f-right">
                             <a href="#" class="mr-40"><i class="ti-user"></i> Log in</a>

@@ -78,7 +78,7 @@ public class UserDAOImpl implements UserDAO {
 			conn=  getConnection();
 			String query = "INSERT INTO user VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
-			System.out.println("PreparedStatement 생성됨...registerMember");
+			
 			ps.setString(1, vo.getU_id());
 			ps.setString(2, vo.getPassword());
 			ps.setString(3, vo.getName());
@@ -92,8 +92,7 @@ public class UserDAOImpl implements UserDAO {
 			ps.setString(11, vo.getScrap());
 			ps.setString(12, vo.getSalt());
 			
-			System.out.println("ps: "+ps);
-			System.out.println(ps.executeUpdate()+"row가 삽입되었다.");
+			ps.executeUpdate();
 		}finally{
 			closeAll(ps, conn);
 		}
@@ -258,8 +257,7 @@ public class UserDAOImpl implements UserDAO {
 			ps.setDate(8, sqlDate);
 			ps.setString(9, vo.getU_id());
 			
-			System.out.println("ps: "+ps);
-			System.out.println(ps.executeUpdate()+"row가 수정되었다.");
+			ps.executeUpdate();
 		}finally{
 			closeAll(ps, conn);
 		}
@@ -274,12 +272,12 @@ public class UserDAOImpl implements UserDAO {
 			conn=  getConnection();
 			String query = "UPDATE user SET password = ?, salt = ? WHERE u_id = ?";
 			ps = conn.prepareStatement(query);
-			System.out.println("PreparedStatement 생성됨...registerMember");
+			
 			ps.setString(1, newPassword);
 			ps.setString(2, salt);
 			ps.setString(3, id);
 			
-			System.out.println(ps.executeUpdate()+"row가 수정되었다.");
+			ps.executeUpdate();
 		}finally{
 			closeAll(ps, conn);
 		}
