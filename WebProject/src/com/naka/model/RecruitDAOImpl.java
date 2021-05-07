@@ -267,7 +267,7 @@ public class RecruitDAOImpl implements RecruitDAO {
 			ps.setInt(1, 4*4*(pageNumber-1));
 			ps.setInt(2, 4*4);
 			rs = ps.executeQuery();
-			System.out.println(query);
+			
 			while(rs.next()) {
 				list.add(new RecruitVO(rs.getInt("r_id"), rs.getString("position"), rs.getString("tech"),
 						rs.getString("job_type"), rs.getString("education"), rs.getString("img"), rs.getString("link"), 
